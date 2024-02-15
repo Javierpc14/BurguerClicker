@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/txtPeso"
+        android:id="@+id/unidadPeso"
         android:layout_width="180dp"
         android:layout_height="34dp"
         android:layout_marginTop="40dp"
@@ -65,10 +65,10 @@
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPeso" />
+        app:layout_constraintTop_toBottomOf="@+id/unidadPeso" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/hamburguesa"
         android:layout_width="330dp"
         android:layout_height="365dp"
         android:layout_marginBottom="50dp"
@@ -77,4 +77,13 @@
         app:layout_constraintStart_toStartOf="@+id/frameLayout"
         app:layout_constraintTop_toBottomOf="@+id/txtValorPeso"
         app:srcCompat="@drawable/hamburguesa6" />
+
+    <Button
+        android:id="@+id/restar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hamburguesa" />
 </androidx.constraintlayout.widget.ConstraintLayout>
