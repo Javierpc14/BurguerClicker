@@ -12,11 +12,12 @@
 
         <FrameLayout
             android:id="@+id/frameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="790dp"
+            android:layout_width="410dp"
+            android:layout_height="1358dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="0dp">
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -215,6 +216,187 @@
                     android:backgroundTint="#EAA857"
                     android:gravity="center"
                     android:text="Comprar queseria " />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Layout de la lechuga -->
+        <LinearLayout
+            android:id="@+id/layLechuga"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layQueseria">
+
+            <TextView
+                android:id="@+id/txtTotLechuga"
+                android:layout_width="88dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#000000"
+                android:textSize="34sp" />
+
+            <ImageView
+                android:id="@+id/imgLechuga"
+                android:layout_width="176dp"
+                android:layout_height="141dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/lechuga" />
+
+            <LinearLayout
+                android:layout_width="122dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtValorLechuga"
+                    android:layout_width="match_parent"
+                    android:layout_height="49dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="x mg"
+                    android:textColor="#000000"
+                    android:textSize="26sp" />
+
+                <Button
+                    android:id="@+id/btnCompraLechuga"
+                    android:layout_width="130dp"
+                    android:layout_height="95dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#EAA857"
+                    android:gravity="center"
+                    android:text="Comprar lechuga " />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Layout del Huerto -->
+        <LinearLayout
+            android:id="@+id/layHuerto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layLechuga">
+
+            <TextView
+                android:id="@+id/txtTotHuerto"
+                android:layout_width="88dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#000000"
+                android:textSize="34sp" />
+
+            <ImageView
+                android:id="@+id/imgHuerto"
+                android:layout_width="176dp"
+                android:layout_height="141dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/huerto" />
+
+            <LinearLayout
+                android:layout_width="122dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtValorHuerto"
+                    android:layout_width="match_parent"
+                    android:layout_height="49dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="x mg"
+                    android:textColor="#000000"
+                    android:textSize="26sp" />
+
+                <Button
+                    android:id="@+id/btnCompraHuerto"
+                    android:layout_width="130dp"
+                    android:layout_height="95dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#EAA857"
+                    android:gravity="center"
+                    android:text="Comprar huerto " />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!-- Layout del Huerto -->
+        <LinearLayout
+            android:id="@+id/layBacon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layHuerto">
+
+            <TextView
+                android:id="@+id/txtTotBacon"
+                android:layout_width="88dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#000000"
+                android:textSize="34sp" />
+
+            <ImageView
+                android:id="@+id/imgBacon"
+                android:layout_width="176dp"
+                android:layout_height="141dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/bacon" />
+
+            <LinearLayout
+                android:layout_width="122dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtValorBacon"
+                    android:layout_width="match_parent"
+                    android:layout_height="49dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="x mg"
+                    android:textColor="#000000"
+                    android:textSize="26sp" />
+
+                <Button
+                    android:id="@+id/btnCompraBacon"
+                    android:layout_width="130dp"
+                    android:layout_height="95dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#EAA857"
+                    android:gravity="center"
+                    android:text="Comprar bacon " />
             </LinearLayout>
 
         </LinearLayout>
