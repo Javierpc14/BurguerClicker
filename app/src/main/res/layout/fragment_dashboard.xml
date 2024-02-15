@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.dashboard.DashboardFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="790dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/fondotienda" />
+
+        </FrameLayout>
+
+        <TextView
+        android:id="@+id/text_dashboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:fontFamily="sans-serif-black"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/layPanaderia"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_dashboard">
+
+            <TextView
+                android:id="@+id/txtTotPan"
+                android:layout_width="88dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#000000"
+                android:textSize="34sp" />
+
+            <ImageView
+                android:id="@+id/imgPanaderia"
+                android:layout_width="176dp"
+                android:layout_height="141dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/panaderia" />
+
+            <LinearLayout
+                android:layout_width="122dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtValorPan"
+                    android:layout_width="match_parent"
+                    android:layout_height="49dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="20 mg"
+                    android:textColor="#000000"
+                    android:textSize="26sp" />
+
+                <Button
+                    android:id="@+id/btnCompraPanaderia"
+                    android:layout_width="130dp"
+                    android:layout_height="95dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#EAA857"
+                    android:text="Comprar \n panaderia " />
+            </LinearLayout>
+
+        </LinearLayout>
+
+<!--        Layout de la carniceria-->
+        <LinearLayout
+            android:id="@+id/layCarniceria"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layPanaderia">
+
+            <TextView
+                android:id="@+id/txtTotCarne"
+                android:layout_width="88dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#000000"
+                android:textSize="34sp" />
+
+            <ImageView
+                android:id="@+id/imgCarniceria"
+                android:layout_width="176dp"
+                android:layout_height="141dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/carniceria" />
+
+            <LinearLayout
+                android:layout_width="122dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtValorCarne"
+                    android:layout_width="match_parent"
+                    android:layout_height="49dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="x mg"
+                    android:textColor="#000000"
+                    android:textSize="26sp" />
+
+                <Button
+                    android:id="@+id/btnCompraCarne"
+                    android:layout_width="130dp"
+                    android:layout_height="95dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#EAA857"
+                    android:text="Comprar carniceria " />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+<!--        Layout de la queseria-->
+        <LinearLayout
+            android:id="@+id/layQueseria"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layCarniceria">
+
+            <TextView
+                android:id="@+id/txtTotQueso"
+                android:layout_width="88dp"
+                android:layout_height="37dp"
+                android:layout_marginTop="50dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="0"
+                android:textColor="#000000"
+                android:textSize="34sp" />
+
+            <ImageView
+                android:id="@+id/imgQueseria"
+                android:layout_width="176dp"
+                android:layout_height="141dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/queseria" />
+
+            <LinearLayout
+                android:layout_width="122dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtValorQueso"
+                    android:layout_width="match_parent"
+                    android:layout_height="49dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="x mg"
+                    android:textColor="#000000"
+                    android:textSize="26sp" />
+
+                <Button
+                    android:id="@+id/btnCompraQueso"
+                    android:layout_width="130dp"
+                    android:layout_height="95dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#EAA857"
+                    android:gravity="center"
+                    android:text="Comprar queseria " />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
