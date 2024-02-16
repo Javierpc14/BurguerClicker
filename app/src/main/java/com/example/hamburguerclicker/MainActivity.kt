@@ -1,6 +1,7 @@
 package com.example.hamburguerclicker
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -19,6 +20,8 @@ class MainActivity : AppCompatActivity() {
      lateinit var unidad: TextView
      lateinit var hamburguesa:ImageView
      lateinit var btnRestar:Button
+     lateinit var btnCompraCarne:Button
+
 
     var pesoTotal=900.0
     var unidadPeso="Mili Gramos"
@@ -29,16 +32,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //Inicializacion variables vistas
         txtValorPeso=findViewById(R.id.txtValorPeso)
-        hamburguesa=findViewById(R.id.hamburguesa)
         unidad=findViewById(R.id.unidadPeso)
         btnRestar=findViewById(R.id.restar)
-
-        hamburguesa.setOnClickListener(){
-            pesoTotal+=100
-            txtValorPeso.setText(""+pesoTotal)
-            unidad()
-        }
 
         btnRestar.setOnClickListener(){
             pesoTotal-=100
@@ -61,7 +58,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun unidad(){
-
         when(unidadPeso){
             "Mili Gramos" ->{
                 if(pesoTotal>=1000){
@@ -84,7 +80,29 @@ class MainActivity : AppCompatActivity() {
                     txtValorPeso.setText(""+pesoTotal)
                 }
             }
+            "Kilos"->{
+                if(pesoTotal>=1000){
+                    unidadPeso="Toneladas"
+                    pesoTotal=pesoTotal/1000
+                    unidad.setText(unidadPeso)
+                    txtValorPeso.setText(""+pesoTotal)
+                }else if(pesoTotal<1){
+                    unidadPeso="Gramos"
+                    pesoTotal=pesoTotal*-10
+                    unidad.setText(unidadPeso)
+                    txtValorPeso.setText(""+pesoTotal)
+                }
+            }
+            "Toneladas"-> {
+                if (pesoTotal < 1) {
+                    unidadPeso = "Kilos"
+                    pesoTotal = pesoTotal * -10
+                    unidad.setText(unidadPeso)
+                    txtValorPeso.setText("" + pesoTotal)
+                }
+            }
         }
-
     }
+
+
 }
