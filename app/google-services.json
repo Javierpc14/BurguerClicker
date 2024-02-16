@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "482388041976",
+    "project_id": "burguerclickerdb",
+    "storage_bucket": "burguerclickerdb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:482388041976:android:95bcfad4b0380a23da5b0d",
+        "android_client_info": {
+          "package_name": "com.example.hamburguerclicker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjzVj0d6JpvEcDhb-2SqtY2JoMH6-1USo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
