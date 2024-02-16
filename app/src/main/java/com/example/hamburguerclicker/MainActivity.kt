@@ -34,8 +34,18 @@ class MainActivity : AppCompatActivity() {
 
         //Inicializacion variables vistas
         txtValorPeso=findViewById(R.id.txtValorPeso)
+        hamburguesa=findViewById(R.id.hamburguesa)
         unidad=findViewById(R.id.unidadPeso)
         btnRestar=findViewById(R.id.restar)
+
+
+        hamburguesa.setOnClickListener(){
+            pesoTotal+=100
+            txtValorPeso.setText(""+pesoTotal)
+            unidad()
+        }
+
+
 
         btnRestar.setOnClickListener(){
             pesoTotal-=100

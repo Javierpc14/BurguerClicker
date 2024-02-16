@@ -135,7 +135,7 @@ class DashboardFragment : Fragment() {
     }
     private fun comprarBacon(){
         totalBacon++;
-        txtTotBacon.setText(""+totalCarnicerias)
+        txtTotBacon.setText(""+totalBacon)
     }
 
     private  fun hayDinero(coste:Int):Boolean{
