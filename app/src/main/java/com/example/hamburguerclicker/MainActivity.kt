@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
      lateinit var hamburguesa:ImageView
      lateinit var btnRestar:Button
      lateinit var btnCompraCarne:Button
+     var a=R.integer.contador
 
 //aaa
     var pesoTotal=900.0
@@ -39,11 +40,11 @@ class MainActivity : AppCompatActivity() {
         btnRestar=findViewById(R.id.restar)
 
 
-        hamburguesa.setOnClickListener(){
-            pesoTotal+=100
-            txtValorPeso.setText(""+pesoTotal)
-            unidad()
-        }
+//        hamburguesa.setOnClickListener(){
+//            pesoTotal+=100
+//            txtValorPeso.setText(""+pesoTotal)
+//            unidad()
+//        }
 
 
 
@@ -78,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             "Gramos"->{
+
                 if(pesoTotal>=1000){
                     unidadPeso="Kilos"
                     pesoTotal=pesoTotal/1000

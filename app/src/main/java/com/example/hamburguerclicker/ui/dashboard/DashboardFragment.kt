@@ -82,10 +82,10 @@ public class DashboardFragment : Fragment() {
     }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        _binding = null
+//    }
 
     private fun init(root:View){
 
@@ -185,4 +185,5 @@ public class DashboardFragment : Fragment() {
     private  fun hayDinero(coste:Int):Boolean{
         return dinTotal>=coste
     }
+
 }
