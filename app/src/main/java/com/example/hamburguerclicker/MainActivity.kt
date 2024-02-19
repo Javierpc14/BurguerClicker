@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
      lateinit var btnRestar:Button
      lateinit var btnCompraCarne:Button
 
-//a
+//aa
     var pesoTotal=900.0
     var unidadPeso="Mili Gramos"
 
