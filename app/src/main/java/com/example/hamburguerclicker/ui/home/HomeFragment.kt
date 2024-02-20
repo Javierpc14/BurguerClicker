@@ -23,7 +23,9 @@ class HomeFragment : Fragment() {
     lateinit var btnRestar:Button
     lateinit var btnCompraCarne:Button
     var a=R.integer.contador
-    var pesoTotal=900.0
+
+    var pesoTotal=0.00
+
     var unidadPeso="Mili Gramos"
 
     // This property is only valid between onCreateView and
@@ -35,6 +37,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
 
 
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
@@ -50,20 +53,67 @@ class HomeFragment : Fragment() {
         unidad=root.findViewById(R.id.unidadPeso)
         btnRestar=root.findViewById(R.id.restar)
 
+        txtValorPeso.setText(String.format("%.2f", pesoTotal))
 
         hamburguesa.setOnClickListener(){
-            pesoTotal+=100
-            txtValorPeso.setText(""+pesoTotal)
-            unidad()
+//            pesoTotal+=100
+//            txtValorPeso.setText(String.format("%.2f", pesoTotal))
+//            unidad()
+
+            pesoTotal += 100
+
+            when {
+                pesoTotal >= 1000 && unidadPeso == "Mili Gramos" -> {
+                    unidadPeso = "Gramos"
+                    pesoTotal /= 1000.0
+                }
+                pesoTotal >= 1000 && unidadPeso == "Gramos" -> {
+                    unidadPeso = "Kilos"
+                    pesoTotal /= 1000.0
+                }
+                pesoTotal >= 1000 && unidadPeso == "Kilos" -> {
+                    unidadPeso = "Toneladas"
+                    pesoTotal /= 1000.0
+                }
+            }
+
+            txtValorPeso.setText(String.format("%.2f", pesoTotal))
+            unidad.setText(unidadPeso)
         }
 
 
 
-        btnRestar.setOnClickListener(){
-            pesoTotal-=100
-            txtValorPeso.setText(""+pesoTotal)
-            unidad()
+        btnRestar.setOnClickListener {
+            //para que no pueda restar mas si hay 0 mg y asi no hay numeros negativos
+            if (unidadPeso == "Mili Gramos" && pesoTotal <= 0) {
+                return@setOnClickListener
+            }
+
+
+            pesoTotal -= 100
+
+            if (pesoTotal < 0) {
+                when (unidadPeso) {
+                    "Gramos" -> {
+                        pesoTotal += 1000
+                        unidadPeso  = "Mili Gramos"
+                    }
+                    "Kilos" -> {
+                        pesoTotal += 1000
+                        unidadPeso = "Gramos"
+                    }
+                    "Toneladas" -> {
+                        pesoTotal += 1000
+                        unidadPeso = "Kilos"
+                    }
+                }
+            }
+
+            txtValorPeso.setText(String.format("%.2f", pesoTotal))
+            unidad.setText(unidadPeso)
+//            unidad()
         }
+
 
         // Ocultar la barra de acción (action bar)
 //        (requireActivity() as AppCompatActivity).supportActionBar!!.hide()
@@ -84,51 +134,51 @@ class HomeFragment : Fragment() {
         _binding = null
     }
 
-    private fun unidad(){
-        when(unidadPeso){
-            "Mili Gramos" ->{
-                if(pesoTotal>=1000){
-                    unidadPeso="Gramos"
-                    pesoTotal=pesoTotal/1000
-                    unidad.setText(unidadPeso)
-                    txtValorPeso.setText(""+pesoTotal)
-                }
-            }
-            "Gramos"->{
+//    private fun unidad() {
+//        when (unidadPeso) {
+//            "Mili Gramos" -> {
+//                if (pesoTotal >= 1000) {
+//                    unidadPeso = "Gramos"
+//                    pesoTotal /= 1000
+//                    unidad.setText(unidadPeso)
+//                    txtValorPeso.setText(String.format("%.2f", pesoTotal))
+//                }
+//            }
+//            "Gramos" -> {
+//                if (pesoTotal >= 1000) {
+//                    unidadPeso = "Kilos"
+//                    pesoTotal /= 1000
+//                    unidad.setText(unidadPeso)
+//                    txtValorPeso.setText(String.format("%.2f", pesoTotal))
+//                } else if (pesoTotal < 1) {
+//                    unidadPeso = "Mili Gramos"
+//                    pesoTotal *= 1000
+//                    unidad.setText(unidadPeso)
+//                    txtValorPeso.setText(String.format("%.2f", pesoTotal))
+//                }
+//            }
+//            "Kilos" -> {
+//                if (pesoTotal >= 1000) {
+//                    unidadPeso = "Toneladas"
+//                    pesoTotal /= 1000
+//                    unidad.setText(unidadPeso)
+//                    txtValorPeso.setText(String.format("%.2f", pesoTotal))
+//                } else if (pesoTotal < 1) {
+//                    unidadPeso = "Gramos"
+//                    pesoTotal *= 1000
+//                    unidad.setText(unidadPeso)
+//                    txtValorPeso.setText(String.format("%.2f", pesoTotal))
+//                }
+//            }
+//            "Toneladas" -> {
+//                if (pesoTotal < 1) {
+//                    unidadPeso = "Kilos"
+//                    pesoTotal *= 1000
+//                    unidad.setText(unidadPeso)
+//                    txtValorPeso.setText(String.format("%.2f", pesoTotal))
+//                }
+//            }
+//        }
+//    }
 
-                if(pesoTotal>=1000){
-                    unidadPeso="Kilos"
-                    pesoTotal=pesoTotal/1000
-                    unidad.setText(unidadPeso)
-                    txtValorPeso.setText(""+pesoTotal)
-                }else if(pesoTotal<1){
-                    unidadPeso="Mili Gramos"
-                    pesoTotal=pesoTotal*-10
-                    unidad.setText(unidadPeso)
-                    txtValorPeso.setText(""+pesoTotal)
-                }
-            }
-            "Kilos"->{
-                if(pesoTotal>=1000){
-                    unidadPeso="Toneladas"
-                    pesoTotal=pesoTotal/1000
-                    unidad.setText(unidadPeso)
-                    txtValorPeso.setText(""+pesoTotal)
-                }else if(pesoTotal<1){
-                    unidadPeso="Gramos"
-                    pesoTotal=pesoTotal*-10
-                    unidad.setText(unidadPeso)
-                    txtValorPeso.setText(""+pesoTotal)
-                }
-            }
-            "Toneladas"-> {
-                if (pesoTotal < 1) {
-                    unidadPeso = "Kilos"
-                    pesoTotal = pesoTotal * -10
-                    unidad.setText(unidadPeso)
-                    txtValorPeso.setText("" + pesoTotal)
-                }
-            }
-        }
-    }
 }

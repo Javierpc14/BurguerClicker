@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
      var a=R.integer.contador
 
 //aaa
-    var pesoTotal=900.0
+    var pesoTotal=0.0
     var unidadPeso="Mili Gramos"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,18 +40,63 @@ class MainActivity : AppCompatActivity() {
         btnRestar=findViewById(R.id.restar)
 
 
-//        hamburguesa.setOnClickListener(){
+        hamburguesa.setOnClickListener(){
 //            pesoTotal+=100
-//            txtValorPeso.setText(""+pesoTotal)
+//            txtValorPeso.setText(String.format("%.2f", pesoTotal))
 //            unidad()
-//        }
+
+            pesoTotal += 100
+
+            when {
+                pesoTotal >= 1000 && unidadPeso == "Mili Gramos" -> {
+                    unidadPeso = "Gramos"
+                    pesoTotal /= 1000.0
+                }
+                pesoTotal >= 1000 && unidadPeso == "Gramos" -> {
+                    unidadPeso = "Kilos"
+                    pesoTotal /= 1000.0
+                }
+                pesoTotal >= 1000 && unidadPeso == "Kilos" -> {
+                    unidadPeso = "Toneladas"
+                    pesoTotal /= 1000.0
+                }
+            }
+
+            txtValorPeso.setText(String.format("%.2f", pesoTotal))
+            unidad.setText(unidadPeso)
+        }
 
 
 
-        btnRestar.setOnClickListener(){
-            pesoTotal-=100
-            txtValorPeso.setText(""+pesoTotal)
-            unidad()
+        btnRestar.setOnClickListener {
+            //para que no pueda restar mas si hay 0 mg y asi no hay numeros negativos
+            if (unidadPeso == "Mili Gramos" && pesoTotal <= 0) {
+                return@setOnClickListener
+            }
+
+
+            pesoTotal -= 100
+
+            if (pesoTotal < 0) {
+                when (unidadPeso) {
+                    "Gramos" -> {
+                        pesoTotal += 1000
+                        unidadPeso  = "Mili Gramos"
+                    }
+                    "Kilos" -> {
+                        pesoTotal += 1000
+                        unidadPeso = "Gramos"
+                    }
+                    "Toneladas" -> {
+                        pesoTotal += 1000
+                        unidadPeso = "Kilos"
+                    }
+                }
+            }
+
+            txtValorPeso.setText(String.format("%.2f", pesoTotal))
+            unidad.setText(unidadPeso)
+//            unidad()
         }
 
         val navView: BottomNavigationView = binding.navView
@@ -68,53 +113,53 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
-    private fun unidad(){
-        when(unidadPeso){
-            "Mili Gramos" ->{
-                if(pesoTotal>=1000){
-                    unidadPeso="Gramos"
-                    pesoTotal=pesoTotal/1000
-                    unidad.setText(unidadPeso)
-                    txtValorPeso.setText(""+pesoTotal)
-                }
-            }
-            "Gramos"->{
-
-                if(pesoTotal>=1000){
-                    unidadPeso="Kilos"
-                    pesoTotal=pesoTotal/1000
-                    unidad.setText(unidadPeso)
-                    txtValorPeso.setText(""+pesoTotal)
-                }else if(pesoTotal<1){
-                    unidadPeso="Mili Gramos"
-                    pesoTotal=pesoTotal*-10
-                    unidad.setText(unidadPeso)
-                    txtValorPeso.setText(""+pesoTotal)
-                }
-            }
-            "Kilos"->{
-                if(pesoTotal>=1000){
-                    unidadPeso="Toneladas"
-                    pesoTotal=pesoTotal/1000
-                    unidad.setText(unidadPeso)
-                    txtValorPeso.setText(""+pesoTotal)
-                }else if(pesoTotal<1){
-                    unidadPeso="Gramos"
-                    pesoTotal=pesoTotal*-10
-                    unidad.setText(unidadPeso)
-                    txtValorPeso.setText(""+pesoTotal)
-                }
-            }
-            "Toneladas"-> {
-                if (pesoTotal < 1) {
-                    unidadPeso = "Kilos"
-                    pesoTotal = pesoTotal * -10
-                    unidad.setText(unidadPeso)
-                    txtValorPeso.setText("" + pesoTotal)
-                }
-            }
-        }
-    }
+//    private fun unidad(){
+//        when(unidadPeso){
+//            "Mili Gramos" ->{
+//                if(pesoTotal>=1000){
+//                    unidadPeso="Gramos"
+//                    pesoTotal=pesoTotal/1000
+//                    unidad.setText(unidadPeso)
+//                    txtValorPeso.setText(""+pesoTotal)
+//                }
+//            }
+//            "Gramos"->{
+//
+//                if(pesoTotal>=1000){
+//                    unidadPeso="Kilos"
+//                    pesoTotal=pesoTotal/1000
+//                    unidad.setText(unidadPeso)
+//                    txtValorPeso.setText(""+pesoTotal)
+//                }else if(pesoTotal<1){
+//                    unidadPeso="Mili Gramos"
+//                    pesoTotal=pesoTotal*-10
+//                    unidad.setText(unidadPeso)
+//                    txtValorPeso.setText(""+pesoTotal)
+//                }
+//            }
+//            "Kilos"->{
+//                if(pesoTotal>=1000){
+//                    unidadPeso="Toneladas"
+//                    pesoTotal=pesoTotal/1000
+//                    unidad.setText(unidadPeso)
+//                    txtValorPeso.setText(""+pesoTotal)
+//                }else if(pesoTotal<1){
+//                    unidadPeso="Gramos"
+//                    pesoTotal=pesoTotal*-10
+//                    unidad.setText(unidadPeso)
+//                    txtValorPeso.setText(""+pesoTotal)
+//                }
+//            }
+//            "Toneladas"-> {
+//                if (pesoTotal < 1) {
+//                    unidadPeso = "Kilos"
+//                    pesoTotal = pesoTotal * -10
+//                    unidad.setText(unidadPeso)
+//                    txtValorPeso.setText("" + pesoTotal)
+//                }
+//            }
+//        }
+//    }
 
 
 }
