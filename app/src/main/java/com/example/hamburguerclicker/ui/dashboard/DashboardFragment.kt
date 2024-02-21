@@ -27,7 +27,7 @@ public class DashboardFragment : Fragment() {
     private lateinit var partida: Partida
     private lateinit var listaPartidas: ListView
 
-    private var dinTotal=0;
+    private var dinTotal= 0;
 
     lateinit var btnCompraPanaderia: Button
     lateinit var txtTotPanaderia:TextView
@@ -131,29 +131,42 @@ public class DashboardFragment : Fragment() {
 
     // Tenemos que hacer algo como esto para añadir a la base de datos
 //    private fun add() {
-//        val marca: String = etMarca.getText().toString().trim()
-//        val modelo: String = etModelo.getText().toString().trim()
+//        val pan: Int = 0
+//        val carne: String =
+//        val queso: String =
+//        val lechuga: String =
+//        val huerto: String =
+//        val bacon: String =
+//
+////        val marca: String = etMarca.getText().toString().trim()
+////        val modelo: String = etModelo.getText().toString().trim()
 //        val id = mDatabase.push().key
 //        Toast.makeText(this, id, Toast.LENGTH_SHORT).show()
-//        coche = Coche()
-//        coche.setId(id)
-//        coche.setMarca(marca)
-//        coche.setModelo(modelo)
+//        partida = Partida()
+//        partida.getPanaderia()
+//        partida.getCarniceria()
+//        partida.getQueseria()
+//        partida.getLechuga()
+//        partida.getHuerto()
+//        partida.getBacon()
+////        partida.setId(id)
+////        partida.setMarca(marca)
+////        partida.setModelo(modelo)
 //        mDatabase.child(id.toString()).setValue(
-//            coche
+//            partida
 //        ) { error, ref ->
 //            if (error == null) {
 //                // Éxito
-//                Toast.makeText(this@MainActivity, "Coche agregado exitosamente", Toast.LENGTH_SHORT)
+//                Toast.makeText(this@DashboardFragment, "Partida agregada exitosamente", Toast.LENGTH_SHORT)
 //                    .show()
 //            } else {
 //                // Error
-//                Toast.makeText(this@MainActivity, "Error al agregar el coche", Toast.LENGTH_SHORT)
+//                Toast.makeText(this@DashboardFragment, "Error al agregar la partida", Toast.LENGTH_SHORT)
 //                    .show()
 //            }
 //        }
-//        limpiarCampos()
-//        leer()
+////        limpiarCampos()
+////        leer()
 //    }
 
     private fun comprarPanaderia(){

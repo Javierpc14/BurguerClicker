@@ -2,14 +2,14 @@ package com.example.hamburguerclicker;
 
 public class Partida {
 
-    private String partida;
-    private int panaderia;
-    private int carniceria;
-    private int queseria;
-    private int lechuga;
-    private int huerto;
-    private int bacon;
-    private double dinero;
+    private static String partida;
+    private static int panaderia;
+    private static int carniceria;
+    private static int queseria;
+    private static int lechuga;
+    private static int huerto;
+    private static int bacon;
+    private static double dinero;
 
     public Partida(String partida, int panaderia, int carniceria, int queseria, int lechuga, int huerto, int bacon, double dinero) {
         this.partida = partida;
