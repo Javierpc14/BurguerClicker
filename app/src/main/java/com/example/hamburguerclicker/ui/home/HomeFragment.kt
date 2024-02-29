@@ -21,6 +21,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlin.properties.Delegates
 
 
@@ -41,8 +43,12 @@ class HomeFragment : Fragment() {
     var a=R.integer.contador
 
     var pesoTotal: Double = 0.0
+    var totalPanaderias=0.0
 
     var unidadPeso="Mili Gramos"
+
+    val database = FirebaseDatabase.getInstance()
+    val mDatabase = database.getReference("partida/a")
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -74,20 +80,20 @@ class HomeFragment : Fragment() {
         txtValorPeso.setText(String.format("%.2f", pesoTotal))
 
 
-        val database = FirebaseDatabase.getInstance()
-        val mDatabase = database.getReference("partida/a")
+
 
         var value: HashMap<String, Double>?
 
-        // Read from the database
+        // Leer de la base de de datos
         mDatabase.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
+                // Este método se llama una vez que se lance la aplicacion,
+                // y cada vez que se actualicen los valores en la base de datos
                 println("aaaaaaa")
                 value = snapshot.getValue<HashMap<String, Double>>()
                 pesoTotal = value?.get("dinero") as Double
                 txtValorPeso.setText("" + value?.get("dinero").toString())
+                totalPanaderias=value?.get("panaderia") as Double
                Log.d(TAG, "Value is: " + value)
             }
 
@@ -96,10 +102,6 @@ class HomeFragment : Fragment() {
             }
 
         })
-
-
-
-
 
         hamburguesa.setOnClickListener(){
 //            pesoTotal+=100
@@ -125,6 +127,7 @@ class HomeFragment : Fragment() {
 
             txtValorPeso.setText(String.format("%.2f", pesoTotal))
             unidad.setText(unidadPeso)
+            escribirDatos()
         }
 
 
@@ -168,10 +171,14 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
-
-
-
         return root
+    }
+
+    fun escribirDatos(){
+        val database = Firebase.database
+        val panaderiasBase = database.getReference("partida/a/panaderia")
+        totalPanaderias+=2
+        panaderiasBase.setValue(totalPanaderias)
     }
 
 

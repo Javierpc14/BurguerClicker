@@ -1,8 +1,6 @@
 package com.example.hamburguerclicker;
 
 public class Partida {
-
-    //Tu mas
     private static String partida;
     private static int panaderia;
     private static int carniceria;
