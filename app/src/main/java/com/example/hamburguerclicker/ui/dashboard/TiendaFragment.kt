@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -19,7 +18,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.database
 
 
-public class DashboardFragment : Fragment() {
+public class TiendaFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
 

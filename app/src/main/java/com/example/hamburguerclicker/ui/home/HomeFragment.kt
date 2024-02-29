@@ -43,6 +43,7 @@ class HomeFragment : Fragment() {
     var a=R.integer.contador
 
     var pesoTotal: Double = 0.0
+    var pesoPantalla:Double=0.0
     var totalPanaderias=0.0
 
     var unidadPeso="Mili Gramos"
@@ -63,7 +64,6 @@ class HomeFragment : Fragment() {
 
         partida = Partida()
 
-//        pesoTotal = partida.dinero
 
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
 
@@ -89,12 +89,13 @@ class HomeFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Este método se llama una vez que se lance la aplicacion,
                 // y cada vez que se actualicen los valores en la base de datos
-                println("aaaaaaa")
                 value = snapshot.getValue<HashMap<String, Double>>()
+
                 pesoTotal = value?.get("dinero") as Double
-                txtValorPeso.setText("" + value?.get("dinero").toString())
+                comprobarUnidad()
+
                 totalPanaderias=value?.get("panaderia") as Double
-               Log.d(TAG, "Value is: " + value)
+
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -104,30 +105,8 @@ class HomeFragment : Fragment() {
         })
 
         hamburguesa.setOnClickListener(){
-//            pesoTotal+=100
-//            txtValorPeso.setText(String.format("%.2f", pesoTotal))
-//            unidad()
-
             pesoTotal += 100
-
-            when {
-                pesoTotal >= 1000 && unidadPeso == "Mili Gramos" -> {
-                    unidadPeso = "Gramos"
-                    pesoTotal /= 1000.0
-                }
-                pesoTotal >= 1000 && unidadPeso == "Gramos" -> {
-                    unidadPeso = "Kilos"
-                    pesoTotal /= 1000.0
-                }
-                pesoTotal >= 1000 && unidadPeso == "Kilos" -> {
-                    unidadPeso = "Toneladas"
-                    pesoTotal /= 1000.0
-                }
-            }
-
-            txtValorPeso.setText(String.format("%.2f", pesoTotal))
-            unidad.setText(unidadPeso)
-            escribirDatos()
+            escribirDatos(pesoTotal)
         }
 
 
@@ -138,29 +117,10 @@ class HomeFragment : Fragment() {
                 return@setOnClickListener
             }
 
-
             pesoTotal -= 100
 
-            if (pesoTotal < 0) {
-                when (unidadPeso) {
-                    "Gramos" -> {
-                        pesoTotal += 1000
-                        unidadPeso  = "Mili Gramos"
-                    }
-                    "Kilos" -> {
-                        pesoTotal += 1000
-                        unidadPeso = "Gramos"
-                    }
-                    "Toneladas" -> {
-                        pesoTotal += 1000
-                        unidadPeso = "Kilos"
-                    }
-                }
-            }
+            escribirDatos(pesoTotal)
 
-            txtValorPeso.setText(String.format("%.2f", pesoTotal))
-            unidad.setText(unidadPeso)
-//            unidad()
         }
 
 
@@ -174,93 +134,35 @@ class HomeFragment : Fragment() {
         return root
     }
 
-    fun escribirDatos(){
+    fun escribirDatos(peso:Double){
         val database = Firebase.database
-        val panaderiasBase = database.getReference("partida/a/panaderia")
-        totalPanaderias+=2
-        panaderiasBase.setValue(totalPanaderias)
+        val panaderiasBase = database.getReference("partida/a/dinero")
+        panaderiasBase.setValue(peso)
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
 
-//    private fun leer() {
-//        mDatabase.addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                // Get Post object and use the values to update the UI
-//                profesoresCoches.clear()
-//                for (snapshot in dataSnapshot.children) {
-//                    coche = snapshot.getValue(Coche::class.java)
-//                    val cochee: String =
-//                        (coche.getId() + " : " + coche.getMarca()).toString() + " , " + coche.getModelo()
-//                    profesoresCoches.add(cochee)
-//                    if (coche != null) {
-//                        Toast.makeText(this@MainActivity, cochee, Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//                adapter.notifyDataSetChanged()
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                // Getting Post failed, log a message
-//            }
-//        })
-//    }
-//
-//    private fun limpiarCampos() {
-//        etMarca.setText("")
-//        etModelo.setText("")
-//    }
+    fun comprobarUnidad(){
+        when (pesoTotal) {
+            in 0.0..1000.0 -> {
+                pesoPantalla=pesoTotal
+                unidadPeso  = "Mili Gramos"
+            }
+            in 1000.0..1000000.0 -> {
+                pesoPantalla=pesoTotal/1000
+                unidadPeso = "Gramos"
+            }
+            in 1000000.0..1000000000.0 -> {
+                pesoPantalla=pesoTotal/1000000
+                unidadPeso = "Kilos"
+            }
+        }
+        txtValorPeso.setText(String.format("%.2f", pesoPantalla))
+        unidad.setText(unidadPeso)
+    }
 
-//    private fun unidad() {
-//        when (unidadPeso) {
-//            "Mili Gramos" -> {
-//                if (pesoTotal >= 1000) {
-//                    unidadPeso = "Gramos"
-//                    pesoTotal /= 1000
-//                    unidad.setText(unidadPeso)
-//                    txtValorPeso.setText(String.format("%.2f", pesoTotal))
-//                }
-//            }
-//            "Gramos" -> {
-//                if (pesoTotal >= 1000) {
-//                    unidadPeso = "Kilos"
-//                    pesoTotal /= 1000
-//                    unidad.setText(unidadPeso)
-//                    txtValorPeso.setText(String.format("%.2f", pesoTotal))
-//                } else if (pesoTotal < 1) {
-//                    unidadPeso = "Mili Gramos"
-//                    pesoTotal *= 1000
-//                    unidad.setText(unidadPeso)
-//                    txtValorPeso.setText(String.format("%.2f", pesoTotal))
-//                }
-//            }
-//            "Kilos" -> {
-//                if (pesoTotal >= 1000) {
-//                    unidadPeso = "Toneladas"
-//                    pesoTotal /= 1000
-//                    unidad.setText(unidadPeso)
-//                    txtValorPeso.setText(String.format("%.2f", pesoTotal))
-//                } else if (pesoTotal < 1) {
-//                    unidadPeso = "Gramos"
-//                    pesoTotal *= 1000
-//                    unidad.setText(unidadPeso)
-//                    txtValorPeso.setText(String.format("%.2f", pesoTotal))
-//                }
-//            }
-//            "Toneladas" -> {
-//                if (pesoTotal < 1) {
-//                    unidadPeso = "Kilos"
-//                    pesoTotal *= 1000
-//                    unidad.setText(unidadPeso)
-//                    txtValorPeso.setText(String.format("%.2f", pesoTotal))
-//                }
-//            }
-//        }
-//    }
 
 }
