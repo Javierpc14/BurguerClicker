@@ -22,6 +22,9 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import java.util.Timer
+import java.util.TimerTask
+import kotlin.concurrent.timer
 import kotlin.properties.Delegates
 
 class HomeFragment : Fragment() {
@@ -37,7 +40,16 @@ class HomeFragment : Fragment() {
     var a=R.integer.contador
     var pesoTotal: Double = 0.0
     var pesoPantalla:Double=0.0
+
     var totalPanaderias=0.0
+    var totalCarnicerias=0.0
+    var totalQueserias=0.0
+    var totalLechugas=0.0
+    var totalHuerto=0.0
+    var totalBacon=0.0
+
+    private var timer: Timer? = null
+
     var unidadPeso="Mili Gramos"
     val database = FirebaseDatabase.getInstance()
     val mDatabase = database.getReference("partida/a")
@@ -72,12 +84,23 @@ class HomeFragment : Fragment() {
                 value = snapshot.getValue<HashMap<String, Double>>()
                 pesoTotal = value?.get("dinero") as Double
                 comprobarUnidad()
+
                 totalPanaderias=value?.get("panaderia") as Double
+                totalCarnicerias=value?.get("carniceria") as Double
+                totalQueserias=value?.get("queseria") as Double
+                totalLechugas=value?.get("lechuga") as Double
+                totalHuerto=value?.get("huerto") as Double
+                totalBacon=value?.get("bacon") as Double
+
+                if (timer == null) {
+                    iniciarIncrementoPasivo()
+                }
             }
             override fun onCancelled(error: DatabaseError) {
                 Log.w(TAG, "Failed to read value.", error.toException())
             }
         })
+
         hamburguesa.setOnClickListener(){
             pesoTotal += 100
             escribirDatos(pesoTotal)
@@ -126,6 +149,20 @@ class HomeFragment : Fragment() {
         }
         txtValorPeso.setText(String.format("%.2f", pesoPantalla))
         unidad.setText(unidadPeso)
+    }
+
+    private fun iniciarIncrementoPasivo() {
+        timer = Timer()
+        timer?.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                incrementoPasivo()
+            }
+        }, 0, 1000)
+    }
+
+    fun  incrementoPasivo() {
+        pesoTotal+=totalPanaderias+totalCarnicerias+totalQueserias+totalLechugas+totalBacon
+        escribirDatos(pesoTotal)
     }
 
 }

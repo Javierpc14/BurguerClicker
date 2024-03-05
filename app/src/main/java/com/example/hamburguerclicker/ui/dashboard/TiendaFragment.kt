@@ -15,13 +15,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.hamburguerclicker.Partida
 import com.example.hamburguerclicker.R
 import com.example.hamburguerclicker.databinding.FragmentDashboardBinding
-import com.google.firebase.Firebase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.database
 import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 
@@ -96,8 +93,8 @@ public class TiendaFragment : Fragment() {
 //        _binding = null
 //    }
 
-    private fun init(root:View){
 
+    private fun init(root:View){
         btnCompraPanaderia=root.findViewById(R.id.btnCompraPanaderia)
         txtTotPanaderia=root.findViewById(R.id.txtTotPan)
         btnCompraPanaderia.setOnClickListener{
@@ -170,46 +167,6 @@ public class TiendaFragment : Fragment() {
         })
 
     }
-
-    // Tenemos que hacer algo como esto para añadir a la base de datos
-//    private fun add() {
-//        val pan: Int = 0
-//        val carne: String =
-//        val queso: String =
-//        val lechuga: String =
-//        val huerto: String =
-//        val bacon: String =
-//
-////        val marca: String = etMarca.getText().toString().trim()
-////        val modelo: String = etModelo.getText().toString().trim()
-//        val id = mDatabase.push().key
-//        Toast.makeText(this, id, Toast.LENGTH_SHORT).show()
-//        partida = Partida()
-//        partida.getPanaderia()
-//        partida.getCarniceria()
-//        partida.getQueseria()
-//        partida.getLechuga()
-//        partida.getHuerto()
-//        partida.getBacon()
-////        partida.setId(id)
-////        partida.setMarca(marca)
-////        partida.setModelo(modelo)
-//        mDatabase.child(id.toString()).setValue(
-//            partida
-//        ) { error, ref ->
-//            if (error == null) {
-//                // Éxito
-//                Toast.makeText(this@DashboardFragment, "Partida agregada exitosamente", Toast.LENGTH_SHORT)
-//                    .show()
-//            } else {
-//                // Error
-//                Toast.makeText(this@DashboardFragment, "Error al agregar la partida", Toast.LENGTH_SHORT)
-//                    .show()
-//            }
-//        }
-////        limpiarCampos()
-////        leer()
-//    }
 
     private fun comprarPanaderia(){
         totalPanaderias++;
