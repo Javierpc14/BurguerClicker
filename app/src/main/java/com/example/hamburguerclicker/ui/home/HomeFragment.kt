@@ -134,17 +134,21 @@ class HomeFragment : Fragment() {
     }
     fun comprobarUnidad(){
         when (pesoTotal) {
-            in 0.0..1000.0 -> {
+            in 0.0..999.9 -> {
                 pesoPantalla=pesoTotal
                 unidadPeso  = "Mili Gramos"
             }
-            in 1000.0..1000000.0 -> {
+            in 1000.0..999999.9 -> {
                 pesoPantalla=pesoTotal/1000
                 unidadPeso = "Gramos"
             }
-            in 1000000.0..1000000000.0 -> {
+            in 1000000.0..999999999.9 -> {
                 pesoPantalla=pesoTotal/1000000
                 unidadPeso = "Kilos"
+            }
+            in 1000000000.0 .. Double.MAX_VALUE -> {
+                pesoPantalla=pesoTotal/1000000000
+                unidadPeso = "Toneladas"
             }
         }
         txtValorPeso.setText(String.format("%.2f", pesoPantalla))
@@ -161,7 +165,7 @@ class HomeFragment : Fragment() {
     }
 
     fun  incrementoPasivo() {
-        pesoTotal+=totalPanaderias+totalCarnicerias+totalQueserias+totalLechugas+totalBacon
+        pesoTotal+=totalPanaderias * 7.5 +totalCarnicerias * 50 +totalQueserias * 6500 +totalLechugas * 115000 + totalHuerto * 20000000 + totalBacon * 50000000
         escribirDatos(pesoTotal)
     }
 
