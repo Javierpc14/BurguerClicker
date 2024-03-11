@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <FrameLayout
-            android:id="@+id/frameLayout"
+            android:id="@+id/layout"
             android:layout_width="421dp"
             android:layout_height="1681dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -66,7 +66,7 @@
                     android:gravity="center"
                     android:text="0"
                     android:textColor="#000000"
-                    android:textSize="34sp" />
+                    android:theme="@style/estiloCantidadTiendas" />
 
                 <ImageView
                     android:id="@+id/imgPanaderia"
@@ -99,7 +99,7 @@
                         android:layout_height="95dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:backgroundTint="#EAA857"
+                        android:backgroundTint="@color/botonComprarTienda"
                         android:text="Comprar \n panaderia " />
                 </LinearLayout>
 
@@ -111,7 +111,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-black"
+                android:theme="@style/estiloTexto"
                 android:gravity="center"
                 android:text="7,5 Mg por segundo"
                 android:textColor="#000000"
@@ -146,7 +146,7 @@
                     android:gravity="center"
                     android:text="0"
                     android:textColor="#000000"
-                    android:textSize="34sp" />
+                    android:theme="@style/estiloCantidadTiendas" />
 
                 <ImageView
                     android:id="@+id/imgCarniceria"
@@ -179,7 +179,7 @@
                         android:layout_height="95dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:backgroundTint="#EAA857"
+                        android:backgroundTint="@color/botonComprarTienda"
                         android:text="Comprar carniceria " />
                 </LinearLayout>
 
@@ -191,7 +191,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-black"
+                android:theme="@style/estiloTexto"
                 android:gravity="center"
                 android:text="50 Mg por segundo"
                 android:textColor="#000000"
@@ -226,7 +226,7 @@
                     android:gravity="center"
                     android:text="0"
                     android:textColor="#000000"
-                    android:textSize="34sp" />
+                    android:theme="@style/estiloCantidadTiendas" />
 
                 <ImageView
                     android:id="@+id/imgQueseria"
@@ -259,7 +259,7 @@
                         android:layout_height="95dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:backgroundTint="#EAA857"
+                        android:backgroundTint="@color/botonComprarTienda"
                         android:gravity="center"
                         android:text="Comprar queseria " />
                 </LinearLayout>
@@ -272,7 +272,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-black"
+                android:theme="@style/estiloTexto"
                 android:gravity="center"
                 android:text="6,5 g por segundo"
                 android:textColor="#000000"
@@ -306,7 +306,7 @@
                     android:gravity="center"
                     android:text="0"
                     android:textColor="#000000"
-                    android:textSize="34sp" />
+                    android:theme="@style/estiloCantidadTiendas" />
 
                 <ImageView
                     android:id="@+id/imgLechuga"
@@ -339,7 +339,7 @@
                         android:layout_height="95dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:backgroundTint="#EAA857"
+                        android:backgroundTint="@color/botonComprarTienda"
                         android:gravity="center"
                         android:text="Comprar lechuga " />
                 </LinearLayout>
@@ -352,7 +352,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-black"
+                android:theme="@style/estiloTexto"
                 android:gravity="center"
                 android:text="115 g por segundo"
                 android:textColor="#000000"
@@ -386,7 +386,7 @@
                     android:gravity="center"
                     android:text="0"
                     android:textColor="#000000"
-                    android:textSize="34sp" />
+                    android:theme="@style/estiloCantidadTiendas" />
 
                 <ImageView
                     android:id="@+id/imgHuerto"
@@ -419,7 +419,7 @@
                         android:layout_height="95dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:backgroundTint="#EAA857"
+                        android:backgroundTint="@color/botonComprarTienda"
                         android:gravity="center"
                         android:text="Comprar huerto " />
                 </LinearLayout>
@@ -432,7 +432,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-black"
+                android:theme="@style/estiloTexto"
                 android:gravity="center"
                 android:text="20 Kg por segundo"
                 android:textColor="#000000"
@@ -467,7 +467,7 @@
                     android:gravity="center"
                     android:text="0"
                     android:textColor="#000000"
-                    android:textSize="34sp" />
+                    android:theme="@style/estiloCantidadTiendas" />
 
                 <ImageView
                     android:id="@+id/imgBacon"
@@ -500,7 +500,7 @@
                         android:layout_height="95dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:backgroundTint="#EAA857"
+                        android:backgroundTint="@color/botonComprarTienda"
                         android:gravity="center"
                         android:text="Comprar bacon " />
                 </LinearLayout>
@@ -513,7 +513,7 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-black"
+                android:theme="@style/estiloTexto"
                 android:gravity="center"
                 android:text="50 Kg por segundo"
                 android:textColor="#000000"

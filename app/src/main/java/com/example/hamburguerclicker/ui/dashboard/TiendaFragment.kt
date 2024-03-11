@@ -21,6 +21,10 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import android.app.AlertDialog
+import android.content.DialogInterface
+import android.content.Context
 
 
 public class TiendaFragment : Fragment() {
@@ -56,6 +60,8 @@ public class TiendaFragment : Fragment() {
     lateinit var txtTotBacon:TextView
     private var totalBacon=0.0
 
+
+    lateinit var _this:AppCompatActivity
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -154,6 +160,8 @@ public class TiendaFragment : Fragment() {
                 totalBacon = value?.get("bacon") as Double
                 txtTotBacon.setText("" + value?.get("bacon")!!.toInt())
 
+                dinTotal = value?.get("dinero") as Double
+
 //                pesoTotal = value?.get("dinero") as Double
 //                txtValorPeso.setText("" + value?.get("dinero").toString())
 
@@ -168,35 +176,81 @@ public class TiendaFragment : Fragment() {
 
     }
 
+    fun mensajeNoHayDinero(context: Context) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Cuidado")
+        builder.setMessage("No tienes suficiente peso")
+        builder.setPositiveButton("Aceptar", null)
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    fun restarPeso(peso:Double){
+        val database = Firebase.database
+        val panaderiasBase = database.getReference("partida/a/dinero")
+        panaderiasBase.setValue(peso)
+    }
+
     private fun comprarPanaderia(){
-        totalPanaderias++;
-        txtTotPanaderia.setText(""+totalPanaderias.toInt())
-        escribirDatos("panaderia")
+        if(hayDinero(150)) {
+            totalPanaderias++;
+            txtTotPanaderia.setText("" + totalPanaderias.toInt())
+            escribirDatos("panaderia")
+        }else{
+            mensajeNoHayDinero(requireContext())
+        }
     }
 
     private fun comprarCarniceria(){
-        totalCarnicerias++;
-        txtTotCarne.setText(""+totalCarnicerias.toInt())
-        escribirDatos("carniceria")
+        if(hayDinero(1000)) {
+            totalCarnicerias++;
+            txtTotCarne.setText("" + totalCarnicerias.toInt())
+            escribirDatos("carniceria")
+        }else{
+            mensajeNoHayDinero(requireContext())
+        }
     }
     private fun comprarQueseria(){
-        totalQueserias++;
-        txtTotQueseria.setText(""+totalQueserias.toInt())
-        escribirDatos("queseria")
+        if(hayDinero(130000)) {
+            totalQueserias++;
+            txtTotQueseria.setText("" + totalQueserias.toInt())
+            escribirDatos("queseria")
+        }else{
+            mensajeNoHayDinero(requireContext())
+        }
     }
     private fun comprarLechuga(){
-        totalLechugas++;
-        txtTotLechuga.setText(""+totalLechugas.toInt())
-        escribirDatos("lechuga")
+        if(hayDinero(2300000)) {
+            totalLechugas++;
+            txtTotLechuga.setText("" + totalLechugas.toInt())
+            escribirDatos("lechuga")
+        }else{
+            mensajeNoHayDinero(requireContext())
+        }
     }
     private fun comprarHuerto(){
-        totalHuertos++;
-        txtTotHuerto.setText(""+totalHuertos.toInt())
-        escribirDatos("huerto")
+        if(hayDinero(400000000)) {
+            totalHuertos++;
+            txtTotHuerto.setText("" + totalHuertos.toInt())
+            escribirDatos("huerto")
+        }else{
+            mensajeNoHayDinero(requireContext())
+        }
     }
     private fun comprarBacon(){
-        totalBacon++;
-        txtTotBacon.setText(""+totalBacon.toInt())
+        if(hayDinero(1000000000)) {
+            totalBacon++;
+            txtTotBacon.setText("" + totalBacon.toInt())
+            escribirDatos("bacon")
+        }else{
+            mensajeNoHayDinero(requireContext())
+        }
+    }
+
+    private fun dinero(){
+//        dinTotal++;
+        //txtTotBacon.setText(""+totalBacon.toInt())
         escribirDatos("bacon")
     }
 
@@ -206,28 +260,37 @@ public class TiendaFragment : Fragment() {
 
     private fun escribirDatos(dato:String){
         val database = com.google.firebase.ktx.Firebase.database
-        val base = database.getReference("partida/a/" + dato)
+        var base = database.getReference("partida/a/" + dato)
+        var dinero = database.getReference("partida/a/dinero")
 
         when(dato){
             "panaderia" -> {
                 base.setValue(totalPanaderias)
+                dinero.setValue(dinTotal - 150)
             }
             "carniceria" -> {
                 base.setValue(totalCarnicerias)
+                dinero.setValue(dinTotal - 1000)
             }
             "queseria" -> {
                 base.setValue(totalQueserias)
+                dinero.setValue(dinTotal - 130000)
             }
             "lechuga" -> {
                 base.setValue(totalLechugas)
+                dinero.setValue(dinTotal - 2300000)
             }
             "huerto" -> {
                 base.setValue(totalHuertos)
+                dinero.setValue(dinTotal - 400000000)
             }
             "bacon" -> {
                 base.setValue(totalBacon)
+                dinero.setValue(dinTotal - 1000000000)
             }
         }
+
+
     }
 
 }

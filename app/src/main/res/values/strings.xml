@@ -4,4 +4,9 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <integer name="contador">0</integer>
+
+    <string name="pesoMg">Miligramos</string>
+    <string name="pesoGramos">Gramos</string>
+    <string name="pesoKilos">Kilogramos</string>
+    <string name="pesoTon">Toneladas</string>
 </resources>

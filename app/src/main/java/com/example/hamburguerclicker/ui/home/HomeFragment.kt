@@ -35,7 +35,8 @@ class HomeFragment : Fragment() {
     lateinit var txtValorPeso: TextView
     lateinit var unidad: TextView
     lateinit var hamburguesa: ImageView
-    lateinit var btnRestar:Button
+    //lateinit var btnRestar:Button
+
     lateinit var btnCompraCarne:Button
     var a=R.integer.contador
     var pesoTotal: Double = 0.0
@@ -51,6 +52,7 @@ class HomeFragment : Fragment() {
     private var timer: Timer? = null
 
     var unidadPeso="Mili Gramos"
+
     val database = FirebaseDatabase.getInstance()
     val mDatabase = database.getReference("partida/a")
     // This property is only valid between onCreateView and
@@ -62,6 +64,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
+
+
         partida = Partida()
 
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
@@ -71,7 +75,7 @@ class HomeFragment : Fragment() {
         txtValorPeso=root.findViewById(R.id.txtValorPeso)
         hamburguesa=root.findViewById(R.id.hamburguesa)
         unidad=root.findViewById(R.id.unidadPeso)
-        btnRestar=root.findViewById(R.id.restar)
+       // btnRestar=root.findViewById(R.id.restar)
         txtValorPeso.setText(String.format("%.2f", pesoTotal))
 
 
@@ -106,14 +110,14 @@ class HomeFragment : Fragment() {
             escribirDatos(pesoTotal)
         }
 
-        btnRestar.setOnClickListener {
-            //para que no pueda restar mas si hay 0 mg y asi no hay numeros negativos
-            if (unidadPeso == "Mili Gramos" && pesoTotal <= 0) {
-                return@setOnClickListener
-            }
-            pesoTotal -= 100
-            escribirDatos(pesoTotal)
-        }
+//        btnRestar.setOnClickListener {
+//            //para que no pueda restar mas si hay 0 mg y asi no hay numeros negativos
+//            if (unidadPeso == "Mili Gramos" && pesoTotal <= 0) {
+//                return@setOnClickListener
+//            }
+//            pesoTotal -= 100
+//            escribirDatos(pesoTotal)
+//        }
 
         // Ocultar la barra de acción (action bar)
 //        (requireActivity() as AppCompatActivity).supportActionBar!!.hide()
@@ -133,22 +137,24 @@ class HomeFragment : Fragment() {
         _binding = null
     }
     fun comprobarUnidad(){
+
+
         when (pesoTotal) {
             in 0.0..999.9 -> {
                 pesoPantalla=pesoTotal
-                unidadPeso  = "Mili Gramos"
+                unidadPeso  = getString(R.string.pesoMg)
             }
             in 1000.0..999999.9 -> {
                 pesoPantalla=pesoTotal/1000
-                unidadPeso = "Gramos"
+                unidadPeso = getString(R.string.pesoGramos)
             }
             in 1000000.0..999999999.9 -> {
                 pesoPantalla=pesoTotal/1000000
-                unidadPeso = "Kilos"
+                unidadPeso = getString(R.string.pesoKilos)
             }
             in 1000000000.0 .. Double.MAX_VALUE -> {
                 pesoPantalla=pesoTotal/1000000000
-                unidadPeso = "Toneladas"
+                unidadPeso = getString(R.string.pesoTon)
             }
         }
         txtValorPeso.setText(String.format("%.2f", pesoPantalla))
