@@ -1,124 +1,152 @@
 package com.example.hamburguerclicker
 
-import android.content.ContentValues
+import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.hamburguerclicker.databinding.ActivityMainBinding
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.getValue
+import android.widget.EditText
 
 class MainActivity : AppCompatActivity() {
 
-     lateinit var binding: ActivityMainBinding
-     lateinit var txtValorPeso: TextView
-     lateinit var unidad: TextView
-     lateinit var hamburguesa:ImageView
-     lateinit var btnRestar:Button
-     lateinit var btnCompraCarne:Button
+    private lateinit var binding: ActivityMainBinding
 
-     lateinit var _this:AppCompatActivity
+    lateinit var _this: AppCompatActivity
 
-    val database = FirebaseDatabase.getInstance()
-    val mDatabase = database.getReference("partida")
+    private val database = FirebaseDatabase.getInstance()
+    private val mDatabase = database.getReference("partida")
 
-     lateinit var  btnCrear:Button
+    lateinit var btnCrear: Button
 
-     var a=R.integer.contador
-
+    lateinit var layout: LinearLayout
+    companion object {
+        var partidaActual = ""
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(R.layout.fragment_notifications)
-
-        btnCrear = findViewById(R.id.btnCrearPartida)
+        layout = findViewById<LinearLayout>(R.id.layoutPartidas)
 
         _this = this
         var value: HashMap<String, Object>?
-        mDatabase.addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                value = snapshot.getValue<HashMap<String, Object>>()
-
-                for (i in 0..3) {
-                    val color = ContextCompat.getColor(_this, R.color.botonCrearPartida)
-                    val colorStateList = ColorStateList.valueOf(color)
-                    val prueba = Button(_this)
-
-                    prueba.text = "Estegosaurio"
-                    prueba.setTextColor(Color.WHITE)
-                    prueba.typeface = Typeface.create("sans-serif", Typeface.BOLD)
-                    prueba.backgroundTintList = colorStateList
-                    prueba.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
-
-                    val layout = findViewById<LinearLayout>(R.id.layoutPartidas)
-                    layout.addView(prueba)
-                }
-
-            }
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
-            }
-        })
-
-
-        // BOTON 1
-
-
-        //BOTON 2
-//        val color2 = ContextCompat.getColor(this, R.color.botonCrearPartida)
-//        val colorStateList2 = ColorStateList.valueOf(color)
-//        val prueba2 = Button(this)
-//
-//        prueba2.text = "Estegosaurio"
-//        prueba2.setTextColor(Color.WHITE)
-//        prueba2.typeface = Typeface.create("sans-serif", Typeface.BOLD)
-//        prueba2.backgroundTintList = colorStateList
-//        prueba2.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
-//
-//        layout.addView(prueba2)
-
-        //Inicializacion variables vistas
-//       txtValorPeso=findViewById(R.id.txtValorPeso)
-//        hamburguesa=findViewById(R.id.hamburguesa)
-//        unidad=findViewById(R.id.unidadPeso)
-       // btnRestar=findViewById(R.id.restar)
-
-        btnCrear.setOnClickListener {
-            setContentView(binding.root)
-
-            val navView: BottomNavigationView = binding.navView
-
-            val navController = findNavController(R.id.nav_host_fragment_activity_main)
-
-            val appBarConfiguration = AppBarConfiguration(
-                setOf(
-                    R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-                )
-            )
-            setupActionBarWithNavController(navController, appBarConfiguration)
-            navView.setupWithNavController(navController)
-        }
-
-
+        iniciarPartidas()
     }
 
+    private fun iniciarPartidas() {
+        layout.removeAllViews()
+        mDatabase.get().addOnSuccessListener { partidas ->
+            var contador = 0
+            partidas.children.forEach { partida ->
+                crearBotones(partida.key.toString(), false)
+                contador++;
+            }
+            for (i in contador..2) {
+                crearBotones("Crear nueva partida", true)
+            }
+
+        }.addOnFailureListener {
+            Log.e("firebase", "Error obteniendo partida", it)
+        }
+    }
+
+    private fun continuarPartida(nombrePartida: String) {
+        partidaActual=nombrePartida
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val navView: BottomNavigationView = binding.navView
+
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
+    }
+
+    private fun crearBotones(nombrePartida: String, nuevaPartida: Boolean) {
+        val color = ContextCompat.getColor(_this, R.color.botonCrearPartida)
+        val colorStateList = ColorStateList.valueOf(color)
+        val colorStateListBorrar = ColorStateList.valueOf(Color.RED)
+
+        (layout as? LinearLayout)?.orientation = LinearLayout.VERTICAL
+
+        val fila = LinearLayout(_this)
+        fila.layoutParams = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+        fila.gravity = Gravity.CENTER
+
+        val btnPartida = Button(_this)
+        btnPartida.text = nombrePartida
+        btnPartida.setTextColor(Color.WHITE)
+        btnPartida.typeface = Typeface.create("sans-serif", Typeface.BOLD)
+        btnPartida.backgroundTintList = colorStateList
+        btnPartida.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+        btnPartida.setOnClickListener {
+            if (!nuevaPartida) {
+                continuarPartida(nombrePartida)
+            } else {
+                crearpartida()
+            }
+        }
+        fila.addView(btnPartida)
+
+        if (!nuevaPartida) {
+            val btnEliminar = Button(_this)
+            btnEliminar.text = "Borrar"
+            btnEliminar.setTextColor(Color.WHITE)
+            btnEliminar.typeface = Typeface.create("sans-serif", Typeface.BOLD)
+            btnEliminar.backgroundTintList = colorStateListBorrar
+            btnEliminar.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+            btnEliminar.setOnClickListener {
+                borrarPartida(nombrePartida)
+            }
+            fila.addView(btnEliminar)
+        }
+
+        layout.addView(fila)
+    }
+
+
+    private fun crearpartida() {
+        var nuevaPartida = Partida()
+        val editText = EditText(_this)
+        val dialog = AlertDialog.Builder(_this)
+            .setTitle("Nombre partida")
+            .setMessage("Introduzca el nombre de la partida:")
+            .setView(editText)
+            .setPositiveButton("Aceptar") { dialog, which ->
+                val nombrePartida = editText.text.toString()
+                mDatabase.child("Partida $nombrePartida").setValue(nuevaPartida)
+                iniciarPartidas()
+            }
+            .setNegativeButton("Cancelar", null)
+            .create()
+        dialog.show()
+    }
+
+    private fun borrarPartida(nombrePartida: String) {
+        mDatabase.child(nombrePartida).removeValue()
+        iniciarPartidas()
+    }
 }

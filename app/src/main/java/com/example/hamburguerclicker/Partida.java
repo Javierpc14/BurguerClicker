@@ -1,7 +1,6 @@
 package com.example.hamburguerclicker;
 
 public class Partida {
-    private static String partida;
     private static int panaderia;
     private static int carniceria;
     private static int queseria;
@@ -10,27 +9,19 @@ public class Partida {
     private static int bacon;
     private static double dinero;
 
-    public Partida(String partida, int panaderia, int carniceria, int queseria, int lechuga, int huerto, int bacon, double dinero) {
-        this.partida = partida;
-        this.panaderia = panaderia;
-        this.carniceria = carniceria;
-        this.queseria = queseria;
-        this.lechuga = lechuga;
-        this.huerto = huerto;
-        this.bacon = bacon;
-        this.dinero = dinero;
-    }
+
 
     public Partida() {
+        this.panaderia = 0;
+        this.carniceria = 0;
+        this.queseria = 0;
+        this.lechuga = 0;
+        this.huerto = 0;
+        this.bacon = 0;
+        this.dinero = 0.0;
     }
 
-    public String getPartida() {
-        return partida;
-    }
 
-    public void setPartida(String partida) {
-        this.partida = partida;
-    }
 
     public int getPanaderia() {
         return panaderia;

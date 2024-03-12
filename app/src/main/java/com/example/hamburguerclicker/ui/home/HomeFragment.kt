@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.hamburguerclicker.MainActivity
 import com.example.hamburguerclicker.Partida
 import com.example.hamburguerclicker.R
 import com.example.hamburguerclicker.databinding.FragmentHomeBinding
@@ -28,7 +29,7 @@ import kotlin.concurrent.timer
 import kotlin.properties.Delegates
 
 class HomeFragment : Fragment() {
-    lateinit var partida: Partida
+
 
 
     private var _binding: FragmentHomeBinding? = null
@@ -51,10 +52,10 @@ class HomeFragment : Fragment() {
 
     private var timer: Timer? = null
 
-    var unidadPeso="Mili Gramos"
+    private var unidadPeso="Mili Gramos"
 
-    val database = FirebaseDatabase.getInstance()
-    val mDatabase = database.getReference("partida/a")
+    private val database = FirebaseDatabase.getInstance()
+    private val mDatabase = database.getReference("partida/"+ MainActivity.partidaActual)
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -66,7 +67,7 @@ class HomeFragment : Fragment() {
 
 
 
-        partida = Partida()
+
 
         (requireActivity() as AppCompatActivity).supportActionBar?.hide()
         val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
@@ -106,7 +107,7 @@ class HomeFragment : Fragment() {
         })
 
         hamburguesa.setOnClickListener(){
-            pesoTotal += 100
+            pesoTotal ++
             escribirDatos(pesoTotal)
         }
 
@@ -129,7 +130,7 @@ class HomeFragment : Fragment() {
     }
     fun escribirDatos(peso:Double){
         val database = Firebase.database
-        val panaderiasBase = database.getReference("partida/a/dinero")
+        val panaderiasBase = database.getReference("partida/"+MainActivity.partidaActual+"/dinero")
         panaderiasBase.setValue(peso)
     }
     override fun onDestroyView() {

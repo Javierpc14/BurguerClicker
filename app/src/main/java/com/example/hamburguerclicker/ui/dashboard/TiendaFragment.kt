@@ -25,6 +25,7 @@ import com.google.firebase.ktx.Firebase
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Context
+import com.example.hamburguerclicker.MainActivity
 
 
 public class TiendaFragment : Fragment() {
@@ -67,7 +68,7 @@ public class TiendaFragment : Fragment() {
     private val binding get() = _binding!!
 
     val database = FirebaseDatabase.getInstance()
-    val mDatabase = database.getReference("partida/a")
+    val mDatabase = database.getReference("partida/"+MainActivity.partidaActual)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -188,7 +189,7 @@ public class TiendaFragment : Fragment() {
 
     fun restarPeso(peso:Double){
         val database = Firebase.database
-        val panaderiasBase = database.getReference("partida/a/dinero")
+        val panaderiasBase = database.getReference("partida/"+MainActivity.partidaActual+"/dinero")
         panaderiasBase.setValue(peso)
     }
 
@@ -260,8 +261,8 @@ public class TiendaFragment : Fragment() {
 
     private fun escribirDatos(dato:String){
         val database = com.google.firebase.ktx.Firebase.database
-        var base = database.getReference("partida/a/" + dato)
-        var dinero = database.getReference("partida/a/dinero")
+        var base = database.getReference("partida/"+MainActivity.partidaActual + dato)
+        var dinero = database.getReference("partida/"+MainActivity.partidaActual+"/dinero")
 
         when(dato){
             "panaderia" -> {
