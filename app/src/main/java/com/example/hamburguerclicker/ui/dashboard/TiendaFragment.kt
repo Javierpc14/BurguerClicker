@@ -261,7 +261,7 @@ public class TiendaFragment : Fragment() {
 
     private fun escribirDatos(dato:String){
         val database = com.google.firebase.ktx.Firebase.database
-        var base = database.getReference("partida/"+MainActivity.partidaActual + dato)
+        var base = database.getReference("partida/"+MainActivity.partidaActual + "/" +  dato)
         var dinero = database.getReference("partida/"+MainActivity.partidaActual+"/dinero")
 
         when(dato){

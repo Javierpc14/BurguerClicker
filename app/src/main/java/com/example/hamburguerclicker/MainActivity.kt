@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -20,6 +21,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.hamburguerclicker.databinding.ActivityMainBinding
 import com.google.firebase.database.FirebaseDatabase
 import android.widget.EditText
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginLeft
+import androidx.core.view.marginRight
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,6 +45,8 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.fragment_notifications)
         layout = findViewById<LinearLayout>(R.id.layoutPartidas)
+
+
 
         _this = this
         var value: HashMap<String, Object>?
@@ -85,7 +91,7 @@ class MainActivity : AppCompatActivity() {
     private fun crearBotones(nombrePartida: String, nuevaPartida: Boolean) {
         val color = ContextCompat.getColor(_this, R.color.botonCrearPartida)
         val colorStateList = ColorStateList.valueOf(color)
-        val colorStateListBorrar = ColorStateList.valueOf(Color.RED)
+        val colorBtnBorrar = ColorStateList.valueOf(Color.TRANSPARENT)
 
         (layout as? LinearLayout)?.orientation = LinearLayout.VERTICAL
 
@@ -96,12 +102,24 @@ class MainActivity : AppCompatActivity() {
         )
         fila.gravity = Gravity.CENTER
 
+        //Esto es para ponerle paramestros de layout a cada boton
+        val parametrosLayout = LinearLayout.LayoutParams(
+            0,
+            ConstraintLayout.LayoutParams.WRAP_CONTENT,
+            1.0f
+        )
+
+        // esto es para definirle un margin a los botones
+        val marginLayoutParams = parametrosLayout as ViewGroup.MarginLayoutParams
+
         val btnPartida = Button(_this)
         btnPartida.text = nombrePartida
         btnPartida.setTextColor(Color.WHITE)
         btnPartida.typeface = Typeface.create("sans-serif", Typeface.BOLD)
         btnPartida.backgroundTintList = colorStateList
         btnPartida.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+        btnPartida.layoutParams = marginLayoutParams
+        btnPartida.layoutParams = parametrosLayout
         btnPartida.setOnClickListener {
             if (!nuevaPartida) {
                 continuarPartida(nombrePartida)
@@ -113,11 +131,10 @@ class MainActivity : AppCompatActivity() {
 
         if (!nuevaPartida) {
             val btnEliminar = Button(_this)
-            btnEliminar.text = "Borrar"
-            btnEliminar.setTextColor(Color.WHITE)
-            btnEliminar.typeface = Typeface.create("sans-serif", Typeface.BOLD)
-            btnEliminar.backgroundTintList = colorStateListBorrar
-            btnEliminar.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+            btnEliminar.setCompoundDrawablesWithIntrinsicBounds(R.drawable.basura, 0, 0, 0)
+            btnEliminar.gravity = Gravity.CENTER
+            btnEliminar.backgroundTintList = colorBtnBorrar
+            btnEliminar.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10f)
             btnEliminar.setOnClickListener {
                 borrarPartida(nombrePartida)
             }
@@ -137,7 +154,7 @@ class MainActivity : AppCompatActivity() {
             .setView(editText)
             .setPositiveButton("Aceptar") { dialog, which ->
                 val nombrePartida = editText.text.toString()
-                mDatabase.child("Partida $nombrePartida").setValue(nuevaPartida)
+                mDatabase.child("$nombrePartida").setValue(nuevaPartida)
                 iniciarPartidas()
             }
             .setNegativeButton("Cancelar", null)

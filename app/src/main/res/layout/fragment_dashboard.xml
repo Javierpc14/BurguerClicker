@@ -96,7 +96,7 @@
                     <Button
                         android:id="@+id/btnCompraPanaderia"
                         android:layout_width="130dp"
-                        android:layout_height="95dp"
+                        android:layout_height="55dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/botonComprarTienda"
@@ -176,7 +176,7 @@
                     <Button
                         android:id="@+id/btnCompraCarne"
                         android:layout_width="130dp"
-                        android:layout_height="95dp"
+                        android:layout_height="55dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/botonComprarTienda"
@@ -256,7 +256,7 @@
                     <Button
                         android:id="@+id/btnCompraQueso"
                         android:layout_width="130dp"
-                        android:layout_height="95dp"
+                        android:layout_height="55dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/botonComprarTienda"
@@ -310,8 +310,8 @@
 
                 <ImageView
                     android:id="@+id/imgLechuga"
-                    android:layout_width="176dp"
-                    android:layout_height="141dp"
+                    android:layout_width="146dp"
+                    android:layout_height="111dp"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/lechuga" />
 
@@ -324,7 +324,7 @@
                     <TextView
                         android:id="@+id/txtValorLechuga"
                         android:layout_width="match_parent"
-                        android:layout_height="49dp"
+                        android:layout_height="67dp"
                         android:layout_marginTop="10dp"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-black"
@@ -416,7 +416,7 @@
                     <Button
                         android:id="@+id/btnCompraHuerto"
                         android:layout_width="130dp"
-                        android:layout_height="95dp"
+                        android:layout_height="55dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/botonComprarTienda"
@@ -497,7 +497,7 @@
                     <Button
                         android:id="@+id/btnCompraBacon"
                         android:layout_width="130dp"
-                        android:layout_height="95dp"
+                        android:layout_height="55dp"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/botonComprarTienda"
