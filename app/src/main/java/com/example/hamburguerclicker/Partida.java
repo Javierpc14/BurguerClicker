@@ -12,13 +12,13 @@ public class Partida {
 
 
     public Partida() {
-        this.panaderia = 0;
-        this.carniceria = 0;
-        this.queseria = 0;
-        this.lechuga = 0;
-        this.huerto = 0;
-        this.bacon = 0;
-        this.dinero = 0.0;
+        panaderia = 0;
+        carniceria = 0;
+        queseria = 0;
+        lechuga = 0;
+        huerto = 0;
+        bacon = 0;
+        dinero = 0.0;
     }
 
 
@@ -28,7 +28,7 @@ public class Partida {
     }
 
     public void setPanaderia(int panaderia) {
-        this.panaderia = panaderia;
+        Partida.panaderia = panaderia;
     }
 
     public int getCarniceria() {
@@ -36,7 +36,7 @@ public class Partida {
     }
 
     public void setCarniceria(int carniceria) {
-        this.carniceria = carniceria;
+        Partida.carniceria = carniceria;
     }
 
     public int getQueseria() {
@@ -44,7 +44,7 @@ public class Partida {
     }
 
     public void setQueseria(int queseria) {
-        this.queseria = queseria;
+        Partida.queseria = queseria;
     }
 
     public int getLechuga() {
@@ -52,7 +52,7 @@ public class Partida {
     }
 
     public void setLechuga(int lechuga) {
-        this.lechuga = lechuga;
+        Partida.lechuga = lechuga;
     }
 
     public int getHuerto() {
@@ -60,7 +60,7 @@ public class Partida {
     }
 
     public void setHuerto(int huerto) {
-        this.huerto = huerto;
+        Partida.huerto = huerto;
     }
 
     public int getBacon() {
@@ -68,7 +68,7 @@ public class Partida {
     }
 
     public void setBacon(int bacon) {
-        this.bacon = bacon;
+        Partida.bacon = bacon;
     }
 
     public double getDinero() {
@@ -76,6 +76,6 @@ public class Partida {
     }
 
     public void setDinero(double dinero) {
-        this.dinero = dinero;
+        Partida.dinero = dinero;
     }
 }

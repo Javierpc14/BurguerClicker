@@ -9,5 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="botonComprarTienda">#EAA857</color>
-    <color name="botonCrearPartida">#BF7F00</color>
+    <color name="botonCrearPartida">#0A2463</color>
+    <color name="botonesMenu">#27474E</color>
+    <color name="botonesBasura">#f47996</color>
 </resources>

@@ -63,8 +63,6 @@ public class TiendaFragment : Fragment() {
 
 
     lateinit var _this:AppCompatActivity
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     val database = FirebaseDatabase.getInstance()

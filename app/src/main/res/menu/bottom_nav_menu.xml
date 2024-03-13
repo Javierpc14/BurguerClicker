@@ -14,6 +14,6 @@
     <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/menubariconopartida"
-        android:title="Partidas" />
+        android:title="Menu" />
 
 </menu>

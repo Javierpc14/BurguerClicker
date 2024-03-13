@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class NotificationsViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "Partidas"
+        value = "Menu"
     }
     val text: LiveData<String> = _text
 }

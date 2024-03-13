@@ -34,8 +34,6 @@ class MainActivity : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance()
     private val mDatabase = database.getReference("partida")
 
-    lateinit var btnCrear: Button
-
     lateinit var layout: LinearLayout
     companion object {
         var partidaActual = ""
@@ -43,13 +41,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.fragment_notifications)
+        (this as AppCompatActivity).supportActionBar!!.hide()
+
+        setContentView(R.layout.inicio)
         layout = findViewById<LinearLayout>(R.id.layoutPartidas)
 
-
-
         _this = this
-        var value: HashMap<String, Object>?
         iniciarPartidas()
     }
 
@@ -90,8 +87,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun crearBotones(nombrePartida: String, nuevaPartida: Boolean) {
         val color = ContextCompat.getColor(_this, R.color.botonCrearPartida)
+        val colorBasura = ContextCompat.getColor(_this,R.color.botonesBasura)
+
         val colorStateList = ColorStateList.valueOf(color)
-        val colorBtnBorrar = ColorStateList.valueOf(Color.TRANSPARENT)
+        val colorBtnBorrar = ColorStateList.valueOf(colorBasura)
 
         (layout as? LinearLayout)?.orientation = LinearLayout.VERTICAL
 
@@ -118,6 +117,7 @@ class MainActivity : AppCompatActivity() {
         btnPartida.typeface = Typeface.create("sans-serif", Typeface.BOLD)
         btnPartida.backgroundTintList = colorStateList
         btnPartida.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
+        btnPartida.setPadding(0,50,0,50)
         btnPartida.layoutParams = marginLayoutParams
         btnPartida.layoutParams = parametrosLayout
         btnPartida.setOnClickListener {
@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun crearpartida() {
-        var nuevaPartida = Partida()
+        val nuevaPartida = Partida()
         val editText = EditText(_this)
         val dialog = AlertDialog.Builder(_this)
             .setTitle("Nombre partida")
@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity() {
             .setView(editText)
             .setPositiveButton("Aceptar") { dialog, which ->
                 val nombrePartida = editText.text.toString()
-                mDatabase.child("$nombrePartida").setValue(nuevaPartida)
+                mDatabase.child(nombrePartida).setValue(nuevaPartida)
                 iniciarPartidas()
             }
             .setNegativeButton("Cancelar", null)
