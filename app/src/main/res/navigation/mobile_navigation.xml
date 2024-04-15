@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
+        android:id="@+id/navigation_logros"
+        android:name="com.example.hamburguerclicker.ui.logros.LogrosFragment"
+        android:label="@string/title_logros"
+        tools:layout="@layout/fragment_logros" />
+
+    <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.hamburguerclicker.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"

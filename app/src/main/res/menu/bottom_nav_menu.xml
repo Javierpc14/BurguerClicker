@@ -12,6 +12,11 @@
         android:title="Tienda" />
 
     <item
+        android:id="@+id/navigation_logros"
+        android:icon="@drawable/logros"
+        android:title="Logros" />
+
+    <item
         android:id="@+id/navigation_notifications"
         android:icon="@drawable/menubariconopartida"
         android:title="Menu" />
