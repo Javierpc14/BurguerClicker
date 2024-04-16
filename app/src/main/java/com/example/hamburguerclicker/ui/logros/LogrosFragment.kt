@@ -32,6 +32,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
+import com.google.firebase.database.ktx.database
 
 class LogrosFragment : Fragment() {
 
@@ -44,6 +45,10 @@ class LogrosFragment : Fragment() {
 
     // Variables para ir controlando el peso
     var pesoTotal: Double = 0.0
+
+    // Variables de los logros
+    var logro1: Double = 0.0
+
     private val binding get() = _binding!!
 
     // variables para gestionar la base de datos
@@ -76,6 +81,8 @@ class LogrosFragment : Fragment() {
                 // y cada vez que se actualicen los valores en la base de datos
                 value = snapshot.getValue<HashMap<String, Double>>()
                 pesoTotal = value?.get("dinero") as Double
+
+                logro1 = value?.get("logro1") as Double
                 comprobarLogros()
 
 
@@ -100,16 +107,30 @@ class LogrosFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-    var obtenido = false
 
+    //var obtenido = false
     fun  comprobarLogros() {
 
-
-        if(pesoTotal >= 100  && obtenido){
+        if(pesoTotal >= 100 || logro1 == 1.0){
             imagen1.setImageResource(R.drawable.logro1)
             text1.setText("Alcanza los 100 mg")
             textuno.setText("Pesas los mismo que un gusano")
-            obtenido = true
+            logro1 = 1.0
+            escribirDatos("logro1")
         }
     }
+
+    private fun escribirDatos(dato:String) {
+        val database = com.google.firebase.ktx.Firebase.database
+        var base = database.getReference("partida/" + MainActivity.partidaActual + "/" + dato)
+        var dinero = database.getReference("partida/" + MainActivity.partidaActual + "/dinero")
+
+        when (dato) {
+            "logro1" -> {
+                base.setValue(logro1)
+            }
+        }
+    }
+
+
 }
