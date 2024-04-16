@@ -30,7 +30,7 @@ import kotlin.properties.Delegates
 
 class HomeFragment : Fragment() {
 
-    // Variables para conbtrolar la vista
+    // Variables para controlar la vista
     private var _binding: FragmentHomeBinding? = null
     lateinit var txtValorPeso: TextView
     lateinit var unidad: TextView
