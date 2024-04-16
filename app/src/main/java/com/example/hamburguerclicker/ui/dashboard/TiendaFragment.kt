@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.hamburguerclicker.Partida
+import com.example.hamburguerclicker.modelo.Partida
 import com.example.hamburguerclicker.R
 import com.example.hamburguerclicker.databinding.FragmentDashboardBinding
 import com.google.firebase.database.DataSnapshot
@@ -23,7 +23,6 @@ import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Context
 import com.example.hamburguerclicker.MainActivity
 
@@ -39,34 +38,34 @@ public class TiendaFragment : Fragment() {
 
     lateinit var btnCompraPanaderia: Button
     lateinit var txtTotPanaderia:TextView
-    private var totalPanaderias=0.0
+    private var totalPanaderias=0
 
     lateinit var btnCompraCarne: Button
     lateinit var txtTotCarne:TextView
-    private var totalCarnicerias=0.0
+    private var totalCarnicerias=0
 
     lateinit var btnCompraQueseria: Button
     lateinit var txtTotQueseria:TextView
-    private var totalQueserias=0.0
+    private var totalQueserias=0
 
     lateinit var btnCompraLechuga: Button
     lateinit var txtTotLechuga:TextView
-    private var totalLechugas=0.0
+    private var totalLechugas=0
 
     lateinit var btnCompraHuerto: Button
     lateinit var txtTotHuerto:TextView
-    private var totalHuertos=0.0
+    private var totalHuertos=0
 
     lateinit var btnCompraBacon: Button
     lateinit var txtTotBacon:TextView
-    private var totalBacon=0.0
+    private var totalBacon=0
 
 
     lateinit var _this:AppCompatActivity
     private val binding get() = _binding!!
 
     val database = FirebaseDatabase.getInstance()
-    val mDatabase = database.getReference("partida/"+MainActivity.partidaActual)
+    val mDatabase = database.getReference(MainActivity.partidaActual)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -81,8 +80,6 @@ public class TiendaFragment : Fragment() {
         init(root)
 
         // Ocultar la barra de acción (action bar)
-
-        // Ocultar la barra de acción (action bar)
         (requireActivity() as AppCompatActivity).supportActionBar!!.hide()
 
         val textView: TextView = binding.textDashboard
@@ -91,14 +88,6 @@ public class TiendaFragment : Fragment() {
         }
         return root
     }
-
-
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        _binding = null
-//    }
-
-
     private fun init(root:View){
         btnCompraPanaderia=root.findViewById(R.id.btnCompraPanaderia)
         txtTotPanaderia=root.findViewById(R.id.txtTotPan)
@@ -136,43 +125,41 @@ public class TiendaFragment : Fragment() {
             comprarBacon()
         }
 
-        var value: HashMap<String, Double>?
+        var value: Partida?
 
-        // Leer de la base de de datos
+        // Este método se llama una vez que se lance la aplicacion,
+        // y cada vez que se actualicen los valores en la base de datos
         mDatabase.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // Este método se llama una vez que se lance la aplicacion,
-                // y +cada vez que se actualicen los valores en la base de datos
 
-                value = snapshot.getValue<HashMap<String, Double>>()
+                //Obtenemos total de las tiendas para actualizarlo si es necesario
 
-                totalPanaderias = value?.get("panaderia") as Double
-                txtTotPanaderia.setText("" + value?.get("panaderia")!!.toInt())
-                totalCarnicerias = value?.get("carniceria") as Double
-                txtTotCarne.setText("" + value?.get("carniceria")!!.toInt())
-                totalQueserias = value?.get("queseria") as Double
-                txtTotQueseria.setText("" + value?.get("queseria")!!.toInt())
-                totalLechugas = value?.get("lechuga") as Double
-                txtTotLechuga.setText("" + value?.get("lechuga")!!.toInt())
-                totalHuertos = value?.get("huerto") as Double
-                txtTotHuerto.setText("" + value?.get("huerto")!!.toInt())
-                totalBacon = value?.get("bacon") as Double
-                txtTotBacon.setText("" + value?.get("bacon")!!.toInt())
+                value = snapshot.getValue<Partida>()
 
-                dinTotal = value?.get("dinero") as Double
+                totalPanaderias = value?.tiendas?.panaderias as Int
+                txtTotPanaderia.text = "" + totalPanaderias
 
-//                pesoTotal = value?.get("dinero") as Double
-//                txtValorPeso.setText("" + value?.get("dinero").toString())
+                totalCarnicerias = value?.tiendas?.carnicerias as Int
+                txtTotCarne.text = "" + totalCarnicerias
 
-                Log.d(ContentValues.TAG, "Value is: " + value)
+                totalQueserias = value?.tiendas?.queserias as Int
+                txtTotQueseria.text = "" + totalQueserias
+
+                totalLechugas = value?.tiendas?.lechugas as Int
+                txtTotLechuga.text = "" + totalLechugas
+
+                totalHuertos = value?.tiendas?.huertos as Int
+                txtTotHuerto.text = "" + totalHuertos
+
+                totalBacon = value?.tiendas?.beicones  as Int
+                txtTotBacon.text = "" + totalBacon
+
+                dinTotal = value?.pesoTotal as Double
             }
-
             override fun onCancelled(error: DatabaseError) {
                 Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
             }
-
         })
-
     }
 
     fun mensajeNoHayDinero(context: Context) {
@@ -187,7 +174,7 @@ public class TiendaFragment : Fragment() {
 
     fun restarPeso(peso:Double){
         val database = Firebase.database
-        val panaderiasBase = database.getReference("partida/"+MainActivity.partidaActual+"/dinero")
+        val panaderiasBase = database.getReference(MainActivity.partidaActual+"/dinero")
         panaderiasBase.setValue(peso)
     }
 
@@ -247,20 +234,14 @@ public class TiendaFragment : Fragment() {
         }
     }
 
-    private fun dinero(){
-//        dinTotal++;
-        //txtTotBacon.setText(""+totalBacon.toInt())
-        escribirDatos("bacon")
-    }
-
     private  fun hayDinero(coste:Int):Boolean{
         return dinTotal>=coste
     }
 
     private fun escribirDatos(dato:String){
-        val database = com.google.firebase.ktx.Firebase.database
-        var base = database.getReference("partida/"+MainActivity.partidaActual + "/" +  dato)
-        var dinero = database.getReference("partida/"+MainActivity.partidaActual+"/dinero")
+        val database = Firebase.database
+        var base = database.getReference(MainActivity.partidaActual + "/" +  dato)
+        var dinero = database.getReference(MainActivity.partidaActual+"/dinero")
 
         when(dato){
             "panaderia" -> {
@@ -288,8 +269,5 @@ public class TiendaFragment : Fragment() {
                 dinero.setValue(dinTotal - 1000000000)
             }
         }
-
-
     }
-
 }

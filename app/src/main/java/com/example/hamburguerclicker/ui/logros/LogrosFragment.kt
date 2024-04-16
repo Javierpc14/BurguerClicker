@@ -1,32 +1,19 @@
 package com.example.hamburguerclicker.ui.logros
 
 import android.content.ContentValues
-import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.hamburguerclicker.MainActivity
 import com.example.hamburguerclicker.R
-import com.example.hamburguerclicker.databinding.ActivityMainBinding
 import com.example.hamburguerclicker.databinding.FragmentLogrosBinding
-import com.example.hamburguerclicker.databinding.FragmentNotificationsBinding
-import com.example.hamburguerclicker.ui.home.HomeFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.hamburguerclicker.modelo.Partida
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -47,13 +34,13 @@ class LogrosFragment : Fragment() {
     var pesoTotal: Double = 0.0
 
     // Variables de los logros
-    var logro1: Double = 0.0
+    var logro1: Boolean = false
 
     private val binding get() = _binding!!
 
     // variables para gestionar la base de datos
     private val database = FirebaseDatabase.getInstance()
-    private val mDatabase = database.getReference("partida/"+ MainActivity.partidaActual)
+    private val mDatabase = database.getReference(MainActivity.partidaActual)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -73,16 +60,16 @@ class LogrosFragment : Fragment() {
 
 
         //Leer el peso de la base de datos
-        var value: HashMap<String, Double>?
+        var value: Partida?
         // Leer de la base de de datos
         mDatabase.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Este método se llama una vez que se lance la aplicacion,
                 // y cada vez que se actualicen los valores en la base de datos
-                value = snapshot.getValue<HashMap<String, Double>>()
-                pesoTotal = value?.get("dinero") as Double
+                value = snapshot.getValue<Partida>()
+                pesoTotal = value?.pesoTotal as Double
 
-                logro1 = value?.get("logro1") as Double
+                logro1 = value?.logros?.logro1 as Boolean
                 comprobarLogros()
 
 
@@ -111,19 +98,18 @@ class LogrosFragment : Fragment() {
     //var obtenido = false
     fun  comprobarLogros() {
 
-        if(pesoTotal >= 100 || logro1 == 1.0){
+        if(pesoTotal >= 100 || logro1 == true){
             imagen1.setImageResource(R.drawable.logro1)
             text1.setText("Alcanza los 100 mg")
             textuno.setText("Pesas los mismo que un gusano")
-            logro1 = 1.0
+            logro1 = true
             escribirDatos("logro1")
         }
     }
 
     private fun escribirDatos(dato:String) {
         val database = com.google.firebase.ktx.Firebase.database
-        var base = database.getReference("partida/" + MainActivity.partidaActual + "/" + dato)
-        var dinero = database.getReference("partida/" + MainActivity.partidaActual + "/dinero")
+        var base = database.getReference(MainActivity.partidaActual + "/logros/" + dato)
 
         when (dato) {
             "logro1" -> {

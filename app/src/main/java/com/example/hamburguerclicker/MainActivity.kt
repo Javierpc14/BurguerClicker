@@ -22,8 +22,7 @@ import com.example.hamburguerclicker.databinding.ActivityMainBinding
 import com.google.firebase.database.FirebaseDatabase
 import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.marginLeft
-import androidx.core.view.marginRight
+import com.example.hamburguerclicker.modelo.Partida
 
 class MainActivity : AppCompatActivity() {
 
@@ -68,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun continuarPartida(nombrePartida: String) {
-        partidaActual=nombrePartida
+        partidaActual="partida/" +nombrePartida
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
