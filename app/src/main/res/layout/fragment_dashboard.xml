@@ -502,7 +502,7 @@
                         android:layout_weight="1"
                         android:backgroundTint="@color/botonComprarTienda"
                         android:gravity="center"
-                        android:text="Comprar bacon " />
+                        android:text="Comprar beicon " />
                 </LinearLayout>
 
             </LinearLayout>

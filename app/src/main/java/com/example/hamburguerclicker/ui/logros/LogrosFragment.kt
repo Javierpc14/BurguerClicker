@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.hamburguerclicker.MainActivity
 import com.example.hamburguerclicker.R
 import com.example.hamburguerclicker.databinding.FragmentLogrosBinding
+import com.example.hamburguerclicker.modelo.Logros
 import com.example.hamburguerclicker.modelo.Partida
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -54,6 +55,43 @@ class LogrosFragment : Fragment() {
     lateinit var  imagen6: ImageView
     lateinit var text6: TextView
     lateinit var textseis: TextView
+
+    //Declarar variables del logro 7
+    lateinit var  imagen7: ImageView
+    lateinit var text7: TextView
+    lateinit var textsiete: TextView
+
+    //Declarar variables del logro 8
+    lateinit var  imagen8: ImageView
+    lateinit var text8: TextView
+    lateinit var textocho: TextView
+
+    //Declarar variables del logro 9
+    lateinit var  imagen9: ImageView
+    lateinit var text9: TextView
+    lateinit var textnueve: TextView
+
+    //Declarar variables del logro 10
+    lateinit var  imagen10: ImageView
+    lateinit var text10: TextView
+    lateinit var textdiez: TextView
+
+    //Declarar variables del logro 11
+    lateinit var  imagen11: ImageView
+    lateinit var text11: TextView
+    lateinit var textonce: TextView
+
+    //Declarar variables del logro 12
+    lateinit var  imagen12: ImageView
+    lateinit var text12: TextView
+    lateinit var textdoce: TextView
+
+    // Variable para el contador de los logros
+    lateinit var contador:TextView
+    // variable que va sumando 1 cuando se desbloquea un logro
+    var contadorLogros: Int = 0
+    // Variable para lamacenar todos los logros
+    lateinit var logros: Logros
 
     // Variables para ir controlando el peso
     var pesoTotal: Double = 0.0
@@ -127,6 +165,39 @@ class LogrosFragment : Fragment() {
         text6 = root.findViewById(R.id.txt6)
         textseis = root.findViewById(R.id.txtseis)
 
+        // variables logro 7
+        imagen7 = root.findViewById(R.id.img7)
+        text7 = root.findViewById(R.id.txt7)
+        textsiete = root.findViewById(R.id.txtsiete)
+
+        // variables logro 8
+        imagen8 = root.findViewById(R.id.img8)
+        text8 = root.findViewById(R.id.txt8)
+        textocho = root.findViewById(R.id.txtocho)
+
+        // variables logro 9
+        imagen9 = root.findViewById(R.id.img9)
+        text9 = root.findViewById(R.id.txt9)
+        textnueve = root.findViewById(R.id.txtnueve)
+
+        // variables logro 10
+        imagen10 = root.findViewById(R.id.img10)
+        text10 = root.findViewById(R.id.txt10)
+        textdiez = root.findViewById(R.id.txtdiez)
+
+        // variables logro 11
+        imagen11 = root.findViewById(R.id.img11)
+        text11 = root.findViewById(R.id.txt11)
+        textonce = root.findViewById(R.id.txtonce)
+
+        // variables logro 12
+        imagen12 = root.findViewById(R.id.img12)
+        text12 = root.findViewById(R.id.txt12)
+        textdoce = root.findViewById(R.id.txtdoce)
+
+        // Variable para el contador de los logros
+        contador = root.findViewById(R.id.txtcontador)
+
         //Leer el peso de la base de datos
         var value: Partida?
         // Leer de la base de de datos
@@ -157,7 +228,10 @@ class LogrosFragment : Fragment() {
                 logro11 = value?.logros?.logro11 as Boolean
                 logro12 = value?.logros?.logro12 as Boolean
 
+                logros = value?.logros as Logros
+
                 comprobarLogros()
+
             }
             override fun onCancelled(error: DatabaseError) {
                 Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
@@ -180,8 +254,8 @@ class LogrosFragment : Fragment() {
         _binding = null
     }
 
-    //var obtenido = false
     fun  comprobarLogros() {
+        contadorLogros = 0
 
         if(pesoTotal >= 100 || logro1 == true){
             // desbloquear el logro cuando se consiguen 100 mg
@@ -190,6 +264,7 @@ class LogrosFragment : Fragment() {
             textuno.setText("Pesas los mismo que un gusano")
             logro1 = true
             escribirDatos("logro1")
+            contadorLogros ++;
         }
         if(totalPan >= 20 || logro2 == true){
             // desbloquear el logro 2 cuando se compran 20 panaderias
@@ -198,6 +273,7 @@ class LogrosFragment : Fragment() {
             textdos.setText("Compra 20 panaderias")
             logro2 = true
             escribirDatos("logro2")
+            contadorLogros ++;
         }
         if(pesoTotal >= 10000 || logro3 == true){
             // desbloquear el logro 3 cuando se alcanzan los 10 gramos
@@ -206,6 +282,7 @@ class LogrosFragment : Fragment() {
             texttres.setText("Pesas lo mismo que un lapiz")
             logro3 = true
             escribirDatos("logro3")
+            contadorLogros ++;
         }
         if(totalCarne >= 20 || logro4 == true){
             // desbloquear el logro 4 cuando se compran 20 carnicerias
@@ -214,6 +291,7 @@ class LogrosFragment : Fragment() {
             textcuatro.setText("Compra 20 carnicerias")
             logro4 = true
             escribirDatos("logro4")
+            contadorLogros ++;
         }
         if(pesoTotal >= 700000 || logro5 == true){
             // desbloquear el logro 5 cuando se alcanzan los 700 gramos
@@ -222,9 +300,117 @@ class LogrosFragment : Fragment() {
             textcinco.setText("Pesas lo mismo que una almohada")
             logro5 = true
             escribirDatos("logro5")
+            contadorLogros ++;
+        }
+        if(totalQueso >= 20 || logro6 == true){
+            // desbloquear el logro 6 cuando se compran 20 queserias
+            imagen6.setImageResource(R.drawable.logro6)
+            text6.setText("Quesero maestro")
+            textseis.setText("Compra 20 queserias")
+            logro6 = true
+            escribirDatos("logro6")
+            contadorLogros ++;
+        }
+        if(pesoTotal >= 20000000 || logro7 == true){
+            // desbloquear el logro 7 cuando se alcanzan los 20 kg
+            imagen7.setImageResource(R.drawable.logro7)
+            text7.setText("Alcanza los 20 Kg")
+            textsiete.setText("Pesas lo mismo que un lince")
+            logro7 = true
+            escribirDatos("logro7")
+            contadorLogros ++;
+        }
+        if(totalLechuga >= 20 || logro8 == true){
+            // desbloquear el logro 8 cuando se compran 20 lechugas
+            imagen8.setImageResource(R.drawable.logro8)
+            text8.setText("Lechuga maestra")
+            textocho.setText("Compra 20 lechugas")
+            logro8 = true
+            escribirDatos("logro8")
+            contadorLogros ++;
+        }
+        if(pesoTotal >= 800000000 || logro9 == true){
+            // desbloquear el logro 9 cuando se alcanzan los 800 kg
+            imagen9.setImageResource(R.drawable.logro9)
+            text9.setText("Alcanza los 800 Kg")
+            textnueve.setText("Pesas lo mismo que un twingo")
+            logro9 = true
+            escribirDatos("logro9")
+            contadorLogros ++;
+        }
+        if(totalTomate >= 20 || logro10 == true){
+            // desbloquear el logro 10 cuando se compran 20 huertos
+            imagen10.setImageResource(R.drawable.logro10)
+            text10.setText("Huerto maestra")
+            textdiez.setText("Compra 20 huertos")
+            logro10 = true
+            escribirDatos("logro10")
+            contadorLogros ++
+        }
+        if(pesoTotal >= 140000000000 || logro11 == true){
+            // desbloquear el logro 11 cuando se alcanzan las 140T
+            imagen11.setImageResource(R.drawable.logro11)
+            text11.setText("Alcanza las 140 T")
+            textonce.setText("Pesas lo mismo que una ballena azul")
+            logro11 = true
+            escribirDatos("logro11")
+            contadorLogros ++
+        }
+        if(totalBacon >= 20 || logro12 == true){
+            // desbloquear el logro 12 cuando se compran 20 beicones
+            imagen12.setImageResource(R.drawable.logro12)
+            text12.setText("Beicon maestro")
+            textdoce.setText("Compra 20 beicones")
+            logro12 = true
+            escribirDatos("logro12")
+            contadorLogros ++
         }
 
+        contador.setText("$contadorLogros / 12")
     }
+
+//    private fun comprobarContadorLogros(){
+//        contadorLogros = 0
+//
+//        if(logros.logro1){
+//
+//        }
+//        if(logros.logro2){
+//            contadorLogros ++;
+//        }
+//        if(logros.logro3){
+//            contadorLogros ++;
+//        }
+//        if(logros.logro4){
+//            contadorLogros ++;
+//        }
+//        if(logros.logro5){
+//            contadorLogros ++;
+//        }
+//        if(logros.logro6){
+//            contadorLogros ++;
+//        }
+//        if(logros.logro7){
+//            contadorLogros ++;
+//        }
+//        if(logros.logro8){
+//            contadorLogros ++;
+//        }
+//        if(logros.logro9){
+//            contadorLogros ++;
+//        }
+//        if(logros.logro10){
+//            contadorLogros ++;
+//        }
+//        if(logros.logro11){
+//            contadorLogros ++;
+//        }
+//        if(logros.logro12){
+//            contadorLogros ++;
+//        }
+//
+//        contador.setText("$contadorLogros / 12")
+//    }
 
     private fun escribirDatos(dato:String) {
         val database = com.google.firebase.ktx.Firebase.database
@@ -269,6 +455,4 @@ class LogrosFragment : Fragment() {
             }
         }
     }
-
-
 }

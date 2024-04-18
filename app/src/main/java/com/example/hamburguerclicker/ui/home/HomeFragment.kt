@@ -149,8 +149,14 @@ class HomeFragment : Fragment() {
         timer?.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 incrementoPasivo()
+                comprobarLogro()
             }
         }, 0, 1000)
+    }
+
+    // funcion que comprueba si se ha conseguido un logro
+    private fun comprobarLogro(){
+
     }
 
     fun  incrementoPasivo() {

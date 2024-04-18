@@ -12,8 +12,8 @@
 
         <FrameLayout
             android:id="@+id/layout"
-            android:layout_width="425dp"
-            android:layout_height="1237dp"
+            android:layout_width="435dp"
+            android:layout_height="2405dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-black"
             android:gravity="center"
-            android:text="0 / 6"
+            android:text="0 / 12"
             android:textColor="#FFFFFF"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -360,6 +360,318 @@
 
                 <TextView
                     android:id="@+id/txtseis"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="'???'"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Logro 7 -->
+        <LinearLayout
+            android:id="@+id/layh7"
+            android:layout_width="407dp"
+            android:layout_height="129dp"
+            android:layout_marginTop="50dp"
+            android:background="#41000000"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/layh6"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/img7"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/logrooculto" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt7"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="'????'"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txtsiete"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="'???'"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Logro 8 -->
+        <LinearLayout
+            android:id="@+id/layh8"
+            android:layout_width="407dp"
+            android:layout_height="129dp"
+            android:layout_marginTop="50dp"
+            android:background="#41000000"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/layh7"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/img8"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/logrooculto" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt8"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="'????'"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txtocho"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="'???'"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Logro 9 -->
+        <LinearLayout
+            android:id="@+id/layh9"
+            android:layout_width="407dp"
+            android:layout_height="129dp"
+            android:layout_marginTop="50dp"
+            android:background="#41000000"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/layh8"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/img9"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/logrooculto" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt9"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="'????'"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txtnueve"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="'???'"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Logro 10 -->
+        <LinearLayout
+            android:id="@+id/layh10"
+            android:layout_width="407dp"
+            android:layout_height="129dp"
+            android:layout_marginTop="50dp"
+            android:background="#41000000"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/layh9"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/img10"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/logrooculto" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt10"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="'????'"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txtdiez"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="'???'"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Logro 11 -->
+        <LinearLayout
+            android:id="@+id/layh11"
+            android:layout_width="407dp"
+            android:layout_height="129dp"
+            android:layout_marginTop="50dp"
+            android:background="#41000000"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/layh10"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/img11"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/logrooculto" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt11"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="'????'"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txtonce"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="'???'"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Logro 12 -->
+        <LinearLayout
+            android:id="@+id/layh12"
+            android:layout_width="407dp"
+            android:layout_height="129dp"
+            android:layout_marginTop="50dp"
+            android:background="#41000000"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/layh11"
+            tools:ignore="MissingConstraints">
+
+            <ImageView
+                android:id="@+id/img12"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="15dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/logrooculto" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt12"
+                    android:layout_width="278dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="sans-serif-black"
+                    android:gravity="center"
+                    android:text="'????'"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/txtdoce"
                     android:layout_width="278dp"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
