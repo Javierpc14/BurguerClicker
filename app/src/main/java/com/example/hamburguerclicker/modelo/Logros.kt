@@ -7,4 +7,10 @@ class Logros {
     var logro4 =false
     var logro5 =false
     var logro6 =false
+    var logro7 =false
+    var logro8 =false
+    var logro9 =false
+    var logro10 =false
+    var logro11 =false
+    var logro12 =false
 }
