@@ -30,7 +30,8 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     lateinit var txtValorPeso: TextView
     lateinit var unidad: TextView
-    lateinit var hamburguesa: ImageView
+    // variable para gestionar la imagen de la hamburguesa
+    lateinit var imgHamburguesa: ImageView
 
     // Variables para controlar el peso
     var pesoTotal: Double = 0.0
@@ -48,6 +49,8 @@ class HomeFragment : Fragment() {
     companion object{
         var timer: Timer? = null
     }
+
+    // variable para gestionar la imagen de la hamburguesa
 
     // variable que contiene el peso inicial de la partida
     private var unidadPeso="Mili Gramos"
@@ -70,7 +73,10 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
         txtValorPeso=root.findViewById(R.id.txtValorPeso)
-        hamburguesa=root.findViewById(R.id.hamburguesa)
+
+        // variable para gestionar la imagen de la hamburguesa
+        imgHamburguesa=root.findViewById(R.id.hamburguesa)
+
         unidad=root.findViewById(R.id.unidadPeso)
         txtValorPeso.setText(String.format("%.2f", pesoTotal))
 
@@ -84,7 +90,7 @@ class HomeFragment : Fragment() {
                 value = snapshot.getValue<Partida>()
 
                 pesoTotal = value?.pesoTotal as Double
-               comprobarUnidad()
+                comprobarUnidad()
 
                 totalPanaderias=value?.tiendas?.panaderias as Int
                 totalCarnicerias=value?.tiendas?.carnicerias as Int
@@ -92,6 +98,8 @@ class HomeFragment : Fragment() {
                 totalLechugas=value?.tiendas?.lechugas as Int
                 totalHuerto=value?.tiendas?.huertos as Int
                 totalBeicones=value?.tiendas?.beicones as Int
+
+                cambiarImagenHamburguesa()
 
                 if (timer == null) {
                     iniciarIncrementoPasivo()
@@ -102,7 +110,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        hamburguesa.setOnClickListener(){
+        imgHamburguesa.setOnClickListener(){
             pesoTotal ++
             escribirDatos(pesoTotal)
         }
@@ -111,6 +119,7 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+
         return root
     }
     private fun escribirDatos(peso:Double){
@@ -162,6 +171,27 @@ class HomeFragment : Fragment() {
     fun  incrementoPasivo() {
         pesoTotal+=totalPanaderias * 7.5 +totalCarnicerias * 50 +totalQueserias * 6500 +totalLechugas * 115000 + totalHuerto * 20000000 + totalBeicones * 50000000
        escribirDatos(pesoTotal)
+    }
+
+    private fun cambiarImagenHamburguesa(){
+        if(totalBeicones >= 1){
+            imgHamburguesa.setImageResource(R.drawable.hamburguesa6)
+        }
+        else if(totalHuerto >= 1){
+            imgHamburguesa.setImageResource(R.drawable.hamburguesa5)
+        }
+        else if(totalLechugas >= 1){
+            imgHamburguesa.setImageResource(R.drawable.hamburguesa4)
+        }
+        else if(totalQueserias >= 1){
+            imgHamburguesa.setImageResource(R.drawable.hamburguesa3)
+        }
+        else if(totalCarnicerias >= 1){
+            imgHamburguesa.setImageResource(R.drawable.hamburguesa2)
+        }
+        else if(totalPanaderias >= 1){
+            imgHamburguesa.setImageResource(R.drawable.hamburguesa1)
+        }
     }
 
 }
