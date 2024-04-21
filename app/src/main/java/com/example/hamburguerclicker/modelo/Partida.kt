@@ -21,5 +21,19 @@ class Partida {
         Logro( "logro11",R.drawable.logro11,"Alcanza las 140 T","Pesas lo mismo que una ballena azul"),
         Logro( "logro12",R.drawable.logro12,"Beicon maestro","Compra 20 beicones"),
     )
-    var alertas = Alertas ()
+
+    var alertas = arrayListOf<Alerta>(
+        Alerta("100mg"),
+        Alerta("Panadero maestro"),
+        Alerta("10g"),
+        Alerta("Don carnicero"),
+        Alerta("700g"),
+        Alerta("El quesos"),
+        Alerta("20Kg"),
+        Alerta("Vegano Experto"),
+        Alerta("800Kg"),
+        Alerta("Huerto maestra"),
+        Alerta("140T"),
+        Alerta("Maestro porcino"),
+    )
 }
