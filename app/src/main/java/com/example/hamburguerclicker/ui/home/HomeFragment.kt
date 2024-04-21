@@ -22,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
 import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import java.util.Timer
 import java.util.TimerTask
 
@@ -132,19 +131,6 @@ class HomeFragment : Fragment() {
                 totalHuerto=value?.tiendas?.huertos as Int
                 totalBeicones=value?.tiendas?.beicones as Int
 
-                // variables de los logros para obtener el valor de el logro de la base de datos
-                logro1 = value?.logros?.logro1 as Boolean
-                logro2 = value?.logros?.logro2 as Boolean
-                logro3 = value?.logros?.logro3 as Boolean
-                logro4 = value?.logros?.logro4 as Boolean
-                logro5 = value?.logros?.logro5 as Boolean
-                logro6 = value?.logros?.logro6 as Boolean
-                logro7 = value?.logros?.logro7 as Boolean
-                logro8 = value?.logros?.logro8 as Boolean
-                logro9 = value?.logros?.logro9 as Boolean
-                logro10 = value?.logros?.logro10 as Boolean
-                logro11 = value?.logros?.logro11 as Boolean
-                logro12 = value?.logros?.logro12 as Boolean
 
                 // variables de las alertas para obtener el valor de ellas de la base de datos
                 alerta1 = value?.alertas?.alerta1 as Boolean

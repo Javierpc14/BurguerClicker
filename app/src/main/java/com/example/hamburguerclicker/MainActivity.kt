@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private val database = FirebaseDatabase.getInstance()
     private val mDatabase = database.getReference("partida")
 
-    lateinit var layout: LinearLayout
+    lateinit var layoutPartidas: LinearLayout
     companion object {
         var partidaActual = ""
     }
@@ -43,15 +43,17 @@ class MainActivity : AppCompatActivity() {
         (this as AppCompatActivity).supportActionBar!!.hide()
 
         setContentView(R.layout.inicio)
-        layout = findViewById<LinearLayout>(R.id.layoutPartidas)
+        layoutPartidas = findViewById(R.id.layoutPartidas)
 
         _this = this
         iniciarPartidas()
     }
 
     private fun iniciarPartidas() {
-        layout.removeAllViews()
-        mDatabase.get().addOnSuccessListener { partidas ->
+        //Reseteo del layout de partidas
+        layoutPartidas.removeAllViews()
+        mDatabase.get()
+            .addOnSuccessListener { partidas ->
             var contador = 0
             partidas.children.forEach { partida ->
                 crearBotones(partida.key.toString(), false)
@@ -91,7 +93,7 @@ class MainActivity : AppCompatActivity() {
         val colorStateList = ColorStateList.valueOf(color)
         val colorBtnBorrar = ColorStateList.valueOf(colorBasura)
 
-        (layout as? LinearLayout)?.orientation = LinearLayout.VERTICAL
+        (layoutPartidas as? LinearLayout)?.orientation = LinearLayout.VERTICAL
 
         val fila = LinearLayout(_this)
         fila.layoutParams = LinearLayout.LayoutParams(
@@ -140,7 +142,7 @@ class MainActivity : AppCompatActivity() {
             fila.addView(btnEliminar)
         }
 
-        layout.addView(fila)
+        layoutPartidas.addView(fila)
     }
 
 
