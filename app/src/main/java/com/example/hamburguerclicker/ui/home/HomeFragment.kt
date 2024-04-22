@@ -27,7 +27,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
-import com.google.firebase.database.ktx.database
 import java.util.Timer
 import java.util.TimerTask
 
@@ -70,7 +69,7 @@ class HomeFragment : Fragment() {
         //Esta variable me ayuda a saver si se tiene que poner o no el sonido
         var ponerSonido = true
         //Estas variables son para la reproduccion del sonido
-        lateinit var reproduccionSonido: MediaPlayer
+        var reproduccionSonido: MediaPlayer? =null
         //Este es para el sonido del fondo
         lateinit var sonidoFondo: MediaPlayer
     }
@@ -171,56 +170,33 @@ class HomeFragment : Fragment() {
     }
 
     //Este metodo permite habilitar o inhabilitar el sonido de fondo
-    fun musicaFondo(){
-        if(ponerSonido){
-            sonidoFondo.pause()
-            //btnSonido.setImageResource(android.R.drawable.ic_lock_silent_mode)
-        }else{
-            sonidoFondo.start()
-            //btnSonido.setImageResource(android.R.drawable.ic_lock_silent_mode_off)
-        }
-
-        //Esto es para determinar si se esta escuchando se ejecuta el else si no es que no se escucha y se ejecuta el if
-        ponerSonido = !ponerSonido
-    }
-
-    fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
+//    fun musicaFondo(){
+//        if(ponerSonido){
+//            sonidoFondo.pause()
+//            //btnSonido.setImageResource(android.R.drawable.ic_lock_silent_mode)
+//        }else{
+//            sonidoFondo.start()
+//            //btnSonido.setImageResource(android.R.drawable.ic_lock_silent_mode_off)
+//        }
+//
+//        //Esto es para determinar si se esta escuchando se ejecuta el else si no es que no se escucha y se ejecuta el if
+//        ponerSonido = !ponerSonido
+//    }
+    private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
         // variable para obtener el nombre del paquete
-        var nombrePaquete = requireContext().packageName
+        val nombrePaquete = requireContext().packageName
         //Esto me identifica el recurso donde este ubicado
-        var recurso = resources.getIdentifier(
+        val recurso = resources.getIdentifier(
             nombreAudio, "raw", nombrePaquete
         )
-
-        if(nombreAudio == "musicafondo"){
-            //Esto hace una referencia del sonido en memoria
-            sonidoFondo = MediaPlayer.create(contexto,recurso)
-
-            //Aqui le indico si se va a estar repitiendo o no
-            sonidoFondo.isLooping = repetirse
-
-            //Esto determina el volumen del sonido
-            sonidoFondo.setVolume(1f, 1f)
-
-            //Esto es para que no se repita el sonido y se solape
-            if(!sonidoFondo.isPlaying){
-                sonidoFondo.start()
-            }
-
-        }else{
-            //Este else es para por si no queremos escuchar la musica de fondo se escuchen los otros sonidos
-            reproduccionSonido = MediaPlayer.create(contexto,recurso)
-            //Esto va a hacer que cuando se termine el sonido este se detenga
-            reproduccionSonido.setOnCompletionListener(MediaPlayer.OnCompletionListener { mediaPlayer ->
-                //Paro el sonido
-                mediaPlayer.stop()
-                //Libero el sonido
-                mediaPlayer.release()
-            })
-            if(!reproduccionSonido.isPlaying){
-                reproduccionSonido.start()
-            }
+        reproduccionSonido?.apply {
+            stop()
+            release()
         }
+            //
+            reproduccionSonido = MediaPlayer.create(contexto,recurso)
+            reproduccionSonido?.start()
+
     }
 
     private fun escribirDatos(peso: Double) {
@@ -400,7 +376,4 @@ class HomeFragment : Fragment() {
             imgHamburguesa.setImageResource(R.drawable.hamburguesa1)
         }
     }
-
-
-
 }

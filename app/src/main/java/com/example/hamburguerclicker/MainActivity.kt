@@ -57,9 +57,9 @@ class MainActivity : AppCompatActivity() {
 
     fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
         // variable para obtener el nombre del paquete
-        var nombrePaquete = packageName
+        val nombrePaquete = packageName
         //Esto me identifica el recurso donde este ubicado
-        var recurso = resources.getIdentifier(
+        val recurso = resources.getIdentifier(
             nombreAudio, "raw", nombrePaquete
         )
 
@@ -78,19 +78,6 @@ class MainActivity : AppCompatActivity() {
                 HomeFragment.sonidoFondo.start()
             }
 
-        }else{
-            //Este else es para por si no queremos escuchar la musica de fondo se escuchen los otros sonidos
-            HomeFragment.reproduccionSonido = MediaPlayer.create(this, recurso)
-            //Esto va a hacer que cuando se termine el sonido este se detenga
-            HomeFragment.reproduccionSonido.setOnCompletionListener(MediaPlayer.OnCompletionListener { mediaPlayer ->
-                //Paro el sonido
-                mediaPlayer.stop()
-                //Libero el sonido
-                mediaPlayer.release()
-            })
-            if(!HomeFragment.reproduccionSonido.isPlaying){
-                HomeFragment.reproduccionSonido.start()
-            }
         }
     }
 
@@ -102,7 +89,7 @@ class MainActivity : AppCompatActivity() {
             var contador = 0
             partidas.children.forEach { partida ->
                 crearBotones(partida.key.toString(), false)
-                contador++;
+                contador++
             }
             for (i in contador..2) {
                 crearBotones("Crear nueva partida", true)
