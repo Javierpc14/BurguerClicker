@@ -12,8 +12,8 @@
 
         <FrameLayout
             android:id="@+id/layout"
-            android:layout_width="435dp"
-            android:layout_height="2405dp"
+            android:layout_width="424dp"
+            android:layout_height="2299dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +21,7 @@
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
+                android:layout_width="1146dp"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"

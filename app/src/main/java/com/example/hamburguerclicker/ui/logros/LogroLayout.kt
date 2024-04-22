@@ -19,7 +19,7 @@ class LogroLayout(context: Context,logro: Logro) : LinearLayout(context) {
             LayoutParams.MATCH_PARENT,
             LayoutParams.WRAP_CONTENT
         ).apply {
-            setMargins(0, 50, 0, 0)
+            setMargins(0, 100, 0, 0)
         }
         setBackgroundColor(Color.parseColor("#41000000"))
 
@@ -27,10 +27,10 @@ class LogroLayout(context: Context,logro: Logro) : LinearLayout(context) {
         val imageView = ImageView(context).apply {
             id = generateViewId()
             layoutParams = LayoutParams(
-                407,
-                250
+                507,
+                350
             ).apply {
-                setMargins(0, 15, 0, 0)
+                setMargins(50, 15, 0, 0)
                 weight = 1f
             }
             setImageResource(logro.imagenId)
@@ -54,7 +54,7 @@ class LogroLayout(context: Context,logro: Logro) : LinearLayout(context) {
                 500,
                 LayoutParams.WRAP_CONTENT
             ).apply {
-                setMargins(0, 10, 0, 0)
+                setMargins(180, 10, 0, 0)
                 weight = 1f
             }
             text = logro.requisito
@@ -72,7 +72,7 @@ class LogroLayout(context: Context,logro: Logro) : LinearLayout(context) {
                 500,
                 LayoutParams.WRAP_CONTENT
             ).apply {
-                setMargins(0, 10, 0, 0)
+                setMargins(180, 10, 0, 0)
                 weight = 1f
             }
             text = logro.descripcion

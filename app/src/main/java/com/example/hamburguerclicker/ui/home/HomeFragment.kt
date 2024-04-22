@@ -2,7 +2,10 @@ package com.example.hamburguerclicker.ui.home
 
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -65,10 +68,16 @@ class HomeFragment : Fragment() {
         var timer: Timer? = null
     }
 
-    // variable para gestionar la imagen de la hamburguesa
 
     // variable que contiene el peso inicial de la partida
     private var unidadPeso = "Mili Gramos"
+
+    //Esta variable me ayuda a saver si se tiene que poner o no el sonido
+    var ponerSonido = true
+    //Estas variables son para la reproduccion del sonido
+    lateinit var reproduccionSonido: MediaPlayer
+    //Este es para el sonido del fondo
+    lateinit var sonidoFondo: MediaPlayer
 
     // variables para gestionar la base de datos
     private val database = FirebaseDatabase.getInstance()
@@ -96,6 +105,9 @@ class HomeFragment : Fragment() {
         // variable para obtener el contexto
         contexto = requireContext()
 
+        //esto va a hacer que suene la musica de fondo y que se va a estar repitiendo
+        reproducirSonido("musicafondo", true)
+
         var value: Partida?
         // Leer de la base de de datos
         mDatabase.addValueEventListener(object : ValueEventListener {
@@ -114,13 +126,12 @@ class HomeFragment : Fragment() {
                 totalHuertos = value?.tiendas?.huertos as Int
                 totalBeicones = value?.tiendas?.beicones as Int
 
+                //
                 logros=value?.logros as ArrayList<Logro>
 
 
                 // variables de las alertas para obtener el valor de ellas de la base de datos
                 alertas = value?.alertas as ArrayList<Alerta>
-
-                desbloqueoLogros()
 
                 cambiarImagenHamburguesa()
 
@@ -137,6 +148,7 @@ class HomeFragment : Fragment() {
 
         imgHamburguesa.setOnClickListener() {
             pesoTotal++
+            reproducirSonido("morderhamburguesa")
             escribirDatos(pesoTotal)
         }
 
@@ -146,6 +158,59 @@ class HomeFragment : Fragment() {
         }
 
         return root
+    }
+
+    //Este metodo permite habilitar o inhabilitar el sonido de fondo
+    fun musicaFondo(item: View){
+        if(ponerSonido){
+            sonidoFondo.pause()
+            //btnSonido.setImageResource(android.R.drawable.ic_lock_silent_mode)
+        }else{
+            sonidoFondo.start()
+            //btnSonido.setImageResource(android.R.drawable.ic_lock_silent_mode_off)
+        }
+
+        //Esto es para determinar si se esta escuchando se ejecuta el else si no es que no se escucha y se ejecuta el if
+        ponerSonido = !ponerSonido
+    }
+
+    private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
+        // variable para obtener el nombre del paquete
+        var nombrePaquete = requireContext().packageName
+        //Esto me identifica el recurso donde este ubicado
+        var recurso = resources.getIdentifier(
+            nombreAudio, "raw", nombrePaquete
+        )
+
+        if(nombreAudio == "musicafondo"){
+            //Esto hace una referencia del sonido en memoria
+            sonidoFondo = MediaPlayer.create(contexto,recurso)
+
+            //Aqui le indico si se va a estar repitiendo o no
+            sonidoFondo.isLooping = repetirse
+
+            //Esto determina el volumen del sonido
+            sonidoFondo.setVolume(1f, 1f)
+
+            //Esto es para que no se repita el sonido y se solape
+            if(!sonidoFondo.isPlaying){
+                sonidoFondo.start()
+            }
+
+        }else{
+            //Este else es para por si no queremos escuchar la musica de fondo se escuchen los otros sonidos
+            reproduccionSonido = MediaPlayer.create(contexto,recurso)
+            //Esto va a hacer que cuando se termine el sonido este se detenga
+            reproduccionSonido.setOnCompletionListener(MediaPlayer.OnCompletionListener { mediaPlayer ->
+                //Paro el sonido
+                mediaPlayer.stop()
+                //Libero el sonido
+                mediaPlayer.release()
+            })
+            if(!reproduccionSonido.isPlaying){
+                reproduccionSonido.start()
+            }
+        }
     }
 
     private fun escribirDatos(peso: Double) {
@@ -196,18 +261,26 @@ class HomeFragment : Fragment() {
         timer?.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 incrementoPasivo()
-
+                desbloqueoLogros()
             }
         }, 0, 1000)
     }
 
+    private var toast: Toast? = null
+    private val handler = Handler(Looper.getMainLooper())
     private fun mostrarMensaje(mensaje: String) {
+        toast?.cancel()
         // requireActivity().runOnUiThread, esto se encarga de mostrar el Toast
         // en el hilo principal para que no salte un error de que el hilo en el que se esta
         // intentando mostrar el Toast no tiene configurado un bucle de mensajes.
-        requireActivity().runOnUiThread {
-            Toast.makeText(contexto, mensaje, Toast.LENGTH_SHORT).show()
-        }
+        //requireActivity().runOnUiThread {
+
+            handler.post {
+                toast = Toast.makeText(contexto, mensaje, Toast.LENGTH_SHORT)
+            }
+
+       //}
+        toast?.show()
     }
 
     private fun desbloqueoLogros() {
@@ -317,5 +390,7 @@ class HomeFragment : Fragment() {
             imgHamburguesa.setImageResource(R.drawable.hamburguesa1)
         }
     }
+
+
 
 }
