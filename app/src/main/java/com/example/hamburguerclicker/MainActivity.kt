@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Typeface
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -23,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase
 import android.widget.EditText
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.hamburguerclicker.modelo.Partida
+import com.example.hamburguerclicker.ui.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,11 +44,54 @@ class MainActivity : AppCompatActivity() {
 
         (this as AppCompatActivity).supportActionBar!!.hide()
 
+        //esto va a hacer que suene la musica de fondo y que se va a estar repitiendo
+        reproducirSonido("musicafondo", true)
+        HomeFragment.sonidoFondo.start()
+
         setContentView(R.layout.inicio)
         layoutPartidas = findViewById(R.id.layoutPartidas)
 
         _this = this
         iniciarPartidas()
+    }
+
+    fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
+        // variable para obtener el nombre del paquete
+        var nombrePaquete = packageName
+        //Esto me identifica el recurso donde este ubicado
+        var recurso = resources.getIdentifier(
+            nombreAudio, "raw", nombrePaquete
+        )
+
+        if(nombreAudio == "musicafondo"){
+            //Esto hace una referencia del sonido en memoria
+            HomeFragment.sonidoFondo = MediaPlayer.create(this, recurso)
+
+            //Aqui le indico si se va a estar repitiendo o no
+            HomeFragment.sonidoFondo.isLooping = repetirse
+
+            //Esto determina el volumen del sonido
+            HomeFragment.sonidoFondo.setVolume(1f, 1f)
+
+            //Esto es para que no se repita el sonido y se solape
+            if(!HomeFragment.sonidoFondo.isPlaying){
+                HomeFragment.sonidoFondo.start()
+            }
+
+        }else{
+            //Este else es para por si no queremos escuchar la musica de fondo se escuchen los otros sonidos
+            HomeFragment.reproduccionSonido = MediaPlayer.create(this, recurso)
+            //Esto va a hacer que cuando se termine el sonido este se detenga
+            HomeFragment.reproduccionSonido.setOnCompletionListener(MediaPlayer.OnCompletionListener { mediaPlayer ->
+                //Paro el sonido
+                mediaPlayer.stop()
+                //Libero el sonido
+                mediaPlayer.release()
+            })
+            if(!HomeFragment.reproduccionSonido.isPlaying){
+                HomeFragment.reproduccionSonido.start()
+            }
+        }
     }
 
     private fun iniciarPartidas() {

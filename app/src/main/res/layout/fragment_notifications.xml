@@ -61,6 +61,14 @@
             android:backgroundTint="@color/botonesMenu"
             android:text="Volver a la lista de partidas"
             android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/btnPararMusica"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/botonesMenu"
+            android:text="Pausar la música"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
 
 

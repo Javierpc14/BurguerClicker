@@ -63,21 +63,24 @@ class HomeFragment : Fragment() {
     lateinit var alertas: ArrayList<Alerta>
 
 
-    // Variable estatica para contral el temporizador de ingresos pasivos
     companion object {
+        // Variable estatica para contral el temporizador de ingresos pasivos
         var timer: Timer? = null
+
+        //Esta variable me ayuda a saver si se tiene que poner o no el sonido
+        var ponerSonido = true
+        //Estas variables son para la reproduccion del sonido
+        lateinit var reproduccionSonido: MediaPlayer
+        //Este es para el sonido del fondo
+        lateinit var sonidoFondo: MediaPlayer
     }
 
+    // lista que contiene todos los sonidos de masticar para cuando se pulsa la hamburguesa
+    val sonidosMasticar = listOf("morder1", "morder2", "morder3", "morder4", "morder5", "morder6", "morder7")
 
     // variable que contiene el peso inicial de la partida
     private var unidadPeso = "Mili Gramos"
 
-    //Esta variable me ayuda a saver si se tiene que poner o no el sonido
-    var ponerSonido = true
-    //Estas variables son para la reproduccion del sonido
-    lateinit var reproduccionSonido: MediaPlayer
-    //Este es para el sonido del fondo
-    lateinit var sonidoFondo: MediaPlayer
 
     // variables para gestionar la base de datos
     private val database = FirebaseDatabase.getInstance()
@@ -96,6 +99,7 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
         txtValorPeso = root.findViewById(R.id.txtValorPeso)
 
+
         // variable para gestionar la imagen de la hamburguesa
         imgHamburguesa = root.findViewById(R.id.hamburguesa)
 
@@ -105,8 +109,7 @@ class HomeFragment : Fragment() {
         // variable para obtener el contexto
         contexto = requireContext()
 
-        //esto va a hacer que suene la musica de fondo y que se va a estar repitiendo
-        reproducirSonido("musicafondo", true)
+
 
         var value: Partida?
         // Leer de la base de de datos
@@ -148,7 +151,7 @@ class HomeFragment : Fragment() {
 
         imgHamburguesa.setOnClickListener() {
             pesoTotal++
-            reproducirSonido("morderhamburguesa")
+            sonidosMasticarAleatorios()
             escribirDatos(pesoTotal)
         }
 
@@ -160,8 +163,15 @@ class HomeFragment : Fragment() {
         return root
     }
 
+    // esta funcion se encarga de mezclar los sonidos de masticar para que sean aleatorios
+    fun sonidosMasticarAleatorios(){
+        val i = sonidosMasticar.indices.random()
+        val sonidoAleatorio = sonidosMasticar[i]
+        reproducirSonido(sonidoAleatorio)
+    }
+
     //Este metodo permite habilitar o inhabilitar el sonido de fondo
-    fun musicaFondo(item: View){
+    fun musicaFondo(){
         if(ponerSonido){
             sonidoFondo.pause()
             //btnSonido.setImageResource(android.R.drawable.ic_lock_silent_mode)
@@ -174,7 +184,7 @@ class HomeFragment : Fragment() {
         ponerSonido = !ponerSonido
     }
 
-    private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
+    fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
         // variable para obtener el nombre del paquete
         var nombrePaquete = requireContext().packageName
         //Esto me identifica el recurso donde este ubicado
