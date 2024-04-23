@@ -2,6 +2,7 @@ package com.example.hamburguerclicker.ui.logros
 
 import android.content.ContentValues
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.example.hamburguerclicker.R
 import com.example.hamburguerclicker.databinding.FragmentLogrosBinding
 import com.example.hamburguerclicker.modelo.Logro
 import com.example.hamburguerclicker.modelo.Partida
+import com.example.hamburguerclicker.ui.home.HomeFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -29,8 +31,8 @@ class LogrosFragment : Fragment() {
 
     lateinit var layoutLogros: LinearLayout
 
+    // variable para obtener el contexto del fragment
     lateinit var contexto:Context
-
 
     // Variable para el contador de los logros
     lateinit var contador:TextView
@@ -69,9 +71,13 @@ class LogrosFragment : Fragment() {
             ViewModelProvider(this).get(LogrosViewModel::class.java)
 
         _binding = FragmentLogrosBinding.inflate(inflater, container, false)
-
-
         val root: View = binding.root
+
+        // variable para obtener el contexto
+        contexto = requireContext()
+
+        // hago que al cargar la clase suene este sonido de la tclase logros como si se le hubiera dado al boton del menu de navegacion
+        reproducirSonido("logroboton")
 
         layoutLogros = root.findViewById<LinearLayout>(R.id.layoutLogros)
 
@@ -116,6 +122,30 @@ class LogrosFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private var sonidoEnReproduccion=false
+    private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
+        // variable para obtener el nombre del paquete
+        val nombrePaquete = requireContext().packageName
+        //Esto me identifica el recurso donde este ubicado
+        val recurso = resources.getIdentifier(
+            nombreAudio, "raw", nombrePaquete
+        )
+
+        if (sonidoEnReproduccion) {
+            return
+        }
+        HomeFragment.reproduccionSonido = MediaPlayer.create(contexto,recurso)
+
+        HomeFragment.reproduccionSonido?.setOnCompletionListener { mediaPlayer ->
+            // Liberar el MediaPlayer después de que termine el sonido
+            mediaPlayer.release()
+            // Actualizar el estado de reproducción
+            sonidoEnReproduccion = false
+        }
+        HomeFragment.reproduccionSonido?.start()
+        sonidoEnReproduccion=true
     }
 
     fun  comprobarLogros() {

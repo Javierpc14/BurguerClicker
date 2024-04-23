@@ -1,5 +1,6 @@
 package com.example.hamburguerclicker.ui.notifications
 
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -23,6 +24,10 @@ class NotificationsFragment : Fragment() {
     //variables para los botones de la vista Menu
     lateinit var btnVolverPartidas: Button
     lateinit var btnPausarMusica: Button
+
+    // variable para obtener el contexto del fragment
+    lateinit var contexto: Context
+
     private val binding get() = _binding!!
 
     //Esta variable me ayuda a saver si se tiene que poner o no el sonido
@@ -42,6 +47,11 @@ class NotificationsFragment : Fragment() {
 
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        // variable para obtener el contexto
+        contexto = requireContext()
+
+        reproducirSonido("menuboton")
 
         // variables para los botones de la vista Menu
         btnVolverPartidas = root.findViewById(R.id.btnVolverPartidas)
@@ -73,6 +83,30 @@ class NotificationsFragment : Fragment() {
 
 
         return root
+    }
+
+    private var sonidoEnReproduccion=false
+    private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
+        // variable para obtener el nombre del paquete
+        val nombrePaquete = requireContext().packageName
+        //Esto me identifica el recurso donde este ubicado
+        val recurso = resources.getIdentifier(
+            nombreAudio, "raw", nombrePaquete
+        )
+
+        if (sonidoEnReproduccion) {
+            return
+        }
+        HomeFragment.reproduccionSonido = MediaPlayer.create(contexto,recurso)
+
+        HomeFragment.reproduccionSonido?.setOnCompletionListener { mediaPlayer ->
+            // Liberar el MediaPlayer después de que termine el sonido
+            mediaPlayer.release()
+            // Actualizar el estado de reproducción
+            sonidoEnReproduccion = false
+        }
+        HomeFragment.reproduccionSonido?.start()
+        sonidoEnReproduccion=true
     }
 
     //Este metodo permite habilitar o inhabilitar el sonido de fondo

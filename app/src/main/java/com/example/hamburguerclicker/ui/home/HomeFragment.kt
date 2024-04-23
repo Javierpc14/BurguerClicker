@@ -96,19 +96,21 @@ class HomeFragment : Fragment() {
         val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        txtValorPeso = root.findViewById(R.id.txtValorPeso)
 
+
+        // variable para obtener el contexto
+        contexto = requireContext()
+
+        // hago que al cargar la clase suene este sonido de la clase Home como si se le hubiera dado al boton del menu de navegacion
+        reproducirSonido("morder1")
+
+        txtValorPeso = root.findViewById(R.id.txtValorPeso)
 
         // variable para gestionar la imagen de la hamburguesa
         imgHamburguesa = root.findViewById(R.id.hamburguesa)
 
         unidad = root.findViewById(R.id.unidadPeso)
         txtValorPeso.setText(String.format("%.2f", pesoTotal))
-
-        // variable para obtener el contexto
-        contexto = requireContext()
-
-
 
         var value: Partida?
         // Leer de la base de de datos
@@ -182,6 +184,7 @@ class HomeFragment : Fragment() {
 //        //Esto es para determinar si se esta escuchando se ejecuta el else si no es que no se escucha y se ejecuta el if
 //        ponerSonido = !ponerSonido
 //    }
+    private var sonidoEnReproduccion=false
     private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
         // variable para obtener el nombre del paquete
         val nombrePaquete = requireContext().packageName
@@ -189,14 +192,20 @@ class HomeFragment : Fragment() {
         val recurso = resources.getIdentifier(
             nombreAudio, "raw", nombrePaquete
         )
-        reproduccionSonido?.apply {
-            stop()
-            release()
-        }
-            //
-            reproduccionSonido = MediaPlayer.create(contexto,recurso)
-            reproduccionSonido?.start()
 
+        if (sonidoEnReproduccion) {
+            return
+        }
+        reproduccionSonido = MediaPlayer.create(contexto,recurso)
+
+        reproduccionSonido?.setOnCompletionListener { mediaPlayer ->
+            // Liberar el MediaPlayer después de que termine el sonido
+            mediaPlayer.release()
+            // Actualizar el estado de reproducción
+            sonidoEnReproduccion = false
+        }
+        reproduccionSonido?.start()
+        sonidoEnReproduccion=true
     }
 
     private fun escribirDatos(peso: Double) {
@@ -277,12 +286,18 @@ class HomeFragment : Fragment() {
             //mostrar alerta y registrarla en la base, para que no vuelva a aparecer
             mostrarMensaje("Logro desbloqueado \n Alcanza los 100 mg")
             alertas[0].mostrada = true
+
+            //reproducir el sonido de el logro
+            reproducirSonido("logros")
         }
         if (!logros[1].conseguido && totalPanaderias >= 20) {
             // desbloquear el logro 2 cuando se compran 20 panaderias
             logros[1].conseguido = true
             mostrarMensaje("Logro desbloqueado \n Panadero maestro")
             alertas[1].mostrada = true
+
+            //reproducir el sonido de el logro
+            reproducirSonido("logros")
         }
         if (!logros[2].conseguido && pesoTotal >= 10000) {
             // desbloquear el logro 3 cuando se alcanzan los 10 gramos
@@ -290,6 +305,9 @@ class HomeFragment : Fragment() {
 
             mostrarMensaje("Logro desbloqueado \n Alcanza los 10 g")
             alertas[2].mostrada = true
+
+            //reproducir el sonido de el logro
+            reproducirSonido("logros")
         }
         if (!logros[3].conseguido &&totalCarnicerias >= 20) {
             // desbloquear el logro 4 cuando se compran 20 carnicerias
@@ -297,6 +315,9 @@ class HomeFragment : Fragment() {
 
             mostrarMensaje("Logro desbloqueado \n Carnicero maestro")
             alertas[3].mostrada = true
+
+            //reproducir el sonido de el logro
+            reproducirSonido("logros")
         }
         if (!logros[4].conseguido &&pesoTotal >= 700000) {
             // desbloquear el logro 5 cuando se alcanzan los 700 gramos
@@ -304,6 +325,9 @@ class HomeFragment : Fragment() {
 
             mostrarMensaje("Logro desbloqueado \n Alcanza los 700 gramos")
             alertas[4].mostrada = true
+
+            //reproducir el sonido de el logro
+            reproducirSonido("logros")
         }
         if (!logros[5].conseguido &&totalQueserias >= 20) {
             // desbloquear el logro 6 cuando se compran 20 queserias
@@ -311,6 +335,9 @@ class HomeFragment : Fragment() {
 
             mostrarMensaje("Logro desbloqueado \n Quesero maestro")
             alertas[5].mostrada = true
+
+            //reproducir el sonido de el logro
+            reproducirSonido("logros")
         }
         if (!logros[6].conseguido &&pesoTotal >= 20000000) {
             // desbloquear el logro 7 cuando se alcanzan los 20 kg
@@ -318,6 +345,9 @@ class HomeFragment : Fragment() {
             logros[6].conseguido = true
             mostrarMensaje("Logro desbloqueado \n ALcanza los 20 Kg")
             alertas[6].mostrada = true
+
+            //reproducir el sonido de el logro
+            reproducirSonido("logros")
         }
         if (!logros[7].conseguido &&totalLechugas >= 20) {
             // desbloquear el logro 8 cuando se compran 20 lechugas
@@ -325,6 +355,9 @@ class HomeFragment : Fragment() {
 
             mostrarMensaje("Logro desbloqueado \n Lechuga maestra")
             alertas[7].mostrada = true
+
+            //reproducir el sonido de el logro
+            reproducirSonido("logros")
         }
         if (!logros[8].conseguido &&pesoTotal >= 800000000) {
             // desbloquear el logro 9 cuando se alcanzan los 800 kg
@@ -332,6 +365,9 @@ class HomeFragment : Fragment() {
 
             mostrarMensaje("Logro desbloqueado \n Alcanza los 800 Kg")
             alertas[8].mostrada = true
+
+            //reproducir el sonido de el logro
+            reproducirSonido("logros")
         }
         if (!logros[9].conseguido &&totalHuertos >= 20) {
             // desbloquear el logro 10 cuando se compran 20 huertos
@@ -339,6 +375,9 @@ class HomeFragment : Fragment() {
 
             mostrarMensaje("Logro desbloqueado \n Huerto maestro")
             alertas[9].mostrada = true
+
+            //reproducir el sonido de el logro
+            reproducirSonido("logros")
         }
         if (!logros[10].conseguido &&pesoTotal >= 140000000000) {
             // desbloquear el logro 11 cuando se alcanzan las 140T
@@ -346,6 +385,9 @@ class HomeFragment : Fragment() {
 
             mostrarMensaje("Logro desbloqueado \n Alcanza las 140 T")
             alertas[10].mostrada = true
+
+            //reproducir el sonido de el logro
+            reproducirSonido("logros")
         }
         if (!logros[11].conseguido &&totalBeicones >= 20) {
             // desbloquear el logro 12 cuando se compran 20 beicones
@@ -353,6 +395,10 @@ class HomeFragment : Fragment() {
 
             mostrarMensaje("Logro desbloqueado \n Beicon maestro")
             alertas[11].mostrada = true
+
+            //reproducir el sonido de el logro
+            reproducirSonido("logros")
+
         }
     }
 

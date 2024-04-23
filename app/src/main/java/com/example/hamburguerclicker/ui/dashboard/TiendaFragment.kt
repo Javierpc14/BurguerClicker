@@ -24,7 +24,9 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import android.app.AlertDialog
 import android.content.Context
+import android.media.MediaPlayer
 import com.example.hamburguerclicker.MainActivity
+import com.example.hamburguerclicker.ui.home.HomeFragment
 
 
 public class TiendaFragment : Fragment() {
@@ -33,6 +35,9 @@ public class TiendaFragment : Fragment() {
 
     private lateinit var partida: Partida
     private lateinit var listaPartidas: ListView
+
+    // variable para obtener el contexto del fragment
+    lateinit var contexto: Context
 
     private var dinTotal= 0.0;
 
@@ -78,6 +83,12 @@ public class TiendaFragment : Fragment() {
         val root: View = binding.root
 
         init(root)
+
+        // variable para obtener el contexto
+        contexto = requireContext()
+
+        // hago que al cargar la clase suene este sonido de la tienda como si se le hubiera dado al boton del menu de navegacion
+        reproducirSonido("tiendaboton")
 
         // Ocultar la barra de acción (action bar)
         (requireActivity() as AppCompatActivity).supportActionBar!!.hide()
@@ -160,6 +171,30 @@ public class TiendaFragment : Fragment() {
                 Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
             }
         })
+    }
+
+    private var sonidoEnReproduccion=false
+    private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
+        // variable para obtener el nombre del paquete
+        val nombrePaquete = requireContext().packageName
+        //Esto me identifica el recurso donde este ubicado
+        val recurso = resources.getIdentifier(
+            nombreAudio, "raw", nombrePaquete
+        )
+
+        if (sonidoEnReproduccion) {
+            return
+        }
+        HomeFragment.reproduccionSonido = MediaPlayer.create(contexto,recurso)
+
+        HomeFragment.reproduccionSonido?.setOnCompletionListener { mediaPlayer ->
+            // Liberar el MediaPlayer después de que termine el sonido
+            mediaPlayer.release()
+            // Actualizar el estado de reproducción
+            sonidoEnReproduccion = false
+        }
+        HomeFragment.reproduccionSonido?.start()
+        sonidoEnReproduccion=true
     }
 
     fun mensajeNoHayDinero(context: Context) {
