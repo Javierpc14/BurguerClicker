@@ -4,8 +4,6 @@ import android.content.ContentValues.TAG
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +18,6 @@ import com.example.hamburguerclicker.MainActivity
 import com.example.hamburguerclicker.modelo.Partida
 import com.example.hamburguerclicker.R
 import com.example.hamburguerclicker.databinding.FragmentHomeBinding
-import com.example.hamburguerclicker.modelo.Alerta
 import com.example.hamburguerclicker.modelo.Logro
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -34,15 +31,15 @@ class HomeFragment : Fragment() {
 
     // Variables para controlar la vista
     private var _binding: FragmentHomeBinding? = null
-    lateinit var txtValorPeso: TextView
-    lateinit var unidad: TextView
+    private lateinit var txtValorPeso: TextView
+    private lateinit var unidad: TextView
 
     // variable para gestionar la imagen de la hamburguesa
-    lateinit var imgHamburguesa: ImageView
+    private lateinit var imgHamburguesa: ImageView
 
     // Variables para controlar el peso
     var pesoTotal: Double = 0.0
-    var pesoPantalla: Double = 0.0
+    private var pesoPantalla: Double = 0.0
 
     // variable para obtener el contexto del fragment
     lateinit var contexto: Context
@@ -57,10 +54,6 @@ class HomeFragment : Fragment() {
 
     // variables de los logros
     lateinit var logros: ArrayList<Logro>
-
-    // variables de las alertas
-    lateinit var alertas: ArrayList<Alerta>
-
 
     companion object {
         // Variable estatica para contral el temporizador de ingresos pasivos
@@ -130,15 +123,12 @@ class HomeFragment : Fragment() {
                 totalHuertos = value?.tiendas?.huertos as Int
                 totalBeicones = value?.tiendas?.beicones as Int
 
-                //
+                //Array donde se guardan los logros
                 logros=value?.logros as ArrayList<Logro>
-
-
-                // variables de las alertas para obtener el valor de ellas de la base de datos
-                alertas = value?.alertas as ArrayList<Alerta>
 
                 cambiarImagenHamburguesa()
 
+                desbloqueoLogros()
 
                 if (timer == null) {
                     iniciarIncrementoPasivo()
@@ -153,7 +143,7 @@ class HomeFragment : Fragment() {
         imgHamburguesa.setOnClickListener() {
             pesoTotal++
             sonidosMasticarAleatorios()
-            escribirDatos(pesoTotal)
+            escribirDatos()
         }
 
         val textView: TextView = binding.textHome
@@ -165,27 +155,14 @@ class HomeFragment : Fragment() {
     }
 
     // esta funcion se encarga de mezclar los sonidos de masticar para que sean aleatorios
-    fun sonidosMasticarAleatorios(){
+    private fun sonidosMasticarAleatorios(){
         val i = sonidosMasticar.indices.random()
         val sonidoAleatorio = sonidosMasticar[i]
         reproducirSonido(sonidoAleatorio)
     }
 
-    //Este metodo permite habilitar o inhabilitar el sonido de fondo
-//    fun musicaFondo(){
-//        if(ponerSonido){
-//            sonidoFondo.pause()
-//            //btnSonido.setImageResource(android.R.drawable.ic_lock_silent_mode)
-//        }else{
-//            sonidoFondo.start()
-//            //btnSonido.setImageResource(android.R.drawable.ic_lock_silent_mode_off)
-//        }
-//
-//        //Esto es para determinar si se esta escuchando se ejecuta el else si no es que no se escucha y se ejecuta el if
-//        ponerSonido = !ponerSonido
-//    }
     private var sonidoEnReproduccion=false
-    private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
+    private fun reproducirSonido(nombreAudio: String) {
         // variable para obtener el nombre del paquete
         val nombrePaquete = requireContext().packageName
         //Esto me identifica el recurso donde este ubicado
@@ -208,15 +185,12 @@ class HomeFragment : Fragment() {
         sonidoEnReproduccion=true
     }
 
-    private fun escribirDatos(peso: Double) {
+    private fun escribirDatos() {
         val pesoBase = database.getReference(MainActivity.partidaActual + "/pesoTotal")
-        pesoBase.setValue(peso)
+        pesoBase.setValue(pesoTotal)
 
         val logrosBase =database.getReference(MainActivity.partidaActual + "/logros")
         logrosBase.setValue(logros)
-
-        val alertasBase =database.getReference(MainActivity.partidaActual + "/alertas")
-        alertasBase.setValue(alertas)
 
     }
 
@@ -256,155 +230,83 @@ class HomeFragment : Fragment() {
         timer?.scheduleAtFixedRate(object : TimerTask() {
             override fun run() {
                 incrementoPasivo()
-                desbloqueoLogros()
             }
         }, 0, 1000)
     }
 
-    private var toast: Toast? = null
-    private val handler = Handler(Looper.getMainLooper())
     private fun mostrarMensaje(mensaje: String) {
-        toast?.cancel()
-        // requireActivity().runOnUiThread, esto se encarga de mostrar el Toast
-        // en el hilo principal para que no salte un error de que el hilo en el que se esta
-        // intentando mostrar el Toast no tiene configurado un bucle de mensajes.
-        //requireActivity().runOnUiThread {
+         Toast.makeText(contexto, mensaje, Toast.LENGTH_SHORT).show()
+    }
 
-            handler.post {
-                toast = Toast.makeText(contexto, mensaje, Toast.LENGTH_SHORT)
-            }
+    private fun logroDesbloqueado(idLogro:Int,mensaje: String){
+        logros[idLogro].conseguido = true
 
-       //}
-        toast?.show()
+        //mostrar alerta y registrarla en la base, para que no vuelva a aparecer
+        mostrarMensaje(mensaje)
+
+        //reproducir el sonido de el logro
+        reproducirSonido("logros")
+
     }
 
     private fun desbloqueoLogros() {
         if (!logros[0].conseguido && pesoTotal >= 100) {
             // desbloquear el logro cuando se consiguen 100 mg
-            logros[0].conseguido = true
-
-            //mostrar alerta y registrarla en la base, para que no vuelva a aparecer
-            mostrarMensaje("Logro desbloqueado \n Alcanza los 100 mg")
-            alertas[0].mostrada = true
-
-            //reproducir el sonido de el logro
-            reproducirSonido("logros")
+            logroDesbloqueado(0,"Logro desbloqueado \n Alcanza los 100 mg")
         }
         if (!logros[1].conseguido && totalPanaderias >= 20) {
             // desbloquear el logro 2 cuando se compran 20 panaderias
-            logros[1].conseguido = true
-            mostrarMensaje("Logro desbloqueado \n Panadero maestro")
-            alertas[1].mostrada = true
-
-            //reproducir el sonido de el logro
-            reproducirSonido("logros")
+            logroDesbloqueado(1,"Logro desbloqueado \n Panadero maestro")
         }
         if (!logros[2].conseguido && pesoTotal >= 10000) {
             // desbloquear el logro 3 cuando se alcanzan los 10 gramos
-            logros[2].conseguido = true
-
-            mostrarMensaje("Logro desbloqueado \n Alcanza los 10 g")
-            alertas[2].mostrada = true
-
-            //reproducir el sonido de el logro
-            reproducirSonido("logros")
+            logroDesbloqueado(2,"Logro desbloqueado \n Alcanza los 10 g")
         }
         if (!logros[3].conseguido &&totalCarnicerias >= 20) {
             // desbloquear el logro 4 cuando se compran 20 carnicerias
-            logros[3].conseguido = true
-
-            mostrarMensaje("Logro desbloqueado \n Carnicero maestro")
-            alertas[3].mostrada = true
-
-            //reproducir el sonido de el logro
-            reproducirSonido("logros")
+            logroDesbloqueado(3,"Logro desbloqueado \n Carnicero maestro")
         }
         if (!logros[4].conseguido &&pesoTotal >= 700000) {
             // desbloquear el logro 5 cuando se alcanzan los 700 gramos
-            logros[4].conseguido = true
-
-            mostrarMensaje("Logro desbloqueado \n Alcanza los 700 gramos")
-            alertas[4].mostrada = true
-
-            //reproducir el sonido de el logro
-            reproducirSonido("logros")
+            logroDesbloqueado(4,"Logro desbloqueado \n Alcanza los 700 gramos")
         }
         if (!logros[5].conseguido &&totalQueserias >= 20) {
             // desbloquear el logro 6 cuando se compran 20 queserias
-            logros[5].conseguido = true
-
-            mostrarMensaje("Logro desbloqueado \n Quesero maestro")
-            alertas[5].mostrada = true
-
-            //reproducir el sonido de el logro
-            reproducirSonido("logros")
+            logroDesbloqueado(5,"Logro desbloqueado \n Quesero maestro")
         }
         if (!logros[6].conseguido &&pesoTotal >= 20000000) {
             // desbloquear el logro 7 cuando se alcanzan los 20 kg
-
-            logros[6].conseguido = true
-            mostrarMensaje("Logro desbloqueado \n ALcanza los 20 Kg")
-            alertas[6].mostrada = true
-
-            //reproducir el sonido de el logro
-            reproducirSonido("logros")
+            logroDesbloqueado(6, "Logro desbloqueado \n ALcanza los 20 Kg")
         }
         if (!logros[7].conseguido &&totalLechugas >= 20) {
             // desbloquear el logro 8 cuando se compran 20 lechugas
-            logros[7].conseguido = true
-
-            mostrarMensaje("Logro desbloqueado \n Lechuga maestra")
-            alertas[7].mostrada = true
-
-            //reproducir el sonido de el logro
-            reproducirSonido("logros")
+            logroDesbloqueado(7,"Logro desbloqueado \n Lechuga maestra")
         }
         if (!logros[8].conseguido &&pesoTotal >= 800000000) {
             // desbloquear el logro 9 cuando se alcanzan los 800 kg
-            logros[8].conseguido = true
-
-            mostrarMensaje("Logro desbloqueado \n Alcanza los 800 Kg")
-            alertas[8].mostrada = true
-
-            //reproducir el sonido de el logro
-            reproducirSonido("logros")
+            logroDesbloqueado(8,"Logro desbloqueado \n Alcanza los 800 Kg")
         }
         if (!logros[9].conseguido &&totalHuertos >= 20) {
             // desbloquear el logro 10 cuando se compran 20 huertos
-            logros[9].conseguido = true
-
-            mostrarMensaje("Logro desbloqueado \n Huerto maestro")
-            alertas[9].mostrada = true
-
-            //reproducir el sonido de el logro
-            reproducirSonido("logros")
+            logroDesbloqueado(9,"Logro desbloqueado \n Huerto maestro")
         }
         if (!logros[10].conseguido &&pesoTotal >= 140000000000) {
             // desbloquear el logro 11 cuando se alcanzan las 140T
-            logros[10].conseguido = true
-
-            mostrarMensaje("Logro desbloqueado \n Alcanza las 140 T")
-            alertas[10].mostrada = true
-
-            //reproducir el sonido de el logro
-            reproducirSonido("logros")
+            logroDesbloqueado(10,"Logro desbloqueado \n Alcanza las 140 T")
         }
         if (!logros[11].conseguido &&totalBeicones >= 20) {
             // desbloquear el logro 12 cuando se compran 20 beicones
-            logros[11].conseguido = true
-
-            mostrarMensaje("Logro desbloqueado \n Beicon maestro")
-            alertas[11].mostrada = true
-
-            //reproducir el sonido de el logro
-            reproducirSonido("logros")
-
+            logroDesbloqueado(11,"Logro desbloqueado \n Beicon maestro")
+        }
+        if (!logros[12].conseguido &&pesoTotal > 0) {
+            // desbloquear el logro 12 cuando se compran 20 beicones
+            logroDesbloqueado(12,"Logro desbloqueado \n Primer miligramo")
         }
     }
 
     fun incrementoPasivo() {
         pesoTotal += totalPanaderias * 7.5 + totalCarnicerias * 50 + totalQueserias * 6500 + totalLechugas * 115000 + totalHuertos * 20000000 + totalBeicones * 50000000
-        escribirDatos(pesoTotal)
+        escribirDatos()
     }
 
     private fun cambiarImagenHamburguesa() {

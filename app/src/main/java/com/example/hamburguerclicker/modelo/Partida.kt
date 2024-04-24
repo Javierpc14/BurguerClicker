@@ -7,7 +7,7 @@ class Partida {
     var pesoTotal: Double = 0.0
     var tiendas = Tiendas ()
 
-    var logros = arrayListOf<Logro>(
+    var logros = arrayListOf(
         Logro( "logro1", R.drawable.logro1,"Alcanza los 100 mg","Pesas los mismo que un gusano") ,
         Logro( "logro2",R.drawable.logro2,"Panadero maestro","Compra 20 panaderias"),
         Logro( "logro3",R.drawable.logro3,"Alcanza los 10 g","Pesas lo mismo que un lapiz"),
@@ -20,20 +20,8 @@ class Partida {
         Logro( "logro10",R.drawable.logro10,"Huerto maestra","Compra 20 huertos"),
         Logro( "logro11",R.drawable.logro11,"Alcanza las 140 T","Pesas lo mismo que una ballena azul"),
         Logro( "logro12",R.drawable.logro12,"Beicon maestro","Compra 20 beicones"),
+        Logro( "logro0",R.drawable.logro12,"Primer miligramo","Obten tu primer miligramo")
     )
 
-    var alertas = arrayListOf<Alerta>(
-        Alerta("100mg"),
-        Alerta("Panadero maestro"),
-        Alerta("10g"),
-        Alerta("Don carnicero"),
-        Alerta("700g"),
-        Alerta("El quesos"),
-        Alerta("20Kg"),
-        Alerta("Vegano Experto"),
-        Alerta("800Kg"),
-        Alerta("Huerto maestra"),
-        Alerta("140T"),
-        Alerta("Maestro porcino"),
-    )
+
 }

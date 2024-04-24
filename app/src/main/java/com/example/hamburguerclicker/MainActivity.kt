@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         (this as AppCompatActivity).supportActionBar!!.hide()
 
         //esto va a hacer que suene la musica de fondo y que se va a estar repitiendo
-        reproducirSonido("musicafondo", true)
+        reproducirSonido("vaciopruebas", true)
         HomeFragment.sonidoFondo.start()
 
         setContentView(R.layout.inicio)
@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
             nombreAudio, "raw", nombrePaquete
         )
 
-        if(nombreAudio == "musicafondo"){
             //Esto hace una referencia del sonido en memoria
             HomeFragment.sonidoFondo = MediaPlayer.create(this, recurso)
 
@@ -77,8 +76,6 @@ class MainActivity : AppCompatActivity() {
             if(!HomeFragment.sonidoFondo.isPlaying){
                 HomeFragment.sonidoFondo.start()
             }
-
-        }
     }
 
     private fun iniciarPartidas() {
