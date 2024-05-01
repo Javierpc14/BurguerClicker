@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
     private var pesoPantalla: Double = 0.0
 
     // variable para obtener el contexto del fragment
-    lateinit var contexto: Context
+    private lateinit var contexto: Context
 
     // variables para controlar las tiendas
     var totalPanaderias = 0
@@ -128,7 +128,7 @@ class HomeFragment : Fragment() {
 
                 cambiarImagenHamburguesa()
 
-                desbloqueoLogros()
+
 
                 if (timer == null) {
                     iniciarIncrementoPasivo()
@@ -221,8 +221,8 @@ class HomeFragment : Fragment() {
                 unidadPeso = getString(R.string.pesoTon)
             }
         }
-        txtValorPeso.setText(String.format("%.2f", pesoPantalla))
-        unidad.setText(unidadPeso)
+        txtValorPeso.text = String.format("%.2f", pesoPantalla)
+        unidad.text = unidadPeso
     }
 
     private fun iniciarIncrementoPasivo() {
@@ -235,7 +235,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun mostrarMensaje(mensaje: String) {
-         Toast.makeText(contexto, mensaje, Toast.LENGTH_SHORT).show()
+        //Verificamos que la llamada se haga desde el hilo principal, porque sino al intentar llamarla desde el timer da error
+        activity?.runOnUiThread {
+            Toast.makeText(contexto, mensaje, Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun logroDesbloqueado(idLogro:Int,mensaje: String){
@@ -306,6 +309,7 @@ class HomeFragment : Fragment() {
 
     fun incrementoPasivo() {
         pesoTotal += totalPanaderias * 7.5 + totalCarnicerias * 50 + totalQueserias * 6500 + totalLechugas * 115000 + totalHuertos * 20000000 + totalBeicones * 50000000
+        desbloqueoLogros()
         escribirDatos()
     }
 
