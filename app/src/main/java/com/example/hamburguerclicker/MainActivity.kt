@@ -98,7 +98,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun continuarPartida(nombrePartida: String) {
-        partidaActual="partida/" +nombrePartida
+        //Guardamos el nombre de la partida elegida en una variable
+        partidaActual= "partida/$nombrePartida"
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

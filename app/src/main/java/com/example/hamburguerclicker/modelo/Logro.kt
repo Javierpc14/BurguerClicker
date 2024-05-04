@@ -1,13 +1,10 @@
 package com.example.hamburguerclicker.modelo
 
-import android.widget.ImageView
-
-class Logro (
-    val nombre: String,
+class Logro(
     var imagenId: Int,
-    var requisito:String,
-    var descripcion:String,
-    var conseguido: Boolean =false
+    var requisito: String,
+    var descripcion: String,
+    var conseguido: Boolean = false
 ){
-    constructor() : this("", 0,"","", false)
+    constructor() : this(0, "", "", false)
 }

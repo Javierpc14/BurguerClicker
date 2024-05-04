@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.hamburguerclicker.modelo.Partida
 import com.example.hamburguerclicker.R
-import com.example.hamburguerclicker.databinding.FragmentDashboardBinding
+import com.example.hamburguerclicker.databinding.FragmentTiendaBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -26,15 +26,15 @@ import android.app.AlertDialog
 import android.content.Context
 import android.media.MediaPlayer
 import com.example.hamburguerclicker.MainActivity
+import com.example.hamburguerclicker.modelo.Tienda
 import com.example.hamburguerclicker.ui.home.HomeFragment
 
 
 public class TiendaFragment : Fragment() {
 
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: FragmentTiendaBinding? = null
 
-    private lateinit var partida: Partida
-    private lateinit var listaPartidas: ListView
+    lateinit var tiendas: HashMap<String,Tienda>
 
     // variable para obtener el contexto del fragment
     lateinit var contexto: Context
@@ -79,10 +79,10 @@ public class TiendaFragment : Fragment() {
     ): View {
         val dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentTiendaBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        init(root)
+        init()
 
         // variable para obtener el contexto
         contexto = requireContext()
@@ -99,42 +99,7 @@ public class TiendaFragment : Fragment() {
         }
         return root
     }
-    private fun init(root:View){
-        btnCompraPanaderia=root.findViewById(R.id.btnCompraPanaderia)
-        txtTotPanaderia=root.findViewById(R.id.txtTotPan)
-        btnCompraPanaderia.setOnClickListener{
-            comprarPanaderia()
-        }
-
-        btnCompraCarne=root.findViewById(R.id.btnCompraCarne)
-        txtTotCarne=root.findViewById(R.id.txtTotCarne)
-        btnCompraCarne.setOnClickListener{
-            comprarCarniceria()
-        }
-
-        btnCompraQueseria=root.findViewById(R.id.btnCompraQueso)
-        txtTotQueseria=root.findViewById(R.id.txtTotQueso)
-        btnCompraQueseria.setOnClickListener{
-            comprarQueseria()
-        }
-
-        btnCompraLechuga=root.findViewById(R.id.btnCompraLechuga)
-        txtTotLechuga=root.findViewById(R.id.txtTotLechuga)
-        btnCompraLechuga.setOnClickListener{
-            comprarLechuga()
-        }
-
-        btnCompraHuerto=root.findViewById(R.id.btnCompraHuerto)
-        txtTotHuerto=root.findViewById(R.id.txtTotHuerto)
-        btnCompraHuerto.setOnClickListener{
-            comprarHuerto()
-        }
-
-        btnCompraBacon=root.findViewById(R.id.btnCompraBacon)
-        txtTotBacon=root.findViewById(R.id.txtTotBacon)
-        btnCompraBacon.setOnClickListener{
-            comprarBacon()
-        }
+    private fun init(){
 
         var value: Partida?
 
@@ -147,23 +112,8 @@ public class TiendaFragment : Fragment() {
 
                 value = snapshot.getValue<Partida>()
 
-                totalPanaderias = value?.tiendas?.panaderias as Int
-                txtTotPanaderia.text = "" + totalPanaderias
-
-                totalCarnicerias = value?.tiendas?.carnicerias as Int
-                txtTotCarne.text = "" + totalCarnicerias
-
-                totalQueserias = value?.tiendas?.queserias as Int
-                txtTotQueseria.text = "" + totalQueserias
-
-                totalLechugas = value?.tiendas?.lechugas as Int
-                txtTotLechuga.text = "" + totalLechugas
-
-                totalHuertos = value?.tiendas?.huertos as Int
-                txtTotHuerto.text = "" + totalHuertos
-
-                totalBacon = value?.tiendas?.beicones  as Int
-                txtTotBacon.text = "" + totalBacon
+                //Array para las tiendas
+                tiendas =value?.tiendas as HashMap<String, Tienda>
 
                 dinTotal = value?.pesoTotal as Double
             }
@@ -197,7 +147,7 @@ public class TiendaFragment : Fragment() {
         sonidoEnReproduccion=true
     }
 
-    fun mensajeNoHayDinero(context: Context) {
+    private fun mensajeNoHayDinero(context: Context) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle("Cuidado")
         builder.setMessage("No tienes suficiente peso")
