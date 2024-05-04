@@ -1,700 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.logros.LogrosFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <!-- Fondo de la imagen -->
+    <ImageView
+        android:id="@+id/imageView3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/fondologros" />
 
-        <FrameLayout
-            android:id="@+id/layout"
-            android:layout_width="424dp"
-            android:layout_height="2299dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+    <!-- Contenido -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/bottom_navigation"
+        android:fillViewport="true">
 
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="1146dp"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                app:srcCompat="@drawable/fondologros" />
-
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/text_dashboard"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:fontFamily="sans-serif-black"
-            android:textAlignment="center"
-            android:textColor="#FFFFFF"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <TextView
-            android:id="@+id/txtcontador"
-            android:layout_width="278dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-black"
-            android:gravity="center"
-            android:text="0 / 12"
-            android:textColor="#FFFFFF"
-            android:textSize="34sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/text_dashboard" />
-
-        <LinearLayout
-            android:id="@+id/layoutLogros"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/txtcontador">
-        </LinearLayout>
-
-        <!--        <LinearLayout-->
-<!--            android:id="@+id/layh1"-->
-<!--            android:layout_width="407dp"-->
-<!--            android:layout_height="129dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:background="#41000000"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/txtcontador"-->
-<!--            tools:ignore="MissingConstraints">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img1"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                app:srcCompat="@drawable/logrooculto" />-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txt1"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'????'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txtuno"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'???'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-
-<!--        &lt;!&ndash;        Logro 2&ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layh2"-->
-<!--            android:layout_width="407dp"-->
-<!--            android:layout_height="129dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:background="#41000000"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layh1"-->
-<!--            tools:ignore="MissingConstraints">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img2"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                app:srcCompat="@drawable/logrooculto" />-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txt2"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'????'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txtdos"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'???'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-
-<!--        &lt;!&ndash;        logro 3&ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layh3"-->
-<!--            android:layout_width="407dp"-->
-<!--            android:layout_height="129dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:background="#41000000"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layh2"-->
-<!--            tools:ignore="MissingConstraints">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img3"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                app:srcCompat="@drawable/logrooculto" />-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txt3"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'????'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txttres"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'???'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-<!--        &lt;!&ndash; Logro 4 &ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layh4"-->
-<!--            android:layout_width="407dp"-->
-<!--            android:layout_height="129dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:background="#41000000"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layh3"-->
-<!--            tools:ignore="MissingConstraints">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img4"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                app:srcCompat="@drawable/logrooculto" />-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txt4"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'????'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txtcuatro"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'???'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-<!--        &lt;!&ndash; Logro 5 &ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layh5"-->
-<!--            android:layout_width="407dp"-->
-<!--            android:layout_height="129dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:background="#41000000"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layh4"-->
-<!--            tools:ignore="MissingConstraints">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img5"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                app:srcCompat="@drawable/logrooculto" />-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txt5"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'????'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txtcinco"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'???'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-
-<!--        &lt;!&ndash; Logro 6 &ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layh6"-->
-<!--            android:layout_width="407dp"-->
-<!--            android:layout_height="129dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:background="#41000000"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layh5"-->
-<!--            tools:ignore="MissingConstraints">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img6"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                app:srcCompat="@drawable/logrooculto" />-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txt6"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'????'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txtseis"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'???'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-<!--        &lt;!&ndash; Logro 7 &ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layh7"-->
-<!--            android:layout_width="407dp"-->
-<!--            android:layout_height="129dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:background="#41000000"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layh6"-->
-<!--            tools:ignore="MissingConstraints">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img7"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                app:srcCompat="@drawable/logrooculto" />-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txt7"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'????'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txtsiete"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'???'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-<!--        &lt;!&ndash; Logro 8 &ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layh8"-->
-<!--            android:layout_width="407dp"-->
-<!--            android:layout_height="129dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:background="#41000000"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layh7"-->
-<!--            tools:ignore="MissingConstraints">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img8"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                app:srcCompat="@drawable/logrooculto" />-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txt8"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'????'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txtocho"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'???'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-<!--        &lt;!&ndash; Logro 9 &ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layh9"-->
-<!--            android:layout_width="407dp"-->
-<!--            android:layout_height="129dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:background="#41000000"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layh8"-->
-<!--            tools:ignore="MissingConstraints">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img9"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                app:srcCompat="@drawable/logrooculto" />-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txt9"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'????'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txtnueve"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'???'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-<!--        &lt;!&ndash; Logro 10 &ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layh10"-->
-<!--            android:layout_width="407dp"-->
-<!--            android:layout_height="129dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:background="#41000000"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layh9"-->
-<!--            tools:ignore="MissingConstraints">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img10"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                app:srcCompat="@drawable/logrooculto" />-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txt10"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'????'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txtdiez"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'???'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-<!--        &lt;!&ndash; Logro 11 &ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layh11"-->
-<!--            android:layout_width="407dp"-->
-<!--            android:layout_height="129dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:background="#41000000"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layh10"-->
-<!--            tools:ignore="MissingConstraints">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img11"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                app:srcCompat="@drawable/logrooculto" />-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txt11"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'????'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txtonce"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'???'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-<!--        &lt;!&ndash; Logro 12 &ndash;&gt;-->
-<!--        <LinearLayout-->
-<!--            android:id="@+id/layh12"-->
-<!--            android:layout_width="407dp"-->
-<!--            android:layout_height="129dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:background="#41000000"-->
-<!--            android:orientation="horizontal"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/layh11"-->
-<!--            tools:ignore="MissingConstraints">-->
-
-<!--            <ImageView-->
-<!--                android:id="@+id/img12"-->
-<!--                android:layout_width="200dp"-->
-<!--                android:layout_height="100dp"-->
-<!--                android:layout_marginTop="15dp"-->
-<!--                android:layout_weight="1"-->
-<!--                app:srcCompat="@drawable/logrooculto" />-->
-
-
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="1"-->
-<!--                android:orientation="vertical">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txt12"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'????'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/txtdoce"-->
-<!--                    android:layout_width="278dp"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginTop="10dp"-->
-<!--                    android:layout_weight="1"-->
-<!--                    android:fontFamily="sans-serif-black"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="'???'"-->
-<!--                    android:textColor="#FFFFFF"-->
-<!--                    android:textSize="20sp" />-->
-<!--            </LinearLayout>-->
-<!--        </LinearLayout>-->
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/text_dashboard"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="sans-serif-black"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txtcontador"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="0 / 12"
+                android:textColor="#FFFFFF"
+                android:textSize="34sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_dashboard" />
+
+            <LinearLayout
+                android:id="@+id/layoutLogros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/txtcontador"
+                app:layout_constraintBottom_toBottomOf="parent">
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Añado el menú inferior , para controlar que no se solape con los logros -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:menu="@menu/bottom_nav_menu" />
+
+</RelativeLayout>

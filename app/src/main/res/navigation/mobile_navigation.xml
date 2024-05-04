@@ -15,7 +15,7 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.hamburguerclicker.ui.dashboard.TiendaFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_tienda" />
 
     <fragment
         android:id="@+id/navigation_logros"
@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.hamburguerclicker.ui.notifications.NotificationsFragment"
+        android:name="com.example.hamburguerclicker.ui.notifications.MenuFragment"
         android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_menu" />
 </navigation>

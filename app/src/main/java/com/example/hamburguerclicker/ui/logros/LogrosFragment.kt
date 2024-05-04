@@ -5,9 +5,11 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -23,7 +25,6 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
-import com.google.firebase.database.ktx.database
 
 class LogrosFragment : Fragment() {
 
@@ -32,27 +33,19 @@ class LogrosFragment : Fragment() {
     lateinit var layoutLogros: LinearLayout
 
     // variable para obtener el contexto del fragment
-    lateinit var contexto:Context
+    lateinit var contexto: Context
 
     // Variable para el contador de los logros
-    lateinit var contador:TextView
+    lateinit var contador: TextView
+
     // variable que va sumando 1 cuando se desbloquea un logro
     var contadorLogros: Int = 0
+
     // Variable para lamacenar todos los logros
     lateinit var logros: ArrayList<Logro>
 
     // Variables para ir controlando el peso
     var pesoTotal: Double = 0.0
-
-    // Variables para controlar el total de tiendas
-    var totalPan: Int = 0
-    var totalCarne: Int = 0
-    var totalQueso: Int = 0
-    var totalLechuga: Int = 0
-    var totalTomate: Int = 0
-    var totalBacon: Int = 0
-
-
 
 
     private val binding get() = _binding!!
@@ -61,6 +54,8 @@ class LogrosFragment : Fragment() {
     private val database = FirebaseDatabase.getInstance()
     private val mDatabase = database.getReference(MainActivity.partidaActual)
 
+    lateinit var valueListener :ValueEventListener
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,7 +63,7 @@ class LogrosFragment : Fragment() {
     ): View {
 
         val logrosViewModel =
-            ViewModelProvider(this).get(LogrosViewModel::class.java)
+            ViewModelProvider(this)[LogrosViewModel::class.java]
 
         _binding = FragmentLogrosBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -79,52 +74,51 @@ class LogrosFragment : Fragment() {
         // hago que al cargar la clase suene este sonido de la tclase logros como si se le hubiera dado al boton del menu de navegacion
         reproducirSonido("logroboton")
 
-        layoutLogros = root.findViewById<LinearLayout>(R.id.layoutLogros)
+        layoutLogros = root.findViewById(R.id.layoutLogros)
 
-        contexto=requireContext()
+        contexto = requireContext()
 
         // Variable para el contador de los logros
         contador = root.findViewById(R.id.txtcontador)
 
         //Leer el peso de la base de datos
         var value: Partida?
+
+        val textView: TextView = binding.textDashboard
+        logrosViewModel.text.observe(viewLifecycleOwner) {
+            textView.text = it
+        }
+
         // Leer de la base de de datos
-        mDatabase.addValueEventListener(object: ValueEventListener {
+        valueListener= mDatabase.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // Este método se llama una vez que se lance la aplicacion,
                 // y cada vez que se actualicen los valores en la base de datos
                 value = snapshot.getValue<Partida>()
                 pesoTotal = value?.pesoTotal as Double
 
-                totalPan = value?.tiendas?.panaderias as Int
-                totalCarne = value?.tiendas?.carnicerias as Int
-                totalQueso = value?.tiendas?.queserias as Int
-                totalLechuga = value?.tiendas?.lechugas as Int
-                totalTomate = value?.tiendas?.huertos as Int
-                totalBacon = value?.tiendas?.beicones as Int
-
                 logros = value?.logros as ArrayList<Logro>
 
                 comprobarLogros()
 
             }
+
             override fun onCancelled(error: DatabaseError) {
                 Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
             }
         })
-        val textView: TextView = binding.textDashboard
-        logrosViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+
+
         return root
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        mDatabase.removeEventListener(valueListener)
     }
 
-    private var sonidoEnReproduccion=false
+    private var sonidoEnReproduccion = false
     private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
         // variable para obtener el nombre del paquete
         val nombrePaquete = requireContext().packageName
@@ -136,7 +130,7 @@ class LogrosFragment : Fragment() {
         if (sonidoEnReproduccion) {
             return
         }
-        HomeFragment.reproduccionSonido = MediaPlayer.create(contexto,recurso)
+        HomeFragment.reproduccionSonido = MediaPlayer.create(contexto, recurso)
 
         HomeFragment.reproduccionSonido?.setOnCompletionListener { mediaPlayer ->
             // Liberar el MediaPlayer después de que termine el sonido
@@ -145,30 +139,52 @@ class LogrosFragment : Fragment() {
             sonidoEnReproduccion = false
         }
         HomeFragment.reproduccionSonido?.start()
-        sonidoEnReproduccion=true
+        sonidoEnReproduccion = true
     }
 
-    fun  comprobarLogros() {
+    fun comprobarLogros() {
         //Reseteamos el layout de logros
         layoutLogros.removeAllViews()
 
         contadorLogros = 0
-        //Variable para añadir logros que aun no esten obtenidos
-        val logroNoObtenido=
-            Logro( "logro1"
-                , R.drawable.logrooculto,
-                "???",
-                "?????")
 
-        logros.forEach{logro->
-            if(logro.conseguido){
-                layoutLogros.addView(LogroLayout(contexto,logro))
-                contadorLogros++
-            }
-            else{
-                layoutLogros.addView(LogroLayout(contexto,logroNoObtenido))
-            }
+//Añadir los logros a la vista de forma dinámica
+       logros.forEach{logro->
+           if(logro.conseguido){
+               anyadirLogros(logro.requisito,logro.descripcion,logro.imagenId)
+           }
+           else{
+               anyadirLogros("???","?????")
+           }
         }
-        contador.setText("$contadorLogros / 12")
+        contador.text = "$contadorLogros / 12"
+    }
+
+    private fun anyadirLogros(requisito: String, descripcion : String, idImagen:Int=0) {
+        var logroVista: View = layoutInflater.inflate(R.layout.logro, null)
+
+        var requisitoVista: TextView = logroVista.findViewById(R.id.requisitoLogro)
+        var descripcionVista: TextView = logroVista.findViewById(R.id.descripcionLogro)
+        var imagenVista: ImageView = logroVista.findViewById(R.id.imagenLogro)
+
+        requisitoVista.text = requisito
+        descripcionVista.text = descripcion
+
+        if(idImagen != 0){
+            imagenVista.setImageResource(idImagen)
+
+        }
+
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        params.bottomMargin = resources.getDimensionPixelSize(R.dimen.espacio_entre_logros)
+
+        logroVista.layoutParams = params
+
+        layoutLogros.addView(logroVista)
+
     }
 }

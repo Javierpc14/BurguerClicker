@@ -13,13 +13,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.hamburguerclicker.MainActivity
 import com.example.hamburguerclicker.R
-import com.example.hamburguerclicker.databinding.FragmentNotificationsBinding
+import com.example.hamburguerclicker.databinding.FragmentMenuBinding
 import com.example.hamburguerclicker.ui.home.HomeFragment
 
 
-class NotificationsFragment : Fragment() {
+class MenuFragment : Fragment() {
 
-    private var _binding: FragmentNotificationsBinding? = null
+    private var _binding: FragmentMenuBinding? = null
 
     //variables para los botones de la vista Menu
     lateinit var btnVolverPartidas: Button
@@ -45,7 +45,7 @@ class NotificationsFragment : Fragment() {
         val notificationsViewModel =
             ViewModelProvider(this).get(NotificationsViewModel::class.java)
 
-        _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
+        _binding = FragmentMenuBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         // variable para obtener el contexto
