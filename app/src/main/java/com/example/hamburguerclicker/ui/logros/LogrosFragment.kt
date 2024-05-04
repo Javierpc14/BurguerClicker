@@ -30,7 +30,7 @@ class LogrosFragment : Fragment() {
 
     private var _binding: FragmentLogrosBinding? = null
 
-    lateinit var layoutLogros: LinearLayout
+    private lateinit var layoutLogros: LinearLayout
 
     // variable para obtener el contexto del fragment
     lateinit var contexto: Context
@@ -39,7 +39,7 @@ class LogrosFragment : Fragment() {
     lateinit var contador: TextView
 
     // variable que va sumando 1 cuando se desbloquea un logro
-    var contadorLogros: Int = 0
+    private var contadorLogros: Int = 0
 
     // Variable para lamacenar todos los logros
     lateinit var logros: ArrayList<Logro>
@@ -54,7 +54,7 @@ class LogrosFragment : Fragment() {
     private val database = FirebaseDatabase.getInstance()
     private val mDatabase = database.getReference(MainActivity.partidaActual)
 
-    lateinit var valueListener :ValueEventListener
+    private lateinit var valueListener :ValueEventListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -107,7 +107,6 @@ class LogrosFragment : Fragment() {
                 Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
             }
         })
-
 
         return root
     }
@@ -172,7 +171,6 @@ class LogrosFragment : Fragment() {
 
         if(idImagen != 0){
             imagenVista.setImageResource(idImagen)
-
         }
 
         val params = LinearLayout.LayoutParams(

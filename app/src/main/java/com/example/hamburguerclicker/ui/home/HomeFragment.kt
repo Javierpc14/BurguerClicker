@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
     private lateinit var contexto: Context
 
     // variables para controlar las tiendas
-    lateinit var tiendas: HashMap<String,Tienda>
+    lateinit var tiendas: ArrayList<Tienda>
 
     // variables de los logros
     lateinit var logros: ArrayList<Logro>
@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
         imgHamburguesa = root.findViewById(R.id.hamburguesa)
 
         unidad = root.findViewById(R.id.unidadPeso)
-        txtValorPeso.setText(String.format("%.2f", pesoTotal))
+        txtValorPeso.text = String.format("%.2f", pesoTotal)
 
         var value: Partida?
         // Leer de la base de de datos
@@ -112,7 +112,7 @@ class HomeFragment : Fragment() {
                 comprobarUnidad()
 
                 //Array para las tiendas
-                tiendas =value?.tiendas as HashMap<String,Tienda>
+                tiendas =value?.tiendas as ArrayList<Tienda>
 
                 //Array donde se guardan los logros
                 logros=value?.logros as ArrayList<Logro>
@@ -180,7 +180,6 @@ class HomeFragment : Fragment() {
 
         val logrosBase =database.getReference(MainActivity.partidaActual + "/logros")
         logrosBase.setValue(logros)
-
     }
 
     override fun onDestroyView() {
@@ -246,7 +245,7 @@ class HomeFragment : Fragment() {
             // desbloquear el logro cuando se consiguen 100 mg
             logroDesbloqueado(0,"Logro desbloqueado \n Alcanza los 100 mg")
         }
-        if (!logros[1].conseguido && tiendas["Panaderias"]!!.total >= 20) {
+        if (!logros[1].conseguido && tiendas[0]!!.total >= 20) {
             // desbloquear el logro 2 cuando se compran 20 panaderias
             logroDesbloqueado(1,"Logro desbloqueado \n Panadero maestro")
         }
@@ -254,7 +253,7 @@ class HomeFragment : Fragment() {
             // desbloquear el logro 3 cuando se alcanzan los 10 gramos
             logroDesbloqueado(2,"Logro desbloqueado \n Alcanza los 10 g")
         }
-        if (!logros[3].conseguido &&tiendas["Carnicerias"]!!.total >= 20) {
+        if (!logros[3].conseguido &&tiendas[1]!!.total >= 20) {
             // desbloquear el logro 4 cuando se compran 20 carnicerias
             logroDesbloqueado(3,"Logro desbloqueado \n Carnicero maestro")
         }
@@ -262,7 +261,7 @@ class HomeFragment : Fragment() {
             // desbloquear el logro 5 cuando se alcanzan los 700 gramos
             logroDesbloqueado(4,"Logro desbloqueado \n Alcanza los 700 gramos")
         }
-        if (!logros[5].conseguido &&tiendas["Queserias"]!!.total >= 20) {
+        if (!logros[5].conseguido &&tiendas[2]!!.total >= 20) {
             // desbloquear el logro 6 cuando se compran 20 queserias
             logroDesbloqueado(5,"Logro desbloqueado \n Quesero maestro")
         }
@@ -270,7 +269,7 @@ class HomeFragment : Fragment() {
             // desbloquear el logro 7 cuando se alcanzan los 20 kg
             logroDesbloqueado(6, "Logro desbloqueado \n ALcanza los 20 Kg")
         }
-        if (!logros[7].conseguido &&tiendas["Lechugas"]!!.total >= 20) {
+        if (!logros[7].conseguido &&tiendas[3]!!.total >= 20) {
             // desbloquear el logro 8 cuando se compran 20 lechugas
             logroDesbloqueado(7,"Logro desbloqueado \n Lechuga maestra")
         }
@@ -278,7 +277,7 @@ class HomeFragment : Fragment() {
             // desbloquear el logro 9 cuando se alcanzan los 800 kg
             logroDesbloqueado(8,"Logro desbloqueado \n Alcanza los 800 Kg")
         }
-        if (!logros[9].conseguido &&tiendas["Huertos"]!!.total >= 20) {
+        if (!logros[9].conseguido &&tiendas[4]!!.total >= 20) {
             // desbloquear el logro 10 cuando se compran 20 huertos
             logroDesbloqueado(9,"Logro desbloqueado \n Huerto maestro")
         }
@@ -286,7 +285,7 @@ class HomeFragment : Fragment() {
             // desbloquear el logro 11 cuando se alcanzan las 140T
             logroDesbloqueado(10,"Logro desbloqueado \n Alcanza las 140 T")
         }
-        if (!logros[11].conseguido &&tiendas["Beicones"]!!.total >= 20) {
+        if (!logros[11].conseguido &&tiendas[5]!!.total >= 20) {
             // desbloquear el logro 12 cuando se compran 20 beicones
             logroDesbloqueado(11,"Logro desbloqueado \n Beicon maestro")
         }
@@ -297,7 +296,7 @@ class HomeFragment : Fragment() {
     }
 
     fun incrementoPasivo() {
-        tiendas.forEach{(_, tienda)->
+        tiendas.forEach{tienda->
             pesoTotal+= tienda.total* tienda.aportePasivo
         }
 
@@ -306,17 +305,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun cambiarImagenHamburguesa() {
-        if (tiendas["Beicones"]!!.total >= 1) {
+        if (tiendas[5]!!.total >= 1) {
             imgHamburguesa.setImageResource(R.drawable.hamburguesa6)
-        } else if (tiendas["Huertos"]!!.total >= 1) {
+        } else if (tiendas[4]!!.total >= 1) {
             imgHamburguesa.setImageResource(R.drawable.hamburguesa5)
-        } else if (tiendas["Lechugas"]!!.total >= 1) {
+        } else if (tiendas[3]!!.total >= 1) {
             imgHamburguesa.setImageResource(R.drawable.hamburguesa4)
-        } else if (tiendas["Queserias"]!!.total >= 1) {
+        } else if (tiendas[2]!!.total >= 1) {
             imgHamburguesa.setImageResource(R.drawable.hamburguesa3)
-        } else if (tiendas["Carnicerias"]!!.total >= 1) {
+        } else if (tiendas[1]!!.total >= 1) {
             imgHamburguesa.setImageResource(R.drawable.hamburguesa2)
-        } else if (tiendas["Panaderias"]!!.total >= 1) {
+        } else if (tiendas[0]!!.total >= 1) {
             imgHamburguesa.setImageResource(R.drawable.hamburguesa1)
         }
     }

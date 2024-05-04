@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -20,11 +19,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import android.app.AlertDialog
 import android.content.Context
 import android.media.MediaPlayer
+import android.widget.ImageView
+import android.widget.LinearLayout
 import com.example.hamburguerclicker.MainActivity
 import com.example.hamburguerclicker.modelo.Tienda
 import com.example.hamburguerclicker.ui.home.HomeFragment
@@ -34,37 +33,14 @@ public class TiendaFragment : Fragment() {
 
     private var _binding: FragmentTiendaBinding? = null
 
-    lateinit var tiendas: HashMap<String,Tienda>
+    lateinit var tiendas: ArrayList<Tienda>
 
     // variable para obtener el contexto del fragment
-    lateinit var contexto: Context
+    private lateinit var contexto: Context
 
-    private var dinTotal= 0.0;
+    private var pesoTotal= 0.0
 
-    lateinit var btnCompraPanaderia: Button
-    lateinit var txtTotPanaderia:TextView
-    private var totalPanaderias=0
-
-    lateinit var btnCompraCarne: Button
-    lateinit var txtTotCarne:TextView
-    private var totalCarnicerias=0
-
-    lateinit var btnCompraQueseria: Button
-    lateinit var txtTotQueseria:TextView
-    private var totalQueserias=0
-
-    lateinit var btnCompraLechuga: Button
-    lateinit var txtTotLechuga:TextView
-    private var totalLechugas=0
-
-    lateinit var btnCompraHuerto: Button
-    lateinit var txtTotHuerto:TextView
-    private var totalHuertos=0
-
-    lateinit var btnCompraBacon: Button
-    lateinit var txtTotBacon:TextView
-    private var totalBacon=0
-
+    private lateinit var layoutTiendas: LinearLayout
 
     lateinit var _this:AppCompatActivity
     private val binding get() = _binding!!
@@ -72,16 +48,21 @@ public class TiendaFragment : Fragment() {
     val database = FirebaseDatabase.getInstance()
     val mDatabase = database.getReference(MainActivity.partidaActual)
 
+    private lateinit var valueListener :ValueEventListener
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
+        val dashboardViewModel = ViewModelProvider(this)[TiendaViewModel::class.java]
 
         _binding = FragmentTiendaBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        layoutTiendas = root.findViewById(R.id.layoutTiendas)
 
         init()
 
@@ -100,13 +81,20 @@ public class TiendaFragment : Fragment() {
         }
         return root
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        mDatabase.removeEventListener(valueListener)
+    }
+
     private fun init(){
 
         var value: Partida?
 
         // Este método se llama una vez que se lance la aplicacion,
         // y cada vez que se actualicen los valores en la base de datos
-        mDatabase.addValueEventListener(object: ValueEventListener {
+        valueListener= mDatabase.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 //Obtenemos total de las tiendas para actualizarlo si es necesario
@@ -114,14 +102,77 @@ public class TiendaFragment : Fragment() {
                 value = snapshot.getValue<Partida>()
 
                 //Array para las tiendas
-                tiendas =value?.tiendas as HashMap<String, Tienda>
+                tiendas =value?.tiendas as ArrayList<Tienda>
 
-                dinTotal = value?.pesoTotal as Double
+                layoutTiendas.removeAllViews()
+
+                tiendas.forEach{ tienda ->
+                    agregarTiendas(tienda.nombre ,tienda.precioCompra,tienda.aportePasivo,tienda.total,tienda.imagenId)
+                }
+
+                pesoTotal = value?.pesoTotal as Double
             }
             override fun onCancelled(error: DatabaseError) {
                 Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
             }
         })
+    }
+
+    fun cambiorUnidad(cantidad:Double): String {
+
+        var cantidadMiligramos = 0.0
+        var unidad = ""
+        when (cantidad) {
+            in 0.0..999.9 -> {
+                cantidadMiligramos = cantidad
+                unidad = "Mg"
+            }
+
+            in 1000.0..999999.9 -> {
+                cantidadMiligramos = cantidad / 1000
+                unidad = "G"
+            }
+
+            in 1000000.0..999999999.9 -> {
+                cantidadMiligramos = cantidad / 1000000
+                unidad = "Kg"
+            }
+
+            in 1000000000.0..Double.MAX_VALUE -> {
+                cantidadMiligramos = cantidad / 1000000000
+                unidad = "T"
+            }
+        }
+        return "$cantidadMiligramos $unidad"
+    }
+    private fun agregarTiendas(nombre :String, precio:Double, aporte:Double, total:Int, idImagen:Int) {
+        // Inflar el layout del LinearLayout desde XML
+        val layoutTienda= layoutInflater.inflate(R.layout.tienda, null)
+
+        var precioVista: TextView = layoutTienda.findViewById(R.id.txtPrecio)
+        var aporteVista: TextView = layoutTienda.findViewById(R.id.txtAportePorSegundo)
+        var totalVista: TextView = layoutTienda.findViewById(R.id.txtTotTienda)
+        var imagenVista: ImageView = layoutTienda.findViewById(R.id.imgTienda)
+        var botonComprarVista: Button = layoutTienda.findViewById(R.id.btnCompraTienda)
+
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
+
+        precioVista.text=cambiorUnidad(precio)
+        aporteVista.text = "" + cambiorUnidad(aporte)
+        totalVista.text = "" + total
+        imagenVista.setImageResource(idImagen)
+
+        botonComprarVista.setOnClickListener {
+            comprarTienda(precio, nombre)
+        }
+
+        params.bottomMargin = resources.getDimensionPixelSize(R.dimen.espacio_entre_logros)
+
+        // Añadir el nuevo layout al ConstraintLayout principal
+        layoutTiendas.addView(layoutTienda, params)
     }
 
     private var sonidoEnReproduccion=false
@@ -158,102 +209,29 @@ public class TiendaFragment : Fragment() {
         dialog.show()
     }
 
-    fun restarPeso(peso:Double){
-        val database = Firebase.database
-        val panaderiasBase = database.getReference(MainActivity.partidaActual+"/dinero")
-        panaderiasBase.setValue(peso)
-    }
+    private fun comprarTienda(coste: Double,nombre : String){
+        if(hayDinero(coste)) {
 
-    private fun comprarPanaderia(){
-        if(hayDinero(150)) {
-            totalPanaderias++;
-            txtTotPanaderia.setText("" + totalPanaderias.toInt())
-            escribirDatos("panaderia")
+            var tienda = tiendas.find { it.nombre == nombre }
+
+            tienda?.total = tienda?.total!! + 1
+
+
+            escribirDatos(coste)
         }else{
             mensajeNoHayDinero(requireContext())
         }
     }
 
-    private fun comprarCarniceria(){
-        if(hayDinero(1000)) {
-            totalCarnicerias++;
-            txtTotCarne.setText("" + totalCarnicerias.toInt())
-            escribirDatos("carniceria")
-        }else{
-            mensajeNoHayDinero(requireContext())
-        }
-    }
-    private fun comprarQueseria(){
-        if(hayDinero(130000)) {
-            totalQueserias++;
-            txtTotQueseria.setText("" + totalQueserias.toInt())
-            escribirDatos("queseria")
-        }else{
-            mensajeNoHayDinero(requireContext())
-        }
-    }
-    private fun comprarLechuga(){
-        if(hayDinero(2300000)) {
-            totalLechugas++;
-            txtTotLechuga.setText("" + totalLechugas.toInt())
-            escribirDatos("lechuga")
-        }else{
-            mensajeNoHayDinero(requireContext())
-        }
-    }
-    private fun comprarHuerto(){
-        if(hayDinero(400000000)) {
-            totalHuertos++;
-            txtTotHuerto.setText("" + totalHuertos.toInt())
-            escribirDatos("huerto")
-        }else{
-            mensajeNoHayDinero(requireContext())
-        }
-    }
-    private fun comprarBacon(){
-        if(hayDinero(1000000000)) {
-            totalBacon++;
-            txtTotBacon.setText("" + totalBacon.toInt())
-            escribirDatos("bacon")
-        }else{
-            mensajeNoHayDinero(requireContext())
-        }
+    private  fun hayDinero(coste:Double):Boolean{
+        return pesoTotal>=coste
     }
 
-    private  fun hayDinero(coste:Int):Boolean{
-        return dinTotal>=coste
-    }
+    private fun escribirDatos(coste :Double){
+        val pesoBase = database.getReference(MainActivity.partidaActual + "/pesoTotal")
+        pesoBase.setValue(pesoTotal-coste)
 
-    private fun escribirDatos(dato:String){
-        val database = Firebase.database
-        var base = database.getReference(MainActivity.partidaActual + "/" +  dato)
-        var dinero = database.getReference(MainActivity.partidaActual+"/dinero")
-
-        when(dato){
-            "panaderia" -> {
-                base.setValue(totalPanaderias)
-                dinero.setValue(dinTotal - 150)
-            }
-            "carniceria" -> {
-                base.setValue(totalCarnicerias)
-                dinero.setValue(dinTotal - 1000)
-            }
-            "queseria" -> {
-                base.setValue(totalQueserias)
-                dinero.setValue(dinTotal - 130000)
-            }
-            "lechuga" -> {
-                base.setValue(totalLechugas)
-                dinero.setValue(dinTotal - 2300000)
-            }
-            "huerto" -> {
-                base.setValue(totalHuertos)
-                dinero.setValue(dinTotal - 400000000)
-            }
-            "bacon" -> {
-                base.setValue(totalBacon)
-                dinero.setValue(dinTotal - 1000000000)
-            }
-        }
+        val tiendasBase =database.getReference(MainActivity.partidaActual + "/tiendas")
+        tiendasBase.setValue(tiendas)
     }
 }

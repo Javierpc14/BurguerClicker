@@ -11,5 +11,7 @@
     <string name="pesoKilos">Kilogramos</string>
     <string name="pesoTon">Toneladas</string>
 
+    <string name ="botonComprarTienda">Comprar \n panaderia </string>
+    <string name="descripcionImagenTienda">Imagen tienda</string>
 
 </resources>
