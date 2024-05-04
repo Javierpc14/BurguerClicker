@@ -82,6 +82,7 @@ public class TiendaFragment : Fragment() {
         _binding = FragmentTiendaBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+
         init()
 
         // variable para obtener el contexto
