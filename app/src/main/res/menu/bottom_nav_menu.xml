@@ -7,9 +7,10 @@
         android:title="Hamburguesa" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_tienda"
         android:icon="@drawable/menubariconotienda"
         android:title="Tienda" />
+
 
     <item
         android:id="@+id/navigation_logros"

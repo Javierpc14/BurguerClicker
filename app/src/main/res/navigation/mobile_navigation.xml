@@ -12,9 +12,15 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.hamburguerclicker.ui.dashboard.TiendaFragment"
-        android:label="@string/title_dashboard"
+        android:id="@+id/navigation_mejoras"
+        android:name="com.example.hamburguerclicker.ui.mejoras.MejorasFragment"
+        android:label="@string/title_mejoras"
+        tools:layout="@layout/fragment_mejoras" />
+
+    <fragment
+        android:id="@+id/navigation_tienda"
+        android:name="com.example.hamburguerclicker.ui.tienda.TiendaFragment"
+        android:label="@string/title_tienda"
         tools:layout="@layout/fragment_tienda" />
 
     <fragment
@@ -25,7 +31,7 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.hamburguerclicker.ui.notifications.MenuFragment"
+        android:name="com.example.hamburguerclicker.ui.menu.MenuFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_menu" />
 </navigation>

@@ -41,6 +41,7 @@ class HomeFragment : Fragment() {
     // Variables para controlar el peso
     var pesoTotal: Double = 0.0
     private var pesoPantalla: Double = 0.0
+    var pesoPorClick :Double = 0.0
 
     // variable para obtener el contexto del fragment
     private lateinit var contexto: Context
@@ -50,6 +51,9 @@ class HomeFragment : Fragment() {
 
     // variables de los logros
     lateinit var logros: ArrayList<Logro>
+
+    //Variable para controlar reproduccion del sonido
+    private var sonidoEnReproduccion=false
 
     companion object {
         // Variable estatica para contral el temporizador de ingresos pasivos
@@ -111,6 +115,8 @@ class HomeFragment : Fragment() {
                 pesoTotal = value?.pesoTotal as Double
                 comprobarUnidad()
 
+                pesoPorClick= value?.pesoPorClick as Double
+
                 //Array para las tiendas
                 tiendas =value?.tiendas as ArrayList<Tienda>
 
@@ -129,10 +135,10 @@ class HomeFragment : Fragment() {
             }
         })
 
+        //Evento pulsar hamburguesa
+
         imgHamburguesa.setOnClickListener() {
-            pesoTotal++
-            sonidosMasticarAleatorios()
-            escribirDatos()
+            pulsarHamburguesa()
         }
 
         val textView: TextView = binding.textHome
@@ -143,6 +149,17 @@ class HomeFragment : Fragment() {
         return root
     }
 
+    private fun pulsarHamburguesa(){
+        //Incrementamos el peso total añadiendole las mejoras que poseamos
+        pesoTotal+= pesoPorClick
+
+        //Reproducimos un sonido de la lista
+        sonidosMasticarAleatorios()
+
+        //Cambiamos valor del peso en la base de datos
+        escribirDatos()
+    }
+
     // esta funcion se encarga de mezclar los sonidos de masticar para que sean aleatorios
     private fun sonidosMasticarAleatorios(){
         val i = sonidosMasticar.indices.random()
@@ -150,7 +167,7 @@ class HomeFragment : Fragment() {
         reproducirSonido(sonidoAleatorio)
     }
 
-    private var sonidoEnReproduccion=false
+
     private fun reproducirSonido(nombreAudio: String) {
         // variable para obtener el nombre del paquete
         val nombrePaquete = requireContext().packageName
@@ -299,7 +316,6 @@ class HomeFragment : Fragment() {
         tiendas.forEach{tienda->
             pesoTotal+= tienda.total* tienda.aportePasivo
         }
-
         desbloqueoLogros()
         escribirDatos()
     }

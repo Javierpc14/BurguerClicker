@@ -1,4 +1,4 @@
-package com.example.hamburguerclicker.ui.notifications
+package com.example.hamburguerclicker.ui.menu
 
 import android.content.Context
 import android.content.Intent
@@ -42,8 +42,8 @@ class MenuFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
+        val menuViewModel =
+            ViewModelProvider(this).get(MenuViewModel::class.java)
 
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -77,7 +77,7 @@ class MenuFragment : Fragment() {
 
 
         val textView: TextView = binding.textHome
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
+        menuViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
 

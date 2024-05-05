@@ -1,32 +1,37 @@
-package com.example.hamburguerclicker.ui.dashboard
+package com.example.hamburguerclicker.ui.tienda
 
+
+import android.R.attr.fragment
+import android.app.AlertDialog
 import android.content.ContentValues
+import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.hamburguerclicker.modelo.Partida
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.Navigation
+import com.example.hamburguerclicker.MainActivity
 import com.example.hamburguerclicker.R
 import com.example.hamburguerclicker.databinding.FragmentTiendaBinding
+import com.example.hamburguerclicker.modelo.Partida
+import com.example.hamburguerclicker.modelo.Tienda
+import com.example.hamburguerclicker.ui.home.HomeFragment
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
-import android.app.AlertDialog
-import android.content.Context
-import android.media.MediaPlayer
-import android.widget.ImageView
-import android.widget.LinearLayout
-import com.example.hamburguerclicker.MainActivity
-import com.example.hamburguerclicker.modelo.Tienda
-import com.example.hamburguerclicker.ui.home.HomeFragment
+import kotlin.math.pow
 
 
 public class TiendaFragment : Fragment() {
@@ -42,25 +47,25 @@ public class TiendaFragment : Fragment() {
 
     private lateinit var layoutTiendas: LinearLayout
 
-    lateinit var _this:AppCompatActivity
     private val binding get() = _binding!!
 
-    val database = FirebaseDatabase.getInstance()
-    val mDatabase = database.getReference(MainActivity.partidaActual)
+    private val database = FirebaseDatabase.getInstance()
+    private val mDatabase = database.getReference(MainActivity.partidaActual)
 
     private lateinit var valueListener :ValueEventListener
 
-
+    private lateinit var tituloTiendas :TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel = ViewModelProvider(this)[TiendaViewModel::class.java]
 
         _binding = FragmentTiendaBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        tituloTiendas = root.findViewById(R.id.tituloTiendas)
 
         layoutTiendas = root.findViewById(R.id.layoutTiendas)
 
@@ -72,13 +77,9 @@ public class TiendaFragment : Fragment() {
         // hago que al cargar la clase suene este sonido de la tienda como si se le hubiera dado al boton del menu de navegacion
         reproducirSonido("tiendaboton")
 
-        // Ocultar la barra de acción (action bar)
-        (requireActivity() as AppCompatActivity).supportActionBar!!.hide()
+//        // Ocultar la barra de acción (action bar)
+//        (requireActivity() as AppCompatActivity).supportActionBar!!.hide()
 
-        val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
 
@@ -89,6 +90,10 @@ public class TiendaFragment : Fragment() {
     }
 
     private fun init(){
+        //Añadimos onClickListener al titulo para navegar a vista mejoras
+            tituloTiendas.setOnClickListener { v ->
+                Navigation.findNavController(v).navigate(R.id.navigation_mejoras)
+            }
 
         var value: Partida?
 
@@ -143,7 +148,7 @@ public class TiendaFragment : Fragment() {
                 unidad = "T"
             }
         }
-        return "$cantidadMiligramos $unidad"
+        return "%.1f %s".format(cantidadMiligramos, unidad)
     }
     private fun agregarTiendas(nombre :String, precio:Double, aporte:Double, total:Int, idImagen:Int) {
         // Inflar el layout del LinearLayout desde XML
@@ -168,8 +173,6 @@ public class TiendaFragment : Fragment() {
         botonComprarVista.setOnClickListener {
             comprarTienda(precio, nombre)
         }
-
-        params.bottomMargin = resources.getDimensionPixelSize(R.dimen.espacio_entre_logros)
 
         // Añadir el nuevo layout al ConstraintLayout principal
         layoutTiendas.addView(layoutTienda, params)
@@ -214,8 +217,8 @@ public class TiendaFragment : Fragment() {
 
             var tienda = tiendas.find { it.nombre == nombre }
 
-            tienda?.total = tienda?.total!! + 1
-
+                tienda?.total = tienda?.total!! + 1
+                tienda?.precioCompra =tienda?.precioCompra!! * 1.3.pow(tienda?.total!!)
 
             escribirDatos(coste)
         }else{
