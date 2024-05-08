@@ -34,8 +34,9 @@
         android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-black"
         android:textAlignment="center"
-        android:textColor="#000000"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
+        android:background="#252084"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

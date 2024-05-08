@@ -34,8 +34,12 @@ class Partida {
     )
 
     var mejoras = arrayListOf(
-        Mejora("Uno",0.0,0.0,R.drawable.logro1),
-        Mejora("Dos",0.0,0.0,R.drawable.logro1),
+        Mejora("Dedo índice reforzado",75.0,2.0, R.drawable.logro1, "Otorga el doble del valor a los clicks"),
+        Mejora("Panaderias integrales",40000.0,2.0, R.drawable.logro1, "Doble de eficacia en las carnicerias"),
+        Mejora("El afilador",600000.0,2.0, R.drawable.logro1, "Doble de eficacia en las carnicerias"),
+        Mejora("Coagulantes avanzados",15000000.0,2.0, R.drawable.logro1, "Doble de eficacia en las queserias"),
+        Mejora("Pesticidas",400000000.0,2.0, R.drawable.logro1, "Doble de eficacia en las lechugas"),
+        Mejora("Pesticidas",400000000.0,2.0, R.drawable.logro1, "Doble de eficacia en las lechugas"),
     )
 
 }

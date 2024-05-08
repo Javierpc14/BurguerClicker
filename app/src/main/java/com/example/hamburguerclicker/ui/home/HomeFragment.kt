@@ -94,7 +94,7 @@ class HomeFragment : Fragment() {
         contexto = requireContext()
 
         // hago que al cargar la clase suene este sonido de la clase Home como si se le hubiera dado al boton del menu de navegacion
-        reproducirSonido("morder1")
+        reproducirSonido("morderhamburguesa")
 
         txtValorPeso = root.findViewById(R.id.txtValorPeso)
 

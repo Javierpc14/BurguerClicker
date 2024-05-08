@@ -5,8 +5,9 @@ class Mejora(
     var precio :Double,
     var incremento:Double,
     var idImagen :Int,
+    var descripcion : String,
     var obtenido:Boolean =false
 ) {
-    constructor() : this("",  0.0,0.0,0,false)
+    constructor() : this("",  0.0,0.0,0, "", false)
 
 }

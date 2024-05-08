@@ -166,8 +166,9 @@ public class TiendaFragment : Fragment() {
         )
 
         precioVista.text=cambiorUnidad(precio)
-        aporteVista.text = "" + cambiorUnidad(aporte)
+        aporteVista.text = "" + cambiorUnidad(aporte) + " por segundo"
         totalVista.text = "" + total
+        botonComprarVista.text = "Comprar " + nombre
         imagenVista.setImageResource(idImagen)
 
         botonComprarVista.setOnClickListener {
