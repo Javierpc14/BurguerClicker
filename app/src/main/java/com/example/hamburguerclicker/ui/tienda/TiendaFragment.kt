@@ -112,7 +112,7 @@ public class TiendaFragment : Fragment() {
                 layoutTiendas.removeAllViews()
 
                 tiendas.forEach{ tienda ->
-                    agregarTiendas(tienda.nombre ,tienda.precioCompra,tienda.aportePasivo,tienda.total,tienda.imagenId)
+                    agregarTiendas(tienda)
                 }
 
                 pesoTotal = value?.pesoTotal as Double
@@ -123,8 +123,7 @@ public class TiendaFragment : Fragment() {
         })
     }
 
-    fun cambiorUnidad(cantidad:Double): String {
-
+    private fun cambiorUnidad(cantidad:Double): String {
         var cantidadMiligramos = 0.0
         var unidad = ""
         when (cantidad) {
@@ -150,7 +149,8 @@ public class TiendaFragment : Fragment() {
         }
         return "%.1f %s".format(cantidadMiligramos, unidad)
     }
-    private fun agregarTiendas(nombre :String, precio:Double, aporte:Double, total:Int, idImagen:Int) {
+
+    private fun agregarTiendas(tienda: Tienda) {
         // Inflar el layout del LinearLayout desde XML
         val layoutTienda= layoutInflater.inflate(R.layout.tienda, null)
 
@@ -165,14 +165,14 @@ public class TiendaFragment : Fragment() {
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
 
-        precioVista.text=cambiorUnidad(precio)
-        aporteVista.text = "" + cambiorUnidad(aporte) + " por segundo"
-        totalVista.text = "" + total
-        botonComprarVista.text = "Comprar " + nombre
-        imagenVista.setImageResource(idImagen)
+        precioVista.text=cambiorUnidad(tienda.precioCompra)
+        aporteVista.text = "" + cambiorUnidad(tienda.aportePasivo) + " por segundo"
+        totalVista.text = "" + tienda.total
+        botonComprarVista.text = "Comprar " + tienda.nombre
+        imagenVista.setImageResource(tienda.imagenId)
 
         botonComprarVista.setOnClickListener {
-            comprarTienda(precio, nombre)
+            comprarTienda(tienda.precioCompra, tienda.nombre)
         }
 
         // Añadir el nuevo layout al ConstraintLayout principal
