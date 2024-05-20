@@ -30,12 +30,12 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    lateinit var _this: AppCompatActivity
+    private lateinit var _this: AppCompatActivity
 
     private val database = FirebaseDatabase.getInstance()
     private val mDatabase = database.getReference("partida")
 
-    lateinit var layoutPartidas: LinearLayout
+    private lateinit var layoutPartidas: LinearLayout
     companion object {
         var partidaActual = ""
     }
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         iniciarPartidas()
     }
 
-    fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
+    private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
         // variable para obtener el nombre del paquete
         val nombrePaquete = packageName
         //Esto me identifica el recurso donde este ubicado

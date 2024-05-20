@@ -219,6 +219,8 @@ public class TiendaFragment : Fragment() {
             var tienda = tiendas.find { it.nombre == nombre }
 
                 tienda?.total = tienda?.total!! + 1
+
+            //Formula para ir incrementando el precio de una tienda en base al total de una tienda
                 tienda?.precioCompra =tienda?.precioCompra!! * 1.3.pow(tienda?.total!!)
 
             escribirDatos(coste)

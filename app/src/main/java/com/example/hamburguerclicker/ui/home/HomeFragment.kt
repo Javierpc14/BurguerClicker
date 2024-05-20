@@ -55,6 +55,19 @@ class HomeFragment : Fragment() {
     //Variable para controlar reproduccion del sonido
     private var sonidoEnReproduccion=false
 
+    // lista que contiene todos los sonidos de masticar para cuando se pulsa la hamburguesa
+    private val sonidosMasticar = listOf("morder1", "morder2", "morder3", "morder4", "morder5", "morder6", "morder7")
+
+    // variable que contiene el peso inicial de la partida
+    private var unidadPeso = "Mili Gramos"
+
+
+    // variables para gestionar la base de datos
+    private val database = FirebaseDatabase.getInstance()
+    private val mDatabase = database.getReference(MainActivity.partidaActual)
+
+    private val binding get() = _binding!!
+
     companion object {
         // Variable estatica para contral el temporizador de ingresos pasivos
         var timer: Timer? = null
@@ -67,19 +80,6 @@ class HomeFragment : Fragment() {
         lateinit var sonidoFondo: MediaPlayer
     }
 
-    // lista que contiene todos los sonidos de masticar para cuando se pulsa la hamburguesa
-    private val sonidosMasticar = listOf("morder1", "morder2", "morder3", "morder4", "morder5", "morder6", "morder7")
-
-    // variable que contiene el peso inicial de la partida
-    private var unidadPeso = "Mili Gramos"
-
-
-    // variables para gestionar la base de datos
-    private val database = FirebaseDatabase.getInstance()
-    private val mDatabase = database.getReference(MainActivity.partidaActual)
-
-
-    private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

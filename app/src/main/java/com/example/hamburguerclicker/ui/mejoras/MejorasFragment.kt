@@ -1,9 +1,11 @@
 package com.example.hamburguerclicker.ui.mejoras
 
+import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
+import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -12,6 +14,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.hamburguerclicker.MainActivity
@@ -26,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
 
-class MejorasFragment : Fragment() {
+class MejorasFragment : Fragment(),GestureDetector.OnGestureListener {
     private var _binding: FragmentMejorasBinding? = null
     private val binding get() = _binding!!
 
@@ -38,12 +41,21 @@ class MejorasFragment : Fragment() {
 
     lateinit var tiendas: ArrayList<Tienda>
 
+    lateinit var gestureDetector: GestureDetector
+    var x2:Float =0.0f
+    var x1:Float =0.0f
+    var y2:Float =0.0f
+    var y1:Float =0.0f
 
-    lateinit var deslizador: Deslizador
+    companion object{
+        const val MIN_DISTANCE=150
+    }
+
 
     private lateinit var contexto: Context
 
     private var pesoTotal = 0.0
+    private var pesoPorClick = 0.0
 
 
     private lateinit var valueListener: ValueEventListener
@@ -62,44 +74,35 @@ class MejorasFragment : Fragment() {
 
         contexto = requireContext()
 
-
         layoutMejoras = root.findViewById(R.id.layoutMejoras)
         tituloMejoras = root.findViewById(R.id.tituloMejoras)
 
-        deslizador = Deslizador(root)
-
-        root.setOnTouchListener { _, event ->
-            deslizador.gestureDetector.onTouchEvent(event)
-        }
-
+        gestureDetector = GestureDetector(contexto, this)
 
         tituloMejoras.setOnClickListener { v ->
             Navigation.findNavController(v).navigate(R.id.navigation_tienda)
         }
 
+        // Configura el onTouchListener para la vista raíz
+        root.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+        }
+
         var value: Partida?
-
-
 
         valueListener = mDatabase.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-
-                //Obtenemos total de las mejoras para actualizarlo si es necesario
-
                 value = snapshot.getValue<Partida>()
 
-                //Array para las mejoras
                 mejoras = value?.mejoras as ArrayList<Mejora>
-                //Array para las tiendas
                 tiendas = value?.tiendas as ArrayList<Tienda>
-
 
                 layoutMejoras.removeAllViews()
 
-                //Añadimos las mejoras a la vista
                 mostrarMejoras()
 
                 pesoTotal = value?.pesoTotal as Double
+                pesoPorClick = value?.pesoPorClick as Double
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -109,6 +112,8 @@ class MejorasFragment : Fragment() {
 
         return root
     }
+
+
 
     private fun cambiorUnidad(cantidad: Double): String {
         var cantidadMiligramos = 0.0
@@ -148,6 +153,8 @@ class MejorasFragment : Fragment() {
 
         //Si la mejora no ha sido aun obtenida se pone la imagen por defecto
         if (mejora.obtenida) {
+            imagenVista.setImageResource(mejora.imagenId)
+        }else{
             imagenVista.setImageResource(R.drawable.logrooculto)
         }
 
@@ -156,6 +163,10 @@ class MejorasFragment : Fragment() {
         botonComprarVista.text = "Comprar " + mejora.nombre
         descripcionMejora.text = mejora.descripcion
         nombreMejora.text = mejora.nombre
+
+        botonComprarVista.setOnClickListener {
+            comprarMejora(mejora)
+        }
 
         //Creamos parametros para que la mejora se adapte correctamente a la vista
         val params = LinearLayout.LayoutParams(
@@ -183,7 +194,6 @@ class MejorasFragment : Fragment() {
             tiendaId = mejora.tiendaId
             requisitoId = mejora.requisitoId
 
-
             if ((tiendaId == -1 || tiendas[tiendaId].total > 0)
                 && (requisitoId == -1 || mejoras[requisitoId].obtenida)
             ) {
@@ -192,7 +202,109 @@ class MejorasFragment : Fragment() {
         }
     }
 
-    fun onTouchEvent(event: MotionEvent) {
+    private fun comprarMejora(mejora: Mejora){
+        var precioMejora=mejora.precio
+
+        if(hayDinero(precioMejora)){
+            mejora?.obtenida=true
+
+            aplicarMejora(mejora)
+
+            escribirDatos(precioMejora)
+
+
+        }else{
+            mensajeNoHayDinero(requireContext())
+        }
+    }
+
+    private fun aplicarMejora(mejora: Mejora){
+        //Si el tiendaId es igual a -1 significa que es una mejora para aumentar las ganancias por clicks
+        if(mejora.tiendaId == -1){
+            pesoPorClick *= 2
+        }
+        //Si es una mejora de una tienda se busca en el arraylist de tiendas mediante el tiendaId, y se aplica
+        else{
+            tiendas[mejora.tiendaId].aportePasivo *= 2
+        }
+    }
+
+    private fun mensajeNoHayDinero(context: Context) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Cuidado")
+        builder.setMessage("No tienes suficiente peso")
+        builder.setPositiveButton("Aceptar", null)
+
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    private  fun hayDinero(coste:Double):Boolean{
+        return pesoTotal>=coste
+    }
+
+    private fun escribirDatos(coste :Double){
+        val pesoBase = database.getReference(MainActivity.partidaActual + "/pesoTotal")
+        pesoBase.setValue(pesoTotal-coste)
+
+        val mejorasBase =database.getReference(MainActivity.partidaActual + "/mejoras")
+        mejorasBase.setValue(mejoras)
+
+        val pesoPorClickBase = database.getReference(MainActivity.partidaActual + "/pesoPorClick")
+        pesoPorClickBase.setValue(pesoPorClick)
+
+        val tiendasBase =database.getReference(MainActivity.partidaActual + "/tiendas")
+        tiendasBase.setValue(tiendas)
+    }
+
+
+    override fun onDown(e: MotionEvent): Boolean {
+        return false
+    }
+
+    override fun onShowPress(e: MotionEvent) {
 
     }
+
+    override fun onSingleTapUp(e: MotionEvent): Boolean {
+        return false
+    }
+
+    override fun onScroll(
+        e1: MotionEvent?,
+        e2: MotionEvent,
+        distanceX: Float,
+        distanceY: Float
+    ): Boolean {
+        return false
+    }
+
+    override fun onLongPress(e: MotionEvent) {
+    }
+
+    override fun onFling(
+        e1: MotionEvent?,
+        e2: MotionEvent,
+        velocityX: Float,
+        velocityY: Float
+    ): Boolean {
+        Log.w("Exito","Realizado un Fling")
+        val diffX = e2.x - e1!!.x
+        val diffY = e2.y - e1.y
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            if (Math.abs(diffX) > MIN_DISTANCE && Math.abs(velocityX) > 150) {
+                if (diffX > 0) {
+                    // Deslizamiento de izquierda a derecha
+                    Navigation.findNavController(requireView()).navigate(R.id.navigation_tienda)
+                    Toast.makeText(requireContext(), "Deslizamiento de izquierda a derecha", Toast.LENGTH_SHORT).show()
+
+                }
+            }
+        }
+        return true
+    }
+
+
+
+
 }

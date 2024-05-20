@@ -35,14 +35,14 @@ class Partida {
 
     var mejoras = arrayListOf(
         //Mejoras de los click en la hamburguesa
-        Mejora("Dedo índice reforzado",75.0,2.0, R.drawable.logro1, "Otorga el doble del valor a los clicks",-1),
-        Mejora("Calmante muscular",150.0,2.0, R.drawable.logro1, "Otorga el doble del valor a los clicks",-1,0),
-        Mejora("Nudillos de gorila",150.0,2.0, R.drawable.logro1, "Otorga el doble del valor a los clicks",-1,1),
-        Mejora("Dedos inalambricos",150.0,2.0, R.drawable.logro1, "Otorga el doble del valor a los clicks",-1,2),
-        Mejora("Manos de acero",150.0,2.0, R.drawable.logro1, "Otorga el doble del valor a los clicks",-1,3),
+        Mejora("Dedo índice reforzado",75.0,2.0, R.drawable.mejorapulsar1, "Otorga el doble del valor a los clicks",-1),
+        Mejora("Calmante muscular",150.0,2.0, R.drawable.mejorapulsar2, "Otorga el doble del valor a los clicks",-1,0),
+        Mejora("Nudillos de gorila",150.0,2.0, R.drawable.mejorapulsar3, "Otorga el doble del valor a los clicks",-1,1),
+        Mejora("Dedos inalambricos",150.0,2.0, R.drawable.mejorapulsar4, "Otorga el doble del valor a los clicks",-1,2),
+        Mejora("Manos de acero",150.0,2.0, R.drawable.mejorapulsar5, "Otorga el doble del valor a los clicks",-1,3),
 
         //Mejoras de las panaderias
-        Mejora("Rodillo",40000.0,2.0, R.drawable.logro1, "Doble de eficacia en las panaderias",0),
+        Mejora("Rodillo",40000.0,2.0, R.drawable.mejorapanaderia1, "Doble de eficacia en las panaderias",0),
         Mejora("Harina organica",40000.0,2.0, R.drawable.logro1, "Doble de eficacia en las panaderias",0,5),
         Mejora("Amasadora industrial",40000.0,2.0, R.drawable.logro1, "Doble de eficacia en las panaderias",0,6),
         Mejora("Pan de mantequilla",40000.0,2.0, R.drawable.logro1, "Doble de eficacia en las panaderias",0,7),
