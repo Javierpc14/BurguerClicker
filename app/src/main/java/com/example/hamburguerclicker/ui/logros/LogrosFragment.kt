@@ -62,8 +62,6 @@ class LogrosFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        val logrosViewModel =
-            ViewModelProvider(this)[LogrosViewModel::class.java]
 
         _binding = FragmentLogrosBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -85,9 +83,9 @@ class LogrosFragment : Fragment() {
         var value: Partida?
 
         val textView: TextView = binding.textDashboard
-        logrosViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
+//        logrosViewModel.text.observe(viewLifecycleOwner) {
+//            textView.text = it
+//        }
 
         // Leer de la base de de datos
         valueListener= mDatabase.addValueEventListener(object : ValueEventListener {

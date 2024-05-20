@@ -26,9 +26,10 @@ class MenuFragment : Fragment() {
     lateinit var btnPausarMusica: Button
 
     // variable para obtener el contexto del fragment
-    lateinit var contexto: Context
+    private lateinit var contexto: Context
 
     private val binding get() = _binding!!
+
 
     //Esta variable me ayuda a saver si se tiene que poner o no el sonido
 //    var ponerSonido = true
@@ -42,8 +43,7 @@ class MenuFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val menuViewModel =
-            ViewModelProvider(this).get(MenuViewModel::class.java)
+
 
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -56,6 +56,8 @@ class MenuFragment : Fragment() {
         // variables para los botones de la vista Menu
         btnVolverPartidas = root.findViewById(R.id.btnVolverPartidas)
         btnPausarMusica = root.findViewById(R.id.btnPararMusica)
+
+
 
         // logica para el boton de volver a la vista de partidas
         btnVolverPartidas.setOnClickListener {
@@ -74,13 +76,6 @@ class MenuFragment : Fragment() {
         btnPausarMusica.setOnClickListener {
             musicaFondo()
         }
-
-
-        val textView: TextView = binding.textHome
-        menuViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-
 
         return root
     }

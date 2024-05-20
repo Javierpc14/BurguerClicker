@@ -1,11 +1,11 @@
 <resources>
 <!--Nombres secciones aplicación-->
     <string name="nombreAplicacion">BurguerClicker</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">Hamburguesa</string>
     <string name="title_tienda"><u>Tiendas</u> / Mejoras </string>
     <string name="title_mejoras">Tiendas/ <u>Mejoras</u></string>
     <string name="title_logros">Logros</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_menu">Menu</string>
     <!--endregion-->
 
     <string name="pesoMg">Miligramos</string>

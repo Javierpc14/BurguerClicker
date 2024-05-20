@@ -28,11 +28,12 @@
     </FrameLayout>
 
     <TextView
-        android:id="@+id/text_home"
+        android:id="@+id/tituloHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-black"
+        android:text="@string/title_menu"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="30sp"
@@ -52,7 +53,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_home">
+        app:layout_constraintTop_toBottomOf="@+id/tituloHome">
 
         <Button
             android:id="@+id/btnVolverPartidas"
