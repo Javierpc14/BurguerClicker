@@ -1,7 +1,6 @@
 package com.example.hamburguerclicker.ui.tienda
 
 
-import android.R.attr.fragment
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.Context
@@ -15,10 +14,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.Navigation
 import com.example.hamburguerclicker.MainActivity
 import com.example.hamburguerclicker.R
@@ -123,7 +119,7 @@ public class TiendaFragment : Fragment() {
         })
     }
 
-    private fun cambiorUnidad(cantidad:Double): String {
+    private fun cambioUnidad(cantidad:Double): String {
         var cantidadMiligramos = 0.0
         var unidad = ""
         when (cantidad) {
@@ -165,8 +161,8 @@ public class TiendaFragment : Fragment() {
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
 
-        precioVista.text=cambiorUnidad(tienda.precioCompra)
-        aporteVista.text = "" + cambiorUnidad(tienda.aportePasivo) + " por segundo"
+        precioVista.text=cambioUnidad(tienda.precioCompra)
+        aporteVista.text = "" + cambioUnidad(tienda.aportePasivo) + " por segundo"
         totalVista.text = "" + tienda.total
         botonComprarVista.text = "Comprar " + tienda.nombre
         imagenVista.setImageResource(tienda.imagenId)

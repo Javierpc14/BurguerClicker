@@ -5,16 +5,13 @@ import android.content.ContentValues
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import android.view.GestureDetector
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.hamburguerclicker.MainActivity
@@ -29,9 +26,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
 
-class MejorasFragment : Fragment(),GestureDetector.OnGestureListener {
+class MejorasFragment : Fragment(){
     private var _binding: FragmentMejorasBinding? = null
-    private val binding get() = _binding!!
 
     private lateinit var tituloMejoras: TextView
 
@@ -40,16 +36,6 @@ class MejorasFragment : Fragment(),GestureDetector.OnGestureListener {
     lateinit var mejoras: ArrayList<Mejora>
 
     lateinit var tiendas: ArrayList<Tienda>
-
-    lateinit var gestureDetector: GestureDetector
-    var x2:Float =0.0f
-    var x1:Float =0.0f
-    var y2:Float =0.0f
-    var y1:Float =0.0f
-
-    companion object{
-        const val MIN_DISTANCE=150
-    }
 
 
     private lateinit var contexto: Context
@@ -62,7 +48,6 @@ class MejorasFragment : Fragment(),GestureDetector.OnGestureListener {
 
     private val database = FirebaseDatabase.getInstance()
     private val mDatabase = database.getReference(MainActivity.partidaActual)
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -77,15 +62,9 @@ class MejorasFragment : Fragment(),GestureDetector.OnGestureListener {
         layoutMejoras = root.findViewById(R.id.layoutMejoras)
         tituloMejoras = root.findViewById(R.id.tituloMejoras)
 
-        gestureDetector = GestureDetector(contexto, this)
 
         tituloMejoras.setOnClickListener { v ->
             Navigation.findNavController(v).navigate(R.id.navigation_tienda)
-        }
-
-        // Configura el onTouchListener para la vista raíz
-        root.setOnTouchListener { _, event ->
-            gestureDetector.onTouchEvent(event)
         }
 
         var value: Partida?
@@ -113,9 +92,7 @@ class MejorasFragment : Fragment(),GestureDetector.OnGestureListener {
         return root
     }
 
-
-
-    private fun cambiorUnidad(cantidad: Double): String {
+    private fun cambioUnidad(cantidad: Double): String {
         var cantidadMiligramos = 0.0
         var unidad = ""
         when (cantidad) {
@@ -145,11 +122,11 @@ class MejorasFragment : Fragment(),GestureDetector.OnGestureListener {
     private fun agregarMejora(mejora: Mejora) {
         //Obtenemos componentes de la vista mejoras mediante sus ids
         val layoutMejora = layoutInflater.inflate(R.layout.mejora, null)
-        var precioVista: TextView = layoutMejora.findViewById(R.id.txtPrecio)
-        var imagenVista: ImageView = layoutMejora.findViewById(R.id.imgMejora)
-        var botonComprarVista: Button = layoutMejora.findViewById(R.id.btnCompraMejora)
-        var descripcionMejora: TextView = layoutMejora.findViewById(R.id.txtDescripcion)
-        var nombreMejora: TextView = layoutMejora.findViewById(R.id.txtNombre)
+        val precioVista: TextView = layoutMejora.findViewById(R.id.txtPrecio)
+        val imagenVista: ImageView = layoutMejora.findViewById(R.id.imgMejora)
+        val botonComprarVista: Button = layoutMejora.findViewById(R.id.btnCompraMejora)
+        val descripcionMejora: TextView = layoutMejora.findViewById(R.id.txtDescripcion)
+        val nombreMejora: TextView = layoutMejora.findViewById(R.id.txtNombre)
 
         //Si la mejora no ha sido aun obtenida se pone la imagen por defecto
         if (mejora.obtenida) {
@@ -159,7 +136,7 @@ class MejorasFragment : Fragment(),GestureDetector.OnGestureListener {
         }
 
         //Añadir valores correspondientes a los elementos de la vista
-        precioVista.text = cambiorUnidad(mejora.precio)
+        precioVista.text = cambioUnidad(mejora.precio)
         botonComprarVista.text = "Comprar " + mejora.nombre
         descripcionMejora.text = mejora.descripcion
         nombreMejora.text = mejora.nombre
@@ -203,10 +180,10 @@ class MejorasFragment : Fragment(),GestureDetector.OnGestureListener {
     }
 
     private fun comprarMejora(mejora: Mejora){
-        var precioMejora=mejora.precio
+        val precioMejora=mejora.precio
 
         if(hayDinero(precioMejora)){
-            mejora?.obtenida=true
+            mejora.obtenida =true
 
             aplicarMejora(mejora)
 
@@ -256,55 +233,4 @@ class MejorasFragment : Fragment(),GestureDetector.OnGestureListener {
         val tiendasBase =database.getReference(MainActivity.partidaActual + "/tiendas")
         tiendasBase.setValue(tiendas)
     }
-
-
-    override fun onDown(e: MotionEvent): Boolean {
-        return false
-    }
-
-    override fun onShowPress(e: MotionEvent) {
-
-    }
-
-    override fun onSingleTapUp(e: MotionEvent): Boolean {
-        return false
-    }
-
-    override fun onScroll(
-        e1: MotionEvent?,
-        e2: MotionEvent,
-        distanceX: Float,
-        distanceY: Float
-    ): Boolean {
-        return false
-    }
-
-    override fun onLongPress(e: MotionEvent) {
-    }
-
-    override fun onFling(
-        e1: MotionEvent?,
-        e2: MotionEvent,
-        velocityX: Float,
-        velocityY: Float
-    ): Boolean {
-        Log.w("Exito","Realizado un Fling")
-        val diffX = e2.x - e1!!.x
-        val diffY = e2.y - e1.y
-        if (Math.abs(diffX) > Math.abs(diffY)) {
-            if (Math.abs(diffX) > MIN_DISTANCE && Math.abs(velocityX) > 150) {
-                if (diffX > 0) {
-                    // Deslizamiento de izquierda a derecha
-                    Navigation.findNavController(requireView()).navigate(R.id.navigation_tienda)
-                    Toast.makeText(requireContext(), "Deslizamiento de izquierda a derecha", Toast.LENGTH_SHORT).show()
-
-                }
-            }
-        }
-        return true
-    }
-
-
-
-
 }
