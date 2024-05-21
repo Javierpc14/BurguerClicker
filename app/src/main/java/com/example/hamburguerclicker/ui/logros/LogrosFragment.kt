@@ -5,7 +5,6 @@ import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.hamburguerclicker.MainActivity
 import com.example.hamburguerclicker.R
 import com.example.hamburguerclicker.databinding.FragmentLogrosBinding
@@ -27,16 +25,15 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.getValue
 
 class LogrosFragment : Fragment() {
-
     private var _binding: FragmentLogrosBinding? = null
 
     private lateinit var layoutLogros: LinearLayout
 
     // variable para obtener el contexto del fragment
-    lateinit var contexto: Context
+    private lateinit var contexto: Context
 
     // Variable para el contador de los logros
-    lateinit var contador: TextView
+    private lateinit var contador: TextView
 
     // variable que va sumando 1 cuando se desbloquea un logro
     private var contadorLogros: Int = 0
@@ -46,7 +43,6 @@ class LogrosFragment : Fragment() {
 
     // Variables para ir controlando el peso
     var pesoTotal: Double = 0.0
-
 
     private val binding get() = _binding!!
 
@@ -61,7 +57,6 @@ class LogrosFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
 
         _binding = FragmentLogrosBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -82,11 +77,6 @@ class LogrosFragment : Fragment() {
         //Leer el peso de la base de datos
         var value: Partida?
 
-        val textView: TextView = binding.textDashboard
-//        logrosViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
-
         // Leer de la base de de datos
         valueListener= mDatabase.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -98,14 +88,11 @@ class LogrosFragment : Fragment() {
                 logros = value?.logros as ArrayList<Logro>
 
                 comprobarLogros()
-
             }
-
             override fun onCancelled(error: DatabaseError) {
                 Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
             }
         })
-
         return root
     }
 
@@ -116,14 +103,13 @@ class LogrosFragment : Fragment() {
     }
 
     private var sonidoEnReproduccion = false
-    private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
+    private fun reproducirSonido(nombreAudio: String) {
         // variable para obtener el nombre del paquete
         val nombrePaquete = requireContext().packageName
         //Esto me identifica el recurso donde este ubicado
         val recurso = resources.getIdentifier(
             nombreAudio, "raw", nombrePaquete
         )
-
         if (sonidoEnReproduccion) {
             return
         }
@@ -158,11 +144,11 @@ class LogrosFragment : Fragment() {
     }
 
     private fun anyadirLogros(requisito: String, descripcion : String, idImagen:Int=0) {
-        var logroVista: View = layoutInflater.inflate(R.layout.logro, null)
+        val logroVista: View = layoutInflater.inflate(R.layout.logro, null)
 
-        var requisitoVista: TextView = logroVista.findViewById(R.id.requisitoLogro)
-        var descripcionVista: TextView = logroVista.findViewById(R.id.descripcionLogro)
-        var imagenVista: ImageView = logroVista.findViewById(R.id.imagenLogro)
+        val requisitoVista: TextView = logroVista.findViewById(R.id.requisitoLogro)
+        val descripcionVista: TextView = logroVista.findViewById(R.id.descripcionLogro)
+        val imagenVista: ImageView = logroVista.findViewById(R.id.imagenLogro)
 
         requisitoVista.text = requisito
         descripcionVista.text = descripcion
@@ -181,6 +167,5 @@ class LogrosFragment : Fragment() {
         logroVista.layoutParams = params
 
         layoutLogros.addView(logroVista)
-
     }
 }

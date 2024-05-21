@@ -30,7 +30,7 @@ import com.google.firebase.database.getValue
 import kotlin.math.pow
 
 
-public class TiendaFragment : Fragment() {
+class TiendaFragment : Fragment() {
 
     private var _binding: FragmentTiendaBinding? = null
 
@@ -72,9 +72,6 @@ public class TiendaFragment : Fragment() {
 
         // hago que al cargar la clase suene este sonido de la tienda como si se le hubiera dado al boton del menu de navegacion
         reproducirSonido("tiendaboton")
-
-//        // Ocultar la barra de acción (action bar)
-//        (requireActivity() as AppCompatActivity).supportActionBar!!.hide()
 
         return root
     }
@@ -150,11 +147,11 @@ public class TiendaFragment : Fragment() {
         // Inflar el layout del LinearLayout desde XML
         val layoutTienda= layoutInflater.inflate(R.layout.tienda, null)
 
-        var precioVista: TextView = layoutTienda.findViewById(R.id.txtPrecio)
-        var aporteVista: TextView = layoutTienda.findViewById(R.id.txtAportePorSegundo)
-        var totalVista: TextView = layoutTienda.findViewById(R.id.txtTotTienda)
-        var imagenVista: ImageView = layoutTienda.findViewById(R.id.imgTienda)
-        var botonComprarVista: Button = layoutTienda.findViewById(R.id.btnCompraTienda)
+        val precioVista: TextView = layoutTienda.findViewById(R.id.txtPrecio)
+        val aporteVista: TextView = layoutTienda.findViewById(R.id.txtAportePorSegundo)
+        val totalVista: TextView = layoutTienda.findViewById(R.id.txtTotTienda)
+        val imagenVista: ImageView = layoutTienda.findViewById(R.id.imgTienda)
+        val botonComprarVista: Button = layoutTienda.findViewById(R.id.btnCompraTienda)
 
         val params = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
@@ -176,7 +173,7 @@ public class TiendaFragment : Fragment() {
     }
 
     private var sonidoEnReproduccion=false
-    private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
+    private fun reproducirSonido(nombreAudio: String) {
         // variable para obtener el nombre del paquete
         val nombrePaquete = requireContext().packageName
         //Esto me identifica el recurso donde este ubicado
@@ -212,12 +209,12 @@ public class TiendaFragment : Fragment() {
     private fun comprarTienda(coste: Double,nombre : String){
         if(hayDinero(coste)) {
 
-            var tienda = tiendas.find { it.nombre == nombre }
+            val tienda = tiendas.find { it.nombre == nombre }
 
                 tienda?.total = tienda?.total!! + 1
 
             //Formula para ir incrementando el precio de una tienda en base al total de una tienda
-                tienda?.precioCompra =tienda?.precioCompra!! * 1.3.pow(tienda?.total!!)
+                tienda.precioCompra =tienda.precioCompra * 1.3.pow(tienda.total)
 
             escribirDatos(coste)
         }else{

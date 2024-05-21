@@ -38,6 +38,7 @@
         android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:background="#252084"
+        android:layout_margin="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

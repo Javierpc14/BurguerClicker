@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.example.hamburguerclicker.MainActivity
@@ -131,7 +132,12 @@ class MejorasFragment : Fragment(){
         //Si la mejora no ha sido aun obtenida se pone la imagen por defecto
         if (mejora.obtenida) {
             imagenVista.setImageResource(mejora.imagenId)
+            botonComprarVista.isVisible=false
+            precioVista.isVisible=false
         }else{
+            botonComprarVista.setOnClickListener {
+                comprarMejora(mejora)
+            }
             imagenVista.setImageResource(R.drawable.logrooculto)
         }
 
@@ -141,9 +147,7 @@ class MejorasFragment : Fragment(){
         descripcionMejora.text = mejora.descripcion
         nombreMejora.text = mejora.nombre
 
-        botonComprarVista.setOnClickListener {
-            comprarMejora(mejora)
-        }
+
 
         //Creamos parametros para que la mejora se adapte correctamente a la vista
         val params = LinearLayout.LayoutParams(
@@ -189,7 +193,6 @@ class MejorasFragment : Fragment(){
 
             escribirDatos(precioMejora)
 
-
         }else{
             mensajeNoHayDinero(requireContext())
         }
@@ -198,11 +201,11 @@ class MejorasFragment : Fragment(){
     private fun aplicarMejora(mejora: Mejora){
         //Si el tiendaId es igual a -1 significa que es una mejora para aumentar las ganancias por clicks
         if(mejora.tiendaId == -1){
-            pesoPorClick *= 2
+            pesoPorClick *= mejora.incremento
         }
         //Si es una mejora de una tienda se busca en el arraylist de tiendas mediante el tiendaId, y se aplica
         else{
-            tiendas[mejora.tiendaId].aportePasivo *= 2
+            tiendas[mejora.tiendaId].aportePasivo *= mejora.incremento
         }
     }
 

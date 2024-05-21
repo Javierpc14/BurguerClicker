@@ -8,9 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.hamburguerclicker.MainActivity
 import com.example.hamburguerclicker.R
 import com.example.hamburguerclicker.databinding.FragmentMenuBinding
@@ -22,28 +20,19 @@ class MenuFragment : Fragment() {
     private var _binding: FragmentMenuBinding? = null
 
     //variables para los botones de la vista Menu
-    lateinit var btnVolverPartidas: Button
-    lateinit var btnPausarMusica: Button
+    private lateinit var btnVolverPartidas: Button
+    private lateinit var btnPausarMusica: Button
 
     // variable para obtener el contexto del fragment
     private lateinit var contexto: Context
 
     private val binding get() = _binding!!
 
-
-    //Esta variable me ayuda a saver si se tiene que poner o no el sonido
-//    var ponerSonido = true
-//    //Estas variables son para la reproduccion del sonido
-//    lateinit var reproduccionSonido: MediaPlayer
-//    //Este es para el sonido del fondo
-//    lateinit var sonidoFondo: MediaPlayer
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
 
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -56,8 +45,6 @@ class MenuFragment : Fragment() {
         // variables para los botones de la vista Menu
         btnVolverPartidas = root.findViewById(R.id.btnVolverPartidas)
         btnPausarMusica = root.findViewById(R.id.btnPararMusica)
-
-
 
         // logica para el boton de volver a la vista de partidas
         btnVolverPartidas.setOnClickListener {
@@ -81,7 +68,7 @@ class MenuFragment : Fragment() {
     }
 
     private var sonidoEnReproduccion=false
-    private fun reproducirSonido(nombreAudio: String, repetirse: Boolean = false) {
+    private fun reproducirSonido(nombreAudio: String) {
         // variable para obtener el nombre del paquete
         val nombrePaquete = requireContext().packageName
         //Esto me identifica el recurso donde este ubicado
@@ -105,13 +92,13 @@ class MenuFragment : Fragment() {
     }
 
     //Este metodo permite habilitar o inhabilitar el sonido de fondo
-    fun musicaFondo(){
+    private fun musicaFondo(){
         if(HomeFragment.ponerSonido){
             HomeFragment.sonidoFondo.pause()
-            btnPausarMusica.setText("Reanudar la música")
+            btnPausarMusica.text = "Reanudar la música"
         }else{
             HomeFragment.sonidoFondo.start()
-            btnPausarMusica.setText("Pausar la música")
+            btnPausarMusica.text = "Pausar la música"
         }
 
         //Esto es para determinar si se esta escuchando se ejecuta el else si no es que no se escucha y se ejecuta el if
