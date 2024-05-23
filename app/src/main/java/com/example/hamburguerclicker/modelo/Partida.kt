@@ -35,10 +35,10 @@ class Partida {
     var mejoras = arrayListOf(
         //Mejoras de los click en la hamburguesa
         Mejora("Dedo índice reforzado",75.0,2.0, R.drawable.mejorapulsar1, "Otorga el doble del valor a los clicks",-1),
-        Mejora("Calmante muscular",5000.0,4.0, R.drawable.mejorapulsar2, "Cuadruplica el valor a los clicks",-1,0),
-        Mejora("Nudillos de gorila",650000.0,8.0, R.drawable.mejorapulsar3, "Octuplica el valor a los clicks",-1,1),
-        Mejora("Dedos inalambricos",11500000.0,16.0, R.drawable.mejorapulsar4, "Multiplica 16 veces el  valor de los clicks",-1,2),
-        Mejora("Manos de acero",500000000.0,32.0, R.drawable.mejorapulsar5, "Multiplica 32 veces el  valor de los clicks",-1,3),
+        Mejora("Calmante muscular",5000.0,20.0, R.drawable.mejorapulsar2, "Cuadruplica el valor a los clicks",-1,0),
+        Mejora("Nudillos de gorila",650000.0,50.0, R.drawable.mejorapulsar3, "Octuplica el valor a los clicks",-1,1),
+        Mejora("Dedos inalambricos",11500000.0,100.0, R.drawable.mejorapulsar4, "Multiplica 16 veces el  valor de los clicks",-1,2),
+        Mejora("Manos de acero",500000000.0,200.0, R.drawable.mejorapulsar5, "Multiplica 32 veces el  valor de los clicks",-1,3),
 
         //Mejoras de las panaderias
         Mejora("Rodillo",40000.0,2.0, R.drawable.mejorapanaderia1, "Doble de eficacia en las panaderias",0),

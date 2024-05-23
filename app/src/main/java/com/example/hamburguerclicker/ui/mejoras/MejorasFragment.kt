@@ -68,27 +68,33 @@ class MejorasFragment : Fragment(){
             Navigation.findNavController(v).navigate(R.id.navigation_tienda)
         }
 
-        var value: Partida?
+       var value: Partida?
 
-        valueListener = mDatabase.addValueEventListener(object : ValueEventListener {
+
+        mDatabase.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                // Get the data from the snapshot
                 value = snapshot.getValue<Partida>()
 
+                // Cast the mejoras and tiendas lists
                 mejoras = value?.mejoras as ArrayList<Mejora>
                 tiendas = value?.tiendas as ArrayList<Tienda>
 
+                // Update the UI
                 layoutMejoras.removeAllViews()
-
                 mostrarMejoras()
 
+                // Get pesoTotal and pesoPorClick values
                 pesoTotal = value?.pesoTotal as Double
                 pesoPorClick = value?.pesoPorClick as Double
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
+                // Handle possible errors.
+                Log.e("DatabaseError", "Failed to read value.", error.toException())
             }
         })
+
 
         return root
     }
@@ -161,7 +167,6 @@ class MejorasFragment : Fragment(){
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        mDatabase.removeEventListener(valueListener)
     }
 
     private fun mostrarMejoras() {

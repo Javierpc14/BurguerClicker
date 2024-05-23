@@ -31,8 +31,10 @@
                 android:fontFamily="sans-serif-black"
                 android:text="@string/title_tienda"
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:background="#8615703B"
+                android:textColor="#FFFFFF"
                 android:textSize="30sp"
+                android:layout_margin="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

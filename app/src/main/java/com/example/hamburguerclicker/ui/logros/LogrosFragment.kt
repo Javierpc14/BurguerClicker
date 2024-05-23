@@ -135,12 +135,13 @@ class LogrosFragment : Fragment() {
        logros.forEach{logro->
            if(logro.conseguido){
                anyadirLogros(logro.requisito,logro.descripcion,logro.imagenId)
+               contadorLogros++
            }
            else{
                anyadirLogros("???","?????")
            }
         }
-        contador.text = "$contadorLogros / 12"
+        contador.text = "$contadorLogros / ${logros.size}"
     }
 
     private fun anyadirLogros(requisito: String, descripcion : String, idImagen:Int=0) {

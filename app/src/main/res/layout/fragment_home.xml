@@ -37,7 +37,7 @@
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
-        android:background="#252084"
+        android:background="#851C3F49"
         android:layout_margin="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -32,8 +32,9 @@
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
                 android:textSize="30sp"
-                android:background="#77966D"
+                android:background="#86AF7E76"
                 android:text="@string/title_mejoras"
+                android:layout_margin="30dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
