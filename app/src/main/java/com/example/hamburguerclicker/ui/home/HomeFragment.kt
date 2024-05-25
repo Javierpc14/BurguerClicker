@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -151,6 +153,17 @@ class HomeFragment : Fragment() {
 
         //Cambiamos valor del peso en la base de datos
         escribirDatos()
+
+        val scaleAnimation = ScaleAnimation(
+            1.0f, 1.2f, 1.0f, 1.2f,
+            Animation.RELATIVE_TO_SELF, 0.5f,
+            Animation.RELATIVE_TO_SELF, 0.5f
+        ).apply {
+            duration = 100
+            repeatMode = Animation.REVERSE
+            repeatCount = 1
+        }
+        imgHamburguesa.startAnimation(scaleAnimation)
     }
 
     // esta funcion se encarga de mezclar los sonidos de masticar para que sean aleatorios
