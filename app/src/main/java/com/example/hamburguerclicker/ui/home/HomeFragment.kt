@@ -155,7 +155,7 @@ class HomeFragment : Fragment() {
         escribirDatos()
 
         val scaleAnimation = ScaleAnimation(
-            1.0f, 1.2f, 1.0f, 1.2f,
+            1.0f, 1.1f, 1.0f, 1.1f,
             Animation.RELATIVE_TO_SELF, 0.5f,
             Animation.RELATIVE_TO_SELF, 0.5f
         ).apply {
