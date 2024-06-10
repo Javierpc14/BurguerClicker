@@ -212,5 +212,6 @@ class MainActivity : AppCompatActivity() {
     private fun borrarPartida(nombrePartida: String) {
         mDatabase.child(nombrePartida).removeValue()
         iniciarPartidas()
+        nombresPartidas.remove(nombrePartida)
     }
 }
