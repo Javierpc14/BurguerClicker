@@ -36,6 +36,9 @@ class MainActivity : AppCompatActivity() {
     private val mDatabase = database.getReference("partida")
 
     private lateinit var layoutPartidas: LinearLayout
+
+    //Variable para comprobar que no se cree una partida con nombre repetido
+    private  var  nombresPartidas= ArrayList<String>()
     companion object {
         var partidaActual = ""
     }
@@ -86,6 +89,7 @@ class MainActivity : AppCompatActivity() {
             var contador = 0
             partidas.children.forEach { partida ->
                 crearBotones(partida.key.toString(), false)
+                nombresPartidas.add(partida.key.toString())
                 contador++
             }
             for (i in contador..2) {
@@ -147,6 +151,7 @@ class MainActivity : AppCompatActivity() {
         val btnPartida = Button(_this)
         btnPartida.text = nombrePartida
         btnPartida.setTextColor(Color.WHITE)
+        btnPartida.isAllCaps=false
         btnPartida.typeface = Typeface.create("sans-serif", Typeface.BOLD)
         btnPartida.backgroundTintList = colorStateList
         btnPartida.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18f)
@@ -185,10 +190,19 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Nombre partida")
             .setMessage("Introduzca el nombre de la partida:")
             .setView(editText)
-            .setPositiveButton("Aceptar") { dialog, which ->
+            .setPositiveButton("Aceptar") { _, _ ->
                 val nombrePartida = editText.text.toString()
-                mDatabase.child(nombrePartida).setValue(nuevaPartida)
-                iniciarPartidas()
+                //Validacion de nombre partida repetido
+                if(nombresPartidas.contains(nombrePartida)){
+                    val avisoRepeticion = AlertDialog.Builder(_this)
+                    .setTitle("Error")
+                    .setMessage("Ya existe una partida con ese nombre")
+                    .setPositiveButton("Aceptar", null)
+                    avisoRepeticion.show()
+                }else{
+                    mDatabase.child(nombrePartida).setValue(nuevaPartida)
+                    iniciarPartidas()
+                }
             }
             .setNegativeButton("Cancelar", null)
             .create()
