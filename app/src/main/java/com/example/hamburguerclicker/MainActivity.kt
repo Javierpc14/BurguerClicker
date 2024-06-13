@@ -193,7 +193,7 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("Aceptar") { _, _ ->
                 val nombrePartida = editText.text.toString()
                 //Validacion de nombre partida repetido
-                if(nombresPartidas.contains(nombrePartida)){
+                if(nombrePartida.length<20 && nombresPartidas.contains(nombrePartida)){
                     val avisoRepeticion = AlertDialog.Builder(_this)
                     .setTitle("Error")
                     .setMessage("Ya existe una partida con ese nombre")
@@ -210,8 +210,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun borrarPartida(nombrePartida: String) {
-        mDatabase.child(nombrePartida).removeValue()
-        iniciarPartidas()
-        nombresPartidas.remove(nombrePartida)
+        val dialog = AlertDialog.Builder(_this)
+            .setTitle("Nombre partida")
+            .setMessage("¿Esta seguro de que quiere borrar la partida?")
+            .setPositiveButton("Aceptar") { _, _ ->
+                mDatabase.child(nombrePartida).removeValue()
+                iniciarPartidas()
+                nombresPartidas.remove(nombrePartida)
+            }
+            .setNegativeButton("Cancelar", null)
+            .create()
+        dialog.show()
     }
 }
