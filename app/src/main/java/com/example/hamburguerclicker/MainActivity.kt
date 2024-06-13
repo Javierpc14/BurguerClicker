@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         (this as AppCompatActivity).supportActionBar!!.hide()
 
         //esto va a hacer que suene la musica de fondo y que se va a estar repitiendo
-        reproducirSonido("vaciopruebas", true)
+        reproducirSonido("musicadefondofinal", true)
         HomeFragment.sonidoFondo.start()
 
         setContentView(R.layout.inicio)
